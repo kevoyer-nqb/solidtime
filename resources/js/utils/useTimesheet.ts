@@ -12,19 +12,31 @@ import type {
 import { getCurrentMembershipId, getCurrentOrganizationId } from '@/utils/useUser';
 import { useNotificationsStore } from '@/utils/notification';
 
+/**
+ * Pinia store for the weekly timesheet grid feature.
+ *
+ * Manages week list (accordion headers), per-week grid data (lazily loaded),
+ * cell updates with optimistic UI, and recent tasks for the "Add Task" dropdown.
+ */
 export const useTimesheetStore = defineStore('timesheet', () => {
+    /** Week summaries for the accordion list, ordered most recent first. */
     const weekList = ref<TimesheetWeekSummary[]>([]);
+    /** Set of week_start dates that are currently expanded in the accordion. */
     const expandedWeeks = ref<Set<string>>(new Set());
+    /** Map of week_start -> full grid data (rows, cells, totals). Lazily loaded. */
     const weekDataMap = ref<Map<string, TimesheetWeekData>>(new Map());
     const hasMoreWeeks = ref(true);
     const isLoadingList = ref(false);
+    /** Set of week_start dates whose grid data is currently being fetched. */
     const loadingWeeks = ref<Set<string>>(new Set());
     const compactView = ref(false);
     const error = ref<string | null>(null);
+    /** Recently used project+task combos for the "Add Task" dropdown. */
     const recentTasks = ref<TimesheetRecentTask[]>([]);
 
     const { handleApiRequestNotifications } = useNotificationsStore();
 
+    /** Fetch the initial week list and auto-expand the current week. */
     async function loadWeekList() {
         const organizationId = getCurrentOrganizationId();
         if (!organizationId) return;
@@ -61,6 +73,7 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         }
     }
 
+    /** Load the next page of older weeks, appending to the existing list. */
     async function loadMoreWeeks() {
         const organizationId = getCurrentOrganizationId();
         if (!organizationId || !hasMoreWeeks.value || isLoadingList.value) return;
@@ -88,6 +101,7 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         }
     }
 
+    /** Fetch grid data for a specific week and populate weekDataMap. */
     async function loadWeekGrid(weekStart: string) {
         const organizationId = getCurrentOrganizationId();
         if (!organizationId) return;
@@ -141,6 +155,7 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         }
     }
 
+    /** Toggle a week's expanded/collapsed state; lazy-loads grid data on first expand. */
     async function toggleWeek(weekStart: string) {
         if (expandedWeeks.value.has(weekStart)) {
             expandedWeeks.value.delete(weekStart);
@@ -157,6 +172,10 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         compactView.value = !compactView.value;
     }
 
+    /**
+     * Update a timesheet cell with optimistic UI.
+     * Sends the new hours to the API and rolls back on failure.
+     */
     async function updateCell(
         weekStart: string,
         rowIndex: number,
@@ -221,6 +240,7 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         }
     }
 
+    /** Add a new empty row for a project+task combination to a week's grid. */
     function addTaskRow(weekStart: string, projectId: string | null, taskId: string | null) {
         const weekData = weekDataMap.value.get(weekStart);
         if (!weekData) return;
@@ -261,6 +281,7 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         weekData.rows.push(newRow);
     }
 
+    /** Fetch recently used project+task combinations for the "Add Task" dropdown. */
     async function loadRecentTasks() {
         const organizationId = getCurrentOrganizationId();
         if (!organizationId) return;
@@ -283,6 +304,7 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         }
     }
 
+    /** Recalculate row totals, day totals, and week total after a cell update. */
     function recalculateTotals(weekStart: string) {
         const weekData = weekDataMap.value.get(weekStart);
         if (!weekData) return;
