@@ -10,6 +10,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
     update: [hours: number];
+    navigate: [direction: 'up' | 'down' | 'left' | 'right'];
 }>();
 
 const isEditing = ref(false);
@@ -99,8 +100,51 @@ function handleCancel() {
 function handleKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
         handleSave();
+        emit('navigate', 'down');
     } else if (event.key === 'Escape') {
         handleCancel();
+    } else if (event.key === 'Tab') {
+        event.preventDefault();
+        handleSave();
+        emit('navigate', event.shiftKey ? 'left' : 'right');
+    } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        handleSave();
+        emit('navigate', 'up');
+    } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        handleSave();
+        emit('navigate', 'down');
+    } else if (event.key === 'ArrowLeft' && inputRef.value?.selectionStart === 0) {
+        event.preventDefault();
+        handleSave();
+        emit('navigate', 'left');
+    } else if (
+        event.key === 'ArrowRight' &&
+        inputRef.value?.selectionStart === inputValue.value.length
+    ) {
+        event.preventDefault();
+        handleSave();
+        emit('navigate', 'right');
+    }
+}
+
+function handleDisplayKeydown(event: KeyboardEvent) {
+    if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        emit('navigate', 'up');
+    } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        emit('navigate', 'down');
+    } else if (event.key === 'ArrowLeft' || (event.key === 'Tab' && event.shiftKey)) {
+        event.preventDefault();
+        emit('navigate', 'left');
+    } else if (event.key === 'ArrowRight' || (event.key === 'Tab' && !event.shiftKey)) {
+        event.preventDefault();
+        emit('navigate', 'right');
+    } else if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        startEditing();
     }
 }
 </script>
@@ -131,7 +175,7 @@ function handleKeydown(event: KeyboardEvent) {
             :tabindex="0"
             :aria-label="`${cell.hours} hours on ${cell.date}`"
             @click="startEditing"
-            @keydown.enter="startEditing">
+            @keydown="handleDisplayKeydown">
             {{ displayValue || '-' }}
         </div>
 

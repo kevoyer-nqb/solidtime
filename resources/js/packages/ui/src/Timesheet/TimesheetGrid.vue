@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import type { TimesheetWeekData } from '@/types/timesheet';
 import TimesheetCell from './TimesheetCell.vue';
 import TimesheetRowHeader from './TimesheetRowHeader.vue';
@@ -48,10 +48,53 @@ function getDayTotalClass(total: number): string {
     if (total >= 8) return 'text-green-600 font-medium';
     return 'text-text-primary font-medium';
 }
+
+const gridRef = ref<HTMLDivElement | null>(null);
+
+function handleNavigate(
+    rowIndex: number,
+    dayIndex: number,
+    direction: 'up' | 'down' | 'left' | 'right'
+) {
+    let targetRow = rowIndex;
+    let targetDay = dayIndex;
+
+    switch (direction) {
+        case 'up':
+            targetRow = Math.max(0, rowIndex - 1);
+            break;
+        case 'down':
+            targetRow = Math.min(props.weekData.rows.length - 1, rowIndex + 1);
+            break;
+        case 'left':
+            if (dayIndex > 0) {
+                targetDay = dayIndex - 1;
+            } else if (rowIndex > 0) {
+                targetRow = rowIndex - 1;
+                targetDay = 6;
+            }
+            break;
+        case 'right':
+            if (dayIndex < 6) {
+                targetDay = dayIndex + 1;
+            } else if (rowIndex < props.weekData.rows.length - 1) {
+                targetRow = rowIndex + 1;
+                targetDay = 0;
+            }
+            break;
+    }
+
+    nextTick(() => {
+        const selector = `[data-cell-row="${targetRow}"][data-cell-day="${targetDay}"]`;
+        const cellEl = gridRef.value?.querySelector(selector);
+        const focusable = cellEl?.querySelector('[tabindex="0"], input') as HTMLElement;
+        focusable?.focus();
+    });
+}
 </script>
 
 <template>
-    <div class="overflow-x-auto">
+    <div ref="gridRef" class="overflow-x-auto" role="grid" aria-label="Weekly timesheet grid">
         <table class="w-full min-w-[700px]">
             <thead>
                 <tr class="border-b border-default-background-separator">
@@ -105,13 +148,20 @@ function getDayTotalClass(total: number): string {
                         :class="{
                             'bg-tertiary/30': weekDays[dayIndex]?.isWeekend,
                             'bg-primary-50/50': weekDays[dayIndex]?.isToday,
-                        }">
+                        }"
+                        :data-cell-row="rowIndex"
+                        :data-cell-day="dayIndex"
+                        role="gridcell">
                         <TimesheetCell
                             :cell="cell"
                             :is-loading="isLoading"
                             @update="
                                 (hours: number) =>
                                     handleCellUpdate(rowIndex, dayIndex, hours)
+                            "
+                            @navigate="
+                                (dir: 'up' | 'down' | 'left' | 'right') =>
+                                    handleNavigate(rowIndex, dayIndex, dir)
                             ">
                         </TimesheetCell>
                     </td>
