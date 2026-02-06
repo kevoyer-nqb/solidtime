@@ -36,6 +36,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $user_id
  * @property bool $employees_can_see_billable_rates
  * @property bool $employees_can_manage_tasks
+ * @property int $default_weekly_capacity
  * @property User $owner
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -73,6 +74,7 @@ class Organization extends JetstreamTeam implements AuditableContract
         'employees_can_see_billable_rates' => 'boolean',
         'employees_can_manage_tasks' => 'boolean',
         'prevent_overlapping_time_entries' => 'boolean',
+        'default_weekly_capacity' => 'integer',
         'number_format' => NumberFormat::class,
         'currency_format' => CurrencyFormat::class,
         'date_format' => DateFormat::class,

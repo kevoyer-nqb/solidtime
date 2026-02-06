@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Api\V1\ApiTokenController;
 use App\Http\Controllers\Api\V1\ChartController;
 use App\Http\Controllers\Api\V1\ClientController;
+use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\CurrencyController;
 use App\Http\Controllers\Api\V1\ExportController;
 use App\Http\Controllers\Api\V1\ImportController;
@@ -172,6 +173,14 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
         // Export routes
         Route::name('export.')->prefix('/organizations/{organization}')->group(static function (): void {
             Route::post('/export', [ExportController::class, 'export'])->name('export');
+        });
+
+        // Notification routes
+        Route::name('notifications.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/notifications', [NotificationController::class, 'index'])->name('index');
+            Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
+            Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+            Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
         });
     });
 

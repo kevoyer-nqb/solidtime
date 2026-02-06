@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Jetstream\Membership as JetstreamMembership;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
@@ -19,6 +20,8 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $id
  * @property string $role
  * @property int|null $billable_rate
+ * @property int $weekly_capacity
+ * @property array<string, mixed>|null $notification_preferences
  * @property string $organization_id
  * @property string $user_id
  * @property Carbon|null $created_at
@@ -38,6 +41,7 @@ class Member extends JetstreamMembership implements AuditableContract
     use HasFactory;
 
     use HasUuids;
+    use Notifiable;
 
     /**
      * The table associated with the pivot model.
@@ -45,6 +49,14 @@ class Member extends JetstreamMembership implements AuditableContract
      * @var string
      */
     protected $table = 'members';
+
+    /**
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'weekly_capacity' => 'integer',
+        'notification_preferences' => 'array',
+    ];
 
     /**
      * @return BelongsTo<User, $this>
