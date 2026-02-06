@@ -1,32 +1,22 @@
-export interface WeekSummary {
-    week_start: string;
-    week_end: string;
-    label: string;
-    total_seconds: number;
-}
+import type {
+    TimesheetCell as ApiTimesheetCell,
+    TimesheetRow as ApiTimesheetRow,
+} from '@/packages/api/src';
 
-export interface TimesheetCell {
-    date: string;
-    hours: number;
-    time_entry_ids: string[];
+// Re-export API types that are used directly
+export type { TimesheetWeekSummary as WeekSummary } from '@/packages/api/src';
+export type { TimesheetRecentTask as RecentTask } from '@/packages/api/src';
+
+// Client-side cell extends the API cell with UI state
+export interface TimesheetCell extends ApiTimesheetCell {
     isEditing: boolean;
     isLoading: boolean;
     hasError: boolean;
 }
 
-export interface TimesheetRow {
-    id: string;
-    project: {
-        id: string;
-        name: string;
-        color: string;
-    } | null;
-    task: {
-        id: string;
-        name: string;
-    } | null;
+// Client-side row extends the API row with UI state and overrides cells type
+export interface TimesheetRow extends Omit<ApiTimesheetRow, 'cells'> {
     cells: TimesheetCell[];
-    total_hours: number;
     isNew: boolean;
 }
 
@@ -36,16 +26,4 @@ export interface TimesheetWeekData {
     rows: TimesheetRow[];
     day_totals: number[];
     week_total: number;
-}
-
-export interface RecentTask {
-    project: {
-        id: string;
-        name: string;
-        color: string;
-    } | null;
-    task: {
-        id: string;
-        name: string;
-    } | null;
 }

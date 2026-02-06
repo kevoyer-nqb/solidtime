@@ -1,22 +1,19 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import axios from 'axios';
+import { api } from '@/packages/api/src';
 import type {
-    WeekSummary,
+    TimesheetWeekSummary,
+    TimesheetRecentTask,
+} from '@/packages/api/src';
+import type {
     TimesheetWeekData,
     TimesheetRow,
-    RecentTask,
 } from '@/types/timesheet';
 import { getCurrentMembershipId, getCurrentOrganizationId } from '@/utils/useUser';
 import { useNotificationsStore } from '@/utils/notification';
 
-function getApiBase() {
-    const orgId = getCurrentOrganizationId();
-    return `/api/v1/organizations/${orgId}/timesheet`;
-}
-
 export const useTimesheetStore = defineStore('timesheet', () => {
-    const weekList = ref<WeekSummary[]>([]);
+    const weekList = ref<TimesheetWeekSummary[]>([]);
     const expandedWeeks = ref<Set<string>>(new Set());
     const weekDataMap = ref<Map<string, TimesheetWeekData>>(new Map());
     const hasMoreWeeks = ref(true);
@@ -24,25 +21,29 @@ export const useTimesheetStore = defineStore('timesheet', () => {
     const loadingWeeks = ref<Set<string>>(new Set());
     const compactView = ref(false);
     const error = ref<string | null>(null);
-    const recentTasks = ref<RecentTask[]>([]);
+    const recentTasks = ref<TimesheetRecentTask[]>([]);
 
     const { handleApiRequestNotifications } = useNotificationsStore();
 
     async function loadWeekList() {
+        const organizationId = getCurrentOrganizationId();
+        if (!organizationId) return;
+
         isLoadingList.value = true;
         error.value = null;
 
         try {
             const response = await handleApiRequestNotifications(
                 () =>
-                    axios.get(getApiBase() + '/weeks', {
-                        params: { limit: 8, offset: 0 },
+                    api.getTimesheetWeeks({
+                        params: { organization: organizationId },
+                        queries: { limit: 8, offset: 0 },
                     }),
                 undefined,
                 'Failed to load week list'
             );
-            if (response?.data?.data) {
-                weekList.value = response.data.data;
+            if (response?.data) {
+                weekList.value = response.data;
                 hasMoreWeeks.value = weekList.value.length >= 8;
 
                 // Auto-expand current week
@@ -61,20 +62,22 @@ export const useTimesheetStore = defineStore('timesheet', () => {
     }
 
     async function loadMoreWeeks() {
-        if (!hasMoreWeeks.value || isLoadingList.value) return;
+        const organizationId = getCurrentOrganizationId();
+        if (!organizationId || !hasMoreWeeks.value || isLoadingList.value) return;
 
         isLoadingList.value = true;
         try {
             const response = await handleApiRequestNotifications(
                 () =>
-                    axios.get(getApiBase() + '/weeks', {
-                        params: { limit: 8, offset: weekList.value.length },
+                    api.getTimesheetWeeks({
+                        params: { organization: organizationId },
+                        queries: { limit: 8, offset: weekList.value.length },
                     }),
                 undefined,
                 'Failed to load more weeks'
             );
-            if (response?.data?.data) {
-                const newWeeks: WeekSummary[] = response.data.data;
+            if (response?.data) {
+                const newWeeks = response.data;
                 weekList.value = [...weekList.value, ...newWeeks];
                 hasMoreWeeks.value = newWeeks.length >= 8;
             }
@@ -86,6 +89,9 @@ export const useTimesheetStore = defineStore('timesheet', () => {
     }
 
     async function loadWeekGrid(weekStart: string) {
+        const organizationId = getCurrentOrganizationId();
+        if (!organizationId) return;
+
         const weekSummary = weekList.value.find((w) => w.week_start === weekStart);
         if (!weekSummary) return;
 
@@ -93,8 +99,9 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         try {
             const response = await handleApiRequestNotifications(
                 () =>
-                    axios.get(getApiBase(), {
-                        params: {
+                    api.getTimesheetGrid({
+                        params: { organization: organizationId },
+                        queries: {
                             week_start: weekSummary.week_start,
                             week_end: weekSummary.week_end,
                         },
@@ -102,11 +109,11 @@ export const useTimesheetStore = defineStore('timesheet', () => {
                 undefined,
                 'Failed to load week data'
             );
-            if (response?.data?.data) {
-                const data = response.data.data;
+            if (response?.data) {
+                const data = response.data;
                 // Add client-side properties to rows
                 const rows: TimesheetRow[] = data.rows.map(
-                    (row: TimesheetRow) =>
+                    (row) =>
                         ({
                             ...row,
                             isNew: false,
@@ -156,6 +163,9 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         dayIndex: number,
         hours: number
     ) {
+        const organizationId = getCurrentOrganizationId();
+        if (!organizationId) return;
+
         const weekData = weekDataMap.value.get(weekStart);
         if (!weekData || !weekData.rows[rowIndex]) return;
 
@@ -181,20 +191,25 @@ export const useTimesheetStore = defineStore('timesheet', () => {
         try {
             const response = await handleApiRequestNotifications(
                 () =>
-                    axios.put(getApiBase() + '/cell', {
-                        member_id: memberId,
-                        date: cell.date,
-                        project_id: row.project?.id ?? null,
-                        task_id: row.task?.id ?? null,
-                        hours: hours,
-                    }),
+                    api.updateTimesheetCell(
+                        {
+                            member_id: memberId,
+                            date: cell.date,
+                            project_id: row.project?.id ?? null,
+                            task_id: row.task?.id ?? null,
+                            hours: hours,
+                        },
+                        {
+                            params: { organization: organizationId },
+                        }
+                    ),
                 undefined,
                 'Failed to update cell'
             );
 
-            if (response?.data?.data) {
-                cell.time_entry_ids = response.data.data.time_entry_ids;
-                cell.hours = response.data.data.hours;
+            if (response?.data) {
+                cell.time_entry_ids = response.data.time_entry_ids;
+                cell.hours = response.data.hours;
             }
         } catch {
             // Rollback optimistic update
@@ -247,17 +262,21 @@ export const useTimesheetStore = defineStore('timesheet', () => {
     }
 
     async function loadRecentTasks() {
+        const organizationId = getCurrentOrganizationId();
+        if (!organizationId) return;
+
         try {
             const response = await handleApiRequestNotifications(
                 () =>
-                    axios.get(getApiBase() + '/recent-tasks', {
-                        params: { limit: 10 },
+                    api.getTimesheetRecentTasks({
+                        params: { organization: organizationId },
+                        queries: { limit: 10 },
                     }),
                 undefined,
                 'Failed to load recent tasks'
             );
-            if (response?.data?.data) {
-                recentTasks.value = response.data.data;
+            if (response?.data) {
+                recentTasks.value = response.data;
             }
         } catch {
             // Error handled by notification store

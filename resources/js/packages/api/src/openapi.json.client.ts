@@ -685,6 +685,67 @@ const TimeEntryUpdateRequest = z
     })
     .partial()
     .passthrough();
+const TimesheetProjectInfo = z
+    .object({
+        id: z.string(),
+        name: z.string(),
+        color: z.string(),
+    })
+    .passthrough();
+const TimesheetTaskInfo = z
+    .object({
+        id: z.string(),
+        name: z.string(),
+    })
+    .passthrough();
+const TimesheetWeekSummary = z
+    .object({
+        week_start: z.string(),
+        week_end: z.string(),
+        label: z.string(),
+        total_seconds: z.number().int(),
+    })
+    .passthrough();
+const TimesheetCellResource = z
+    .object({
+        date: z.string(),
+        hours: z.number(),
+        time_entry_ids: z.array(z.string()),
+    })
+    .passthrough();
+const TimesheetRowResource = z
+    .object({
+        id: z.string(),
+        project: z.union([TimesheetProjectInfo, z.null()]),
+        task: z.union([TimesheetTaskInfo, z.null()]),
+        cells: z.array(TimesheetCellResource),
+        total_hours: z.number(),
+    })
+    .passthrough();
+const TimesheetGridData = z
+    .object({
+        week_start: z.string(),
+        week_end: z.string(),
+        rows: z.array(TimesheetRowResource),
+        day_totals: z.array(z.number()),
+        week_total: z.number(),
+    })
+    .passthrough();
+const TimesheetCellUpdateRequest = z
+    .object({
+        member_id: z.string(),
+        date: z.string(),
+        project_id: z.union([z.string(), z.null()]).optional(),
+        task_id: z.union([z.string(), z.null()]).optional(),
+        hours: z.number().gte(0).lte(24),
+    })
+    .passthrough();
+const TimesheetRecentTaskResource = z
+    .object({
+        project: z.union([TimesheetProjectInfo, z.null()]),
+        task: z.union([TimesheetTaskInfo, z.null()]),
+    })
+    .passthrough();
 const UserResource = z
     .object({
         id: z.string(),
@@ -4499,6 +4560,204 @@ Please note that the access token is only shown in this response and cannot be r
                 status: 404,
                 description: `Not found`,
                 schema: z.object({ message: z.string() }).passthrough(),
+            },
+        ],
+    },
+    {
+        method: 'get',
+        path: '/v1/organizations/:organization/timesheet/weeks',
+        alias: 'getTimesheetWeeks',
+        description: `Returns a list of weeks (most recent first) with total tracked seconds per week, used for the timesheet accordion layout.`,
+        requestFormat: 'json',
+        parameters: [
+            {
+                name: 'organization',
+                type: 'Path',
+                schema: z.string(),
+            },
+            {
+                name: 'limit',
+                type: 'Query',
+                schema: z.number().int().gte(1).lte(52).optional(),
+            },
+            {
+                name: 'offset',
+                type: 'Query',
+                schema: z.number().int().gte(0).optional(),
+            },
+        ],
+        response: z.object({ data: z.array(TimesheetWeekSummary) }).passthrough(),
+        errors: [
+            {
+                status: 401,
+                description: `Unauthenticated`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 403,
+                description: `Authorization error`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 404,
+                description: `Not found`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 422,
+                description: `Validation error`,
+                schema: z
+                    .object({
+                        message: z.string(),
+                        errors: z.record(z.array(z.string())),
+                    })
+                    .passthrough(),
+            },
+        ],
+    },
+    {
+        method: 'get',
+        path: '/v1/organizations/:organization/timesheet',
+        alias: 'getTimesheetGrid',
+        description: `Returns rows grouped by project+task with 7 day columns. Each cell contains total hours and related time entry IDs.`,
+        requestFormat: 'json',
+        parameters: [
+            {
+                name: 'organization',
+                type: 'Path',
+                schema: z.string(),
+            },
+            {
+                name: 'week_start',
+                type: 'Query',
+                schema: z.string(),
+            },
+            {
+                name: 'week_end',
+                type: 'Query',
+                schema: z.string(),
+            },
+        ],
+        response: z.object({ data: TimesheetGridData }).passthrough(),
+        errors: [
+            {
+                status: 401,
+                description: `Unauthenticated`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 403,
+                description: `Authorization error`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 404,
+                description: `Not found`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 422,
+                description: `Validation error`,
+                schema: z
+                    .object({
+                        message: z.string(),
+                        errors: z.record(z.array(z.string())),
+                    })
+                    .passthrough(),
+            },
+        ],
+    },
+    {
+        method: 'put',
+        path: '/v1/organizations/:organization/timesheet/cell',
+        alias: 'updateTimesheetCell',
+        description: `Creates, updates, or deletes time entries for a given project+task+date cell.`,
+        requestFormat: 'json',
+        parameters: [
+            {
+                name: 'organization',
+                type: 'Path',
+                schema: z.string(),
+            },
+            {
+                name: 'body',
+                type: 'Body',
+                schema: TimesheetCellUpdateRequest,
+            },
+        ],
+        response: z.object({ data: TimesheetCellResource }).passthrough(),
+        errors: [
+            {
+                status: 401,
+                description: `Unauthenticated`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 403,
+                description: `Authorization error`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 404,
+                description: `Not found`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 422,
+                description: `Validation error`,
+                schema: z
+                    .object({
+                        message: z.string(),
+                        errors: z.record(z.array(z.string())),
+                    })
+                    .passthrough(),
+            },
+        ],
+    },
+    {
+        method: 'get',
+        path: '/v1/organizations/:organization/timesheet/recent-tasks',
+        alias: 'getTimesheetRecentTasks',
+        description: `Returns recently used project+task combinations for the current user, ordered by most recently used.`,
+        requestFormat: 'json',
+        parameters: [
+            {
+                name: 'organization',
+                type: 'Path',
+                schema: z.string(),
+            },
+            {
+                name: 'limit',
+                type: 'Query',
+                schema: z.number().int().gte(1).lte(50).optional(),
+            },
+        ],
+        response: z.object({ data: z.array(TimesheetRecentTaskResource) }).passthrough(),
+        errors: [
+            {
+                status: 401,
+                description: `Unauthenticated`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 403,
+                description: `Authorization error`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 404,
+                description: `Not found`,
+                schema: z.object({ message: z.string() }).passthrough(),
+            },
+            {
+                status: 422,
+                description: `Validation error`,
+                schema: z
+                    .object({
+                        message: z.string(),
+                        errors: z.record(z.array(z.string())),
+                    })
+                    .passthrough(),
             },
         ],
     },
