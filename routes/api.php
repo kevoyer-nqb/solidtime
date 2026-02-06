@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\TagController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\V1\TimeEntryController;
+use App\Http\Controllers\Api\V1\TimesheetController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\UserMembershipController;
 use App\Http\Controllers\Api\V1\UserTimeEntryController;
@@ -111,6 +112,14 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
             Route::patch('/time-entries', [TimeEntryController::class, 'updateMultiple'])->name('update-multiple')->middleware('check-organization-blocked');
             Route::delete('/time-entries/{timeEntry}', [TimeEntryController::class, 'destroy'])->name('destroy');
             Route::delete('/time-entries', [TimeEntryController::class, 'destroyMultiple'])->name('destroy-multiple');
+        });
+
+        // Timesheet routes
+        Route::name('timesheet.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/timesheet/weeks', [TimesheetController::class, 'weeks'])->name('weeks');
+            Route::get('/timesheet', [TimesheetController::class, 'index'])->name('index');
+            Route::put('/timesheet/cell', [TimesheetController::class, 'updateCell'])->name('update-cell')->middleware('check-organization-blocked');
+            Route::get('/timesheet/recent-tasks', [TimesheetController::class, 'recentTasks'])->name('recent-tasks');
         });
 
         Route::name('users.time-entries.')->group(static function (): void {
