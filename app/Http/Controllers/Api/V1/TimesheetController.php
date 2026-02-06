@@ -8,9 +8,14 @@ use App\Http\Requests\V1\Timesheet\TimesheetCellUpdateRequest;
 use App\Http\Requests\V1\Timesheet\TimesheetIndexRequest;
 use App\Http\Requests\V1\Timesheet\TimesheetRecentTasksRequest;
 use App\Http\Requests\V1\Timesheet\TimesheetWeeksRequest;
+use App\Models\Member;
 use App\Models\Organization;
+use App\Service\TimesheetService;
+use App\Service\TimezoneService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TimesheetController extends Controller
 {
@@ -24,13 +29,22 @@ class TimesheetController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function weeks(Organization $organization, TimesheetWeeksRequest $request): JsonResponse
+    public function weeks(Organization $organization, TimesheetWeeksRequest $request, TimesheetService $timesheetService, TimezoneService $timezoneService): JsonResponse
     {
         $this->checkAnyPermission($organization, ['time-entries:view:own', 'time-entries:view:all']);
 
-        // TODO: TASK-02 — wire up TimesheetService
+        $user = $this->user();
+        $member = $this->member($organization);
+        $timezone = $timezoneService->getTimezoneFromUser($user)->getName();
+        $weekStartDay = $user->week_start->carbonWeekDay();
+
+        $limit = (int) $request->input('limit', 8);
+        $offset = (int) $request->input('offset', 0);
+
+        $data = $timesheetService->getWeekList($organization, $member, $timezone, $weekStartDay, $limit, $offset);
+
         return response()->json([
-            'data' => [],
+            'data' => $data,
         ]);
     }
 
@@ -44,19 +58,21 @@ class TimesheetController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function index(Organization $organization, TimesheetIndexRequest $request): JsonResponse
+    public function index(Organization $organization, TimesheetIndexRequest $request, TimesheetService $timesheetService, TimezoneService $timezoneService): JsonResponse
     {
         $this->checkAnyPermission($organization, ['time-entries:view:own', 'time-entries:view:all']);
 
-        // TODO: TASK-02 — wire up TimesheetService
+        $user = $this->user();
+        $member = $this->member($organization);
+        $timezone = $timezoneService->getTimezoneFromUser($user)->getName();
+
+        $weekStart = Carbon::parse($request->input('week_start'), $timezone);
+        $weekEnd = Carbon::parse($request->input('week_end'), $timezone);
+
+        $data = $timesheetService->getWeekGrid($organization, $member, $weekStart, $weekEnd, $timezone);
+
         return response()->json([
-            'data' => [
-                'week_start' => $request->input('week_start'),
-                'week_end' => $request->input('week_end'),
-                'rows' => [],
-                'day_totals' => [0, 0, 0, 0, 0, 0, 0],
-                'week_total' => 0,
-            ],
+            'data' => $data,
         ]);
     }
 
@@ -71,17 +87,31 @@ class TimesheetController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function updateCell(Organization $organization, TimesheetCellUpdateRequest $request): JsonResponse
+    public function updateCell(Organization $organization, TimesheetCellUpdateRequest $request, TimesheetService $timesheetService, TimezoneService $timezoneService): JsonResponse
     {
-        $this->checkAnyPermission($organization, ['time-entries:create:own', 'time-entries:create:all']);
+        /** @var Member $member */
+        $member = Member::query()->findOrFail($request->input('member_id'));
+        if ($member->user_id === Auth::id()) {
+            $this->checkPermission($organization, 'time-entries:create:own');
+        } else {
+            $this->checkPermission($organization, 'time-entries:create:all');
+        }
 
-        // TODO: TASK-02 — wire up TimesheetService
+        $user = $this->user();
+        $timezone = $timezoneService->getTimezoneFromUser($user)->getName();
+
+        $data = $timesheetService->updateCell(
+            $organization,
+            $member,
+            $request->input('date'),
+            $request->input('project_id'),
+            $request->input('task_id'),
+            (float) $request->input('hours'),
+            $timezone
+        );
+
         return response()->json([
-            'data' => [
-                'date' => $request->input('date'),
-                'hours' => $request->input('hours'),
-                'time_entry_ids' => [],
-            ],
+            'data' => $data,
         ]);
     }
 
@@ -95,13 +125,17 @@ class TimesheetController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function recentTasks(Organization $organization, TimesheetRecentTasksRequest $request): JsonResponse
+    public function recentTasks(Organization $organization, TimesheetRecentTasksRequest $request, TimesheetService $timesheetService): JsonResponse
     {
         $this->checkAnyPermission($organization, ['time-entries:view:own', 'time-entries:view:all']);
 
-        // TODO: TASK-02 — wire up TimesheetService
+        $member = $this->member($organization);
+        $limit = (int) $request->input('limit', 10);
+
+        $data = $timesheetService->getRecentTasks($organization, $member, $limit);
+
         return response()->json([
-            'data' => [],
+            'data' => $data,
         ]);
     }
 }
