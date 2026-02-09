@@ -42,7 +42,7 @@ This document provides the complete technical architecture for the **Tags and Cu
 
 ### 1.1 Migration 1: Add Columns to `tags` Table
 
-**File**: `database/migrations/2026_02_10_000001_add_color_description_to_tags_table.php`
+**File**: `database/migrations/2026_03_11_000001_add_color_description_to_tags_table.php`
 **Task**: TAG-001
 
 ```php
@@ -63,7 +63,7 @@ Schema::table('tags', function (Blueprint $table): void {
 
 ### 1.2 Migration 2: Add `mandatory_tags` to `organizations` Table
 
-**File**: `database/migrations/2026_02_10_000002_add_mandatory_tags_to_organizations_table.php`
+**File**: `database/migrations/2026_03_11_000002_add_mandatory_tags_to_organizations_table.php`
 **Task**: TAG-002
 
 ```php
@@ -83,7 +83,7 @@ Schema::table('organizations', function (Blueprint $table): void {
 
 ### 1.3 Migration 3: Create `custom_fields` Table
 
-**File**: `database/migrations/2026_02_10_000003_create_custom_fields_table.php`
+**File**: `database/migrations/2026_03_11_000003_create_custom_fields_table.php`
 **Task**: TAG-014
 
 ```php
@@ -111,7 +111,7 @@ Schema::create('custom_fields', function (Blueprint $table): void {
 
 ### 1.4 Migration 4: Create `custom_field_values` Table
 
-**File**: `database/migrations/2026_02_10_000004_create_custom_field_values_table.php`
+**File**: `database/migrations/2026_03_11_000004_create_custom_field_values_table.php`
 **Task**: TAG-015
 
 ```php
@@ -1224,10 +1224,10 @@ The `mandatory_tags` toggle in organization settings requires `organizations:upd
 
 | File | Type | Task |
 |------|------|------|
-| `database/migrations/2026_02_10_000001_add_color_description_to_tags_table.php` | Migration | TAG-001 |
-| `database/migrations/2026_02_10_000002_add_mandatory_tags_to_organizations_table.php` | Migration | TAG-002 |
-| `database/migrations/2026_02_10_000003_create_custom_fields_table.php` | Migration | TAG-014 |
-| `database/migrations/2026_02_10_000004_create_custom_field_values_table.php` | Migration | TAG-015 |
+| `database/migrations/2026_03_11_000001_add_color_description_to_tags_table.php` | Migration | TAG-001 |
+| `database/migrations/2026_03_11_000002_add_mandatory_tags_to_organizations_table.php` | Migration | TAG-002 |
+| `database/migrations/2026_03_11_000003_create_custom_fields_table.php` | Migration | TAG-014 |
+| `database/migrations/2026_03_11_000004_create_custom_field_values_table.php` | Migration | TAG-015 |
 | `app/Enums/CustomFieldType.php` | Enum | TAG-016 |
 | `app/Models/CustomField.php` | Model | TAG-016 |
 | `app/Models/CustomFieldValue.php` | Model | TAG-017 |

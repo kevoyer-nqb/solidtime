@@ -7,11 +7,11 @@
 `TAG-` (TAG-001 through TAG-057)
 
 ## Migration Date Prefix
-`2026_02_10` -- 4 migrations:
-- `2026_02_10_000001_add_color_description_to_tags_table.php`
-- `2026_02_10_000002_add_mandatory_tags_to_organizations_table.php`
-- `2026_02_10_000003_create_custom_fields_table.php`
-- `2026_02_10_000004_create_custom_field_values_table.php`
+`2026_03_11` -- 4 migrations:
+- `2026_03_11_000001_add_color_description_to_tags_table.php`
+- `2026_03_11_000002_add_mandatory_tags_to_organizations_table.php`
+- `2026_03_11_000003_create_custom_fields_table.php`
+- `2026_03_11_000004_create_custom_field_values_table.php`
 
 ## Execution Phase
 Phase A -- enhances existing tag system and introduces custom fields on time entries. Phase B (custom fields on projects/tasks, tag hierarchies) is deferred.
@@ -19,17 +19,18 @@ Phase A -- enhances existing tag system and introduces custom fields on time ent
 ## Sprint Summary
 | Sprint | Focus | Story Points |
 |--------|-------|-------------|
-| Sprint 1 | Tag backend enhancements: migrations, models, controller, validation, OpenAPI, TS client; tag frontend start: badge/dropdown/create modal colors | ~38 SP |
-| Sprint 2 | Custom fields backend: migrations, models, service, controller, routes, validation; tag frontend polish: edit modal, mandatory tags toggle, tag service | ~52 SP |
-| Sprint 3 | CF integration: time entry controller + resource; CF frontend: Pinia store, settings page, form renderer; tag management page polish, report tag filter | ~48 SP |
-| Sprint 4 | CF in time entry modals/rows; all backend tests, frontend component tests, E2E tests | ~63 SP |
+| Sprint 1 | Tag backend enhancements: migrations, models, controller, validation, OpenAPI, TS client; tag frontend start: badge/dropdown/create modal colors | ~26 SP |
+| Sprint 2 | Custom fields backend: migrations, models, service, controller, routes, validation; tag frontend polish: edit modal, mandatory tags toggle, tag service | ~34 SP |
+| Sprint 3 | CF integration: time entry controller + resource; CF frontend: Pinia store, settings page, form renderer; tag management page polish, report tag filter | ~33 SP |
+| Sprint 4 | CF in time entry modals/rows; all backend tests, frontend component tests, E2E tests | ~44 SP |
 
-**Total**: ~155 SP / ~232h across 4 sprints (8 weeks)
+**Total**: ~137 SP / ~232h across 4 sprints (8 weeks)
 
 ## Shared Foundation Dependencies
 - Feature 00 (Weekly Timesheet Grid) must be merged to `main` before this feature branches off
   - Mandatory tags exemption for timesheet cell updates references the timesheet endpoint
   - `TimeEntryStoreRequest` may have been modified by Feature 00
+- FOUND-007: Modular permissions infrastructure (`app/Permissions/`). If not available, permissions are added directly to `JetstreamServiceProvider.php`.
 - No other feature dependencies
 
 ## Key Architecture Decisions
@@ -53,10 +54,10 @@ Phase A -- enhances existing tag system and introduces custom fields on time ent
 ## New Files to Create
 
 ### Backend
-- `database/migrations/2026_02_10_000001_add_color_description_to_tags_table.php`
-- `database/migrations/2026_02_10_000002_add_mandatory_tags_to_organizations_table.php`
-- `database/migrations/2026_02_10_000003_create_custom_fields_table.php`
-- `database/migrations/2026_02_10_000004_create_custom_field_values_table.php`
+- `database/migrations/2026_03_11_000001_add_color_description_to_tags_table.php`
+- `database/migrations/2026_03_11_000002_add_mandatory_tags_to_organizations_table.php`
+- `database/migrations/2026_03_11_000003_create_custom_fields_table.php`
+- `database/migrations/2026_03_11_000004_create_custom_field_values_table.php`
 - `app/Enums/CustomFieldType.php`
 - `app/Models/CustomField.php`
 - `app/Models/CustomFieldValue.php`
