@@ -5,7 +5,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Ticket Reference](#1-source-ticket-reference)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements & Constraints](#4-technical-requirements--constraints)
@@ -70,7 +70,7 @@ CAL-003 should be split:
 CAL-003b can be developed in parallel with CAL-004 (month view) since it's a provider implementation, not a service interface change.
 
 ### AMD-07: Total Effort Reconciliation
-The authoritative total effort is **156 hours** (per task assignments document), not 145h (per PRD body).
+The authoritative total effort is **144 hours** (per sum of individual task hours in SPRINT-PLAN.md detail tables), not 145h (per original PRD body).
 
 ### AMD-08: Sprint 2 Rebalancing
 Sprint 2 has 41h backend work. Move CAL-014 (Premium Feature Gate, 3h) to Sprint 1 (it only depends on CAL-003). Revised Sprint 2: ~38h.
@@ -99,7 +99,7 @@ When multiple external calendar events overlap in time, they are displayed as st
 
 ---
 
-## 1. Source Ticket Reference
+## 1. Source & Context
 
 ### Feature Information
 
@@ -1665,7 +1665,7 @@ test('converted event shows indicator');
 
 ```
 Total Tasks:     20
-Total Effort:    145 hours (~73 story points)
+Total Effort:    144 hours (~74 story points)
 Duration:        6 weeks (5 sprints)
 Team Size:       2-3 developers (1 backend, 1 frontend, 1 shared/QA)
 

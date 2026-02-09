@@ -7,7 +7,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Context & Problem Statement](#1-source-context--problem-statement)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements & Constraints](#4-technical-requirements--constraints)
@@ -76,7 +76,7 @@ The `InvoiceTemplate` model must include the `HasFactory` trait (was omitted fro
 
 ---
 
-## 1. Source Context & Problem Statement
+## 1. Source & Context
 
 ### Current State
 
@@ -2178,7 +2178,7 @@ class InvoiceEndpointTest extends ApiEndpointTestAbstract
 ```
 Total Tasks: 35
 Total Story Points: ~113 SP
-Total Effort (estimated): ~310 hours
+Total Effort (estimated): ~297 hours
 Duration: 7 sprints (14 weeks)
 Team Size Required: 2-3 developers (1 backend, 1 frontend, 1 shared/testing)
 
