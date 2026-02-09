@@ -2,7 +2,7 @@
 
 **Date**: 2026-02-06
 **Status**: Active
-**Applies to**: All 10 feature PRDs
+**Applies to**: All 17 feature PRDs
 
 This document defines cross-cutting architectural decisions that all feature PRDs must conform to. It was created to resolve inconsistencies identified during the PRD review phase.
 
@@ -10,10 +10,11 @@ This document defines cross-cutting architectural decisions that all feature PRD
 
 ## SF-01: Task ID Namespace
 
-Each feature uses a unique task ID prefix to avoid collisions across the 305+ tasks.
+Each feature uses a unique task ID prefix to avoid collisions across the 400+ tasks.
 
 | # | Feature | Prefix | Example |
 |---|---------|--------|---------|
+| 00 | Weekly Timesheet Grid | `TSG-` | TSG-001, TSG-002, ... |
 | 01 | Timesheet Approvals | `APPR-` | APPR-001, APPR-002, ... |
 | 02 | Expense Management | `EXP-` | EXP-001, EXP-002, ... |
 | 03 | Budgets & Alerts | `BUD-` | BUD-001, BUD-002, ... |
@@ -24,6 +25,12 @@ Each feature uses a unique task ID prefix to avoid collisions across the 305+ ta
 | 08 | Resource Scheduling | `SCHED-` | SCHED-001, SCHED-002, ... |
 | 09 | Advanced Reporting | `RPT-` | RPT-001, RPT-002, ... |
 | 10 | Teams & Groups | `TEAM-` | TEAM-001, TEAM-002, ... |
+| 11 | Tags & Custom Fields | `TAG-` | TAG-001, TAG-002, ... |
+| 12 | Punch-Only / Time-Clock Mode | `PCM-` | PCM-001, PCM-002, ... |
+| 13 | Audit Trail / Activity Log | `AUD-` | AUD-001, AUD-002, ... |
+| 14 | Online Payments & Accounting Sync | `PAY-` | PAY-001, PAY-002, ... |
+| 15 | Attendance & Overtime Tracking | `ATT-` | ATT-001, ATT-002, ... |
+| 16 | PM Tool Integrations | `PMI-` | PMI-001, PMI-002, ... |
 
 ---
 
@@ -98,6 +105,13 @@ Each feature is assigned a unique date prefix for migrations to avoid conflicts.
 | 08 | Resource Scheduling | `2026_03_08_` | `2026_03_08_000001_create_assignments_table.php` |
 | 09 | Advanced Reporting | `2026_03_09_` | `2026_03_09_000001_add_cost_rate_to_time_entries.php` |
 | 10 | Teams & Groups | `2026_03_10_` | `2026_03_10_000001_create_teams_table.php` |
+| 11 | Tags & Custom Fields | `2026_03_11_` | `2026_03_11_000001_create_custom_fields_table.php` |
+| 12 | Punch-Only / Time-Clock Mode | `2026_03_12_` | `2026_03_12_000001_create_punch_records_table.php` |
+| 13 | Audit Trail / Activity Log | `2026_03_13_` | `2026_03_13_000001_create_activity_log_table.php` |
+| 14 | Online Payments & Accounting Sync | `2026_03_14_` | `2026_03_14_000001_create_payments_table.php` |
+| 15 | Attendance & Overtime Tracking | `2026_03_15_` | `2026_03_15_000001_create_attendance_records_table.php` |
+| 16 | PM Tool Integrations | `2026_03_16_` | `2026_03_16_000001_create_pm_connections_table.php` |
+| 00 | Weekly Timesheet Grid | None | No migrations (uses existing schema) |
 | **Shared** | Cross-Feature Foundations | `2026_02_28_` | `2026_02_28_000001_add_weekly_capacity_to_members.php` |
 
 Shared migrations run **before** any feature migration.
@@ -154,6 +168,7 @@ Each feature creates specific Notification classes extending `BaseNotification`:
 | 02 Expenses | `ExpenseSubmittedNotification`, `ExpenseApprovedNotification`, `ExpenseRejectedNotification` |
 | 03 Budgets | `BudgetThresholdNotification`, `BudgetExceededNotification` |
 | 07 PTO | `TimeOffRequestSubmittedNotification`, `TimeOffRequestApprovedNotification`, `TimeOffRequestDeniedNotification` |
+| 15 Attendance & Overtime | `AttendanceAlertNotification`, `OvertimeThresholdNotification`, `OvertimeExceededNotification` |
 
 ---
 
@@ -286,6 +301,7 @@ Schema::table('organizations', function (Blueprint $table) {
 
 - **PRD 08**: Remove TASK where `weekly_capacity` is added to members. Reference FOUND-006 as prerequisite.
 - **PRD 09**: Remove TASK where `weekly_capacity` is added to members. Reference FOUND-006 as prerequisite.
+- **PRD 15**: Overtime calculations depend on `weekly_capacity` to determine when a member exceeds their scheduled hours. Reference FOUND-006 as prerequisite.
 
 ---
 
@@ -318,7 +334,7 @@ Schema::table('organizations', function (Blueprint $table) {
 
 ### Decision
 
-Rather than having all 10 features modify `JetstreamServiceProvider.php` independently, permissions are registered via a **modular pattern**.
+Rather than having all 17 features modify `JetstreamServiceProvider.php` independently, permissions are registered via a **modular pattern**.
 
 ### Approach
 
@@ -410,8 +426,16 @@ Phase 0: Shared Foundations (FOUND-001 through FOUND-007)       ~36 hours
     │   └── 04 Invoicing System        (14 weeks)  ← benefits from expenses
     │
     └── Phase 2b (after Phase 2a):
-        ├── 08 Resource Scheduling     (10 weeks)  ← benefits from PTO
-        └── 09 Advanced Reporting      (12 weeks)  ← benefits from expenses + budgets
+    │   ├── 08 Resource Scheduling     (10 weeks)  ← benefits from PTO
+    │   └── 09 Advanced Reporting      (12 weeks)  ← benefits from expenses + budgets
+    │
+    └── Phase 3 (after Phase 0, all independent):
+        ├── 11 Tags & Custom Fields            ← fully independent
+        ├── 12 Punch-Only / Time-Clock Mode    ← fully independent
+        ├── 13 Audit Trail / Activity Log      ← fully independent
+        ├── 14 Online Payments & Acct Sync     ← benefits from invoicing (soft)
+        ├── 15 Attendance & Overtime Tracking   ← uses FOUND-006 (weekly_capacity)
+        └── 16 PM Tool Integrations            ← fully independent
 ```
 
 ### Hard Dependencies
@@ -421,6 +445,7 @@ Phase 0: Shared Foundations (FOUND-001 through FOUND-007)       ~36 hours
 | 01 Timesheet Approvals | Phase 0 (shared foundations) |
 | 08 Resource Scheduling | Phase 0 + FOUND-006 (weekly_capacity) |
 | 09 Advanced Reporting | Phase 0 + FOUND-006 (weekly_capacity) |
+| 15 Attendance & Overtime | Phase 0 + FOUND-006 (weekly_capacity) |
 
 ### Soft Dependencies (feature works standalone, enhanced when dependency ships)
 
@@ -429,6 +454,7 @@ Phase 0: Shared Foundations (FOUND-001 through FOUND-007)       ~36 hours
 | 04 Invoicing | 02 Expenses (expense line items on invoices) |
 | 08 Scheduling | 07 PTO (capacity reduction for time off) |
 | 09 Reporting | 02 Expenses + 03 Budgets (expense/budget reports) |
+| 14 Online Payments | 04 Invoicing (payment collection on invoices) |
 | All features | 10 Teams (team-scoped queries) |
 
 ---
@@ -461,7 +487,7 @@ PRDs whose ratios deviate significantly (01 at 1.5, 04 at 2.7, 08 at 1.5, 09 at 
 | FOUND-003 | Notification bell UI component | 8h | All features with notifications |
 | FOUND-004 | Notification API endpoints | 6h | FOUND-003 |
 | FOUND-005 | Notification preferences in org settings | 4h | — |
-| FOUND-006 | Shared weekly_capacity migrations | 2h | PRDs 08, 09 |
+| FOUND-006 | Shared weekly_capacity migrations | 2h | PRDs 08, 09, 15 |
 | FOUND-007 | Modular permissions infrastructure | 4h | All features |
 | **Total** | | **30h** | |
 

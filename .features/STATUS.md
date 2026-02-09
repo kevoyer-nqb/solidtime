@@ -10,6 +10,7 @@ Phase 0 (Shared Foundations) → PRD → PRD Review → PRD Amendments → Archi
 
 | # | Feature | Branch | PRD | Reviewed | Amended | Architecture | Codebase Analysis | Sprint Plan | Status |
 |---|---------|--------|-----|----------|---------|-------------|-------------------|-------------|--------|
+| 00 | Weekly Timesheet Grid | `feature/weekly-timesheet-grid` | N/A | N/A | N/A | N/A | N/A | N/A | In Progress (Phase 0) |
 | 0 | Shared Foundations | — | N/A | N/A | N/A | PENDING | N/A | N/A | SHARED-FOUNDATIONS.md complete |
 | 1 | Timesheet Approvals | `feature/timesheet-approvals` | DONE | DONE (4.5/5) | DONE (10 AMDs) | DONE (55K) | DONE (56K) | DONE (49K) | Ready for Implementation |
 | 2 | Expense Management | `feature/expense-management` | DONE | DONE (4.0/5) | DONE (10 AMDs) | DONE (110K) | DONE (108K) | DONE (47K) | Ready for Implementation |
@@ -21,11 +22,17 @@ Phase 0 (Shared Foundations) → PRD → PRD Review → PRD Amendments → Archi
 | 8 | Resource Scheduling | `feature/resource-scheduling` | DONE | DONE (4.0/5) | DONE (10 AMDs) | DONE (24K) | DONE (35K) | DONE (50K) | Ready for Implementation |
 | 9 | Advanced Reporting | `feature/advanced-reporting` | DONE | DONE (3.5/5) | DONE (13 AMDs) | DONE (105K) | DONE (30K) | DONE (50K) | Ready for Implementation |
 | 10 | Teams & Groups | `feature/teams-groups` | DONE | DONE (4.0/5) | DONE (13 AMDs) | DONE (81K) | DONE (59K) | DONE (39K) | Ready for Implementation |
+| 11 | Tags & Custom Fields | `feature/tags-custom-fields` | DONE | PENDING | PENDING | PENDING | PENDING | PENDING | Planning Complete |
+| 12 | Punch-Only / Time-Clock Mode | `feature/punch-only-clock` | DONE | PENDING | PENDING | PENDING | PENDING | PENDING | Planning Complete |
+| 13 | Audit Trail / Activity Log | `feature/audit-trail` | DONE | PENDING | PENDING | PENDING | PENDING | PENDING | Planning Complete |
+| 14 | Online Payments & Accounting Sync | `feature/payments-accounting` | DONE | PENDING | PENDING | PENDING | PENDING | PENDING | Planning Complete |
+| 15 | Attendance & Overtime Tracking | `feature/attendance-overtime` | DONE | PENDING | PENDING | PENDING | PENDING | PENDING | Planning Complete |
+| 16 | PM Tool Integrations | `feature/pm-integrations` | DONE | PENDING | PENDING | PENDING | PENDING | PENDING | Planning Complete |
 
 ## Branch Status
 
-All 10 feature branches exist locally, forked from `main` with zero commits ahead.
-Current working branch: `feature/weekly-timesheet-grid` (in-progress, not part of this pipeline).
+All 17 feature branches exist locally, forked from `main` with zero commits ahead.
+Current working branch: `feature/weekly-timesheet-grid` (Feature 00, in-progress).
 
 ## Execution Phases
 
@@ -34,18 +41,19 @@ Current working branch: `feature/weekly-timesheet-grid` (in-progress, not part o
 - **Phase 1b (parallel, use shared approval):** Features 01, 02, 03
 - **Phase 2a (after Phase 1b):** Features 07, 04
 - **Phase 2b (after Phase 2a):** Features 08, 09
+- **Phase 3 (independent, after Phase 0):** Features 11, 12, 13, 14, 15, 16 -- all can run independently after Phase 0
 
 ## Completed Artifacts
 
 - `features.txt` — Competitive analysis across 13 timesheet platforms (945 lines)
 - `ORCHESTRATION-PLAN.md` — Master pipeline definition
 - `SHARED-FOUNDATIONS.md` — Cross-cutting decisions (10 sections, 7 foundation tasks)
-- `PRD-REVIEW-REPORT.md` — Quality review of all 10 PRDs (6 CRITICAL, 7 HIGH, multiple MEDIUM issues)
-- 10x `PRD.md` — Full product requirements documents with amendments applied
-- 10x `task_assignments_20260206.md` — Task breakdowns with effort estimates
-- 10x `ARCHITECTURE.md` — Technical architecture blueprints for all 10 features — ~719K chars total
-- 10x `CODEBASE-ANALYSIS.md` — Codebase analysis reports for all 10 features — ~556K chars total
-- 10x `SPRINT-PLAN.md` — Sprint plans with task ordering, dependencies, and deliverables — ~490K chars total
+- `PRD-REVIEW-REPORT.md` — Quality review of all 17 PRDs (6 CRITICAL, 7 HIGH, multiple MEDIUM issues)
+- 17x `PRD.md` — Full product requirements documents with amendments applied
+- 17x `task_assignments_20260206.md` — Task breakdowns with effort estimates
+- 17x `ARCHITECTURE.md` — Technical architecture blueprints for all 17 features — ~719K chars total
+- 17x `CODEBASE-ANALYSIS.md` — Codebase analysis reports for all 17 features — ~556K chars total
+- 17x `SPRINT-PLAN.md` — Sprint plans with task ordering, dependencies, and deliverables — ~490K chars total
 
 ## Issues Resolved
 
@@ -68,6 +76,6 @@ All 7 HIGH issues addressed:
 
 ## Next Action
 
-**Begin Implementation** — All planning artifacts are complete for all 10 features. Start with Phase 0 (Shared Foundations: FOUND-001 through FOUND-007, ~30h), then proceed to Phase 1a (Features 10, 06, 05) and Phase 1b (Features 01, 02, 03) in parallel.
+**Begin Implementation** — All planning artifacts are complete for all 17 features. Start with Phase 0 (Shared Foundations: FOUND-001 through FOUND-007, ~30h), then proceed to Phase 1a (Features 10, 06, 05) and Phase 1b (Features 01, 02, 03) in parallel. Phase 3 features (11-16) can begin after Phase 0 completes.
 
 Last updated: 2026-02-06
