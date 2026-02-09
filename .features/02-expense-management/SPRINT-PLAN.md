@@ -602,38 +602,38 @@ M7  (End Week 8):  CHECKPOINT -- Feature complete. All tests passing. Ready for 
 
 ## Appendix A: Task ID Cross-Reference
 
-The task assignments file uses `TASK-XXX` naming internally. Per AMD-01 (SF-01), all task IDs use the `EXP-` prefix. This cross-reference maps between the two.
+The task assignments file uses `EXP-XXX` naming internally. Per AMD-01 (SF-01), all task IDs use the `EXP-` prefix. This cross-reference maps between the two.
 
 | EXP ID | Original TASK ID | Description |
 |--------|-----------------|-------------|
-| EXP-001 | TASK-001 | Database migration for expense_categories table |
-| EXP-002 | TASK-002 | Database migration for expenses table |
-| EXP-003 | TASK-003 | ExpenseCategory model, factory, and service |
-| EXP-004 | TASK-004 | ExpenseStatus enum (or use shared ApprovalStatus per AMD-04) |
-| EXP-005 | TASK-005 | Expense model and factory |
-| EXP-006 | TASK-006 | ExpenseCategory CRUD controller and requests |
-| EXP-007 | TASK-007 | Expense CRUD controller, requests, service, and filter |
-| EXP-008 | TASK-008 | Register expense permissions (modular pattern per SF-08) |
-| EXP-009 | TASK-009 | Register API routes for expenses and categories |
-| EXP-010 | TASK-010 | Receipt upload, download, and delete endpoints |
-| EXP-011 | TASK-011 | Approval workflow endpoints (submit/approve/reject/bulk/revert) |
-| EXP-012 | TASK-012 | Register web routes and Expenses page shell |
-| EXP-013 | TASK-013 | Add Expenses to sidebar navigation |
-| EXP-014 | TASK-014 | Pinia stores for expenses and expense categories |
-| EXP-015 | TASK-015 | TypeScript type definitions for expense models |
-| EXP-016 | TASK-016 | Expense form component (create/edit) |
-| EXP-017 | TASK-017 | Expense table, row, filter bar, and status badge components |
-| EXP-018 | TASK-018 | Expense approval actions, reject dialog, bulk action bar |
-| EXP-019 | TASK-019 | Expense category management UI (admin) |
-| EXP-020 | TASK-020 | Expense export endpoint (CSV/XLSX/PDF) |
-| EXP-021 | TASK-021 | Expense category API endpoint tests |
-| EXP-022 | TASK-022 | Expense CRUD API endpoint tests |
-| EXP-023 | TASK-023 | Expense approval workflow API endpoint tests |
-| EXP-024 | TASK-024 | ExpenseService unit tests |
-| EXP-025 | TASK-025 | Integrate Expenses page with all components and stores |
-| EXP-026 | TASK-026 | Frontend Vitest component tests |
-| EXP-027 | TASK-027 | E2E Playwright tests for expense feature |
-| EXP-028 | TASK-028 | OpenAPI specification update for expense endpoints |
+| EXP-001 | EXP-001 | Database migration for expense_categories table |
+| EXP-002 | EXP-002 | Database migration for expenses table |
+| EXP-003 | EXP-003 | ExpenseCategory model, factory, and service |
+| EXP-004 | EXP-004 | ExpenseStatus enum (or use shared ApprovalStatus per AMD-04) |
+| EXP-005 | EXP-005 | Expense model and factory |
+| EXP-006 | EXP-006 | ExpenseCategory CRUD controller and requests |
+| EXP-007 | EXP-007 | Expense CRUD controller, requests, service, and filter |
+| EXP-008 | EXP-008 | Register expense permissions (modular pattern per SF-08) |
+| EXP-009 | EXP-009 | Register API routes for expenses and categories |
+| EXP-010 | EXP-010 | Receipt upload, download, and delete endpoints |
+| EXP-011 | EXP-011 | Approval workflow endpoints (submit/approve/reject/bulk/revert) |
+| EXP-012 | EXP-012 | Register web routes and Expenses page shell |
+| EXP-013 | EXP-013 | Add Expenses to sidebar navigation |
+| EXP-014 | EXP-014 | Pinia stores for expenses and expense categories |
+| EXP-015 | EXP-015 | TypeScript type definitions for expense models |
+| EXP-016 | EXP-016 | Expense form component (create/edit) |
+| EXP-017 | EXP-017 | Expense table, row, filter bar, and status badge components |
+| EXP-018 | EXP-018 | Expense approval actions, reject dialog, bulk action bar |
+| EXP-019 | EXP-019 | Expense category management UI (admin) |
+| EXP-020 | EXP-020 | Expense export endpoint (CSV/XLSX/PDF) |
+| EXP-021 | EXP-021 | Expense category API endpoint tests |
+| EXP-022 | EXP-022 | Expense CRUD API endpoint tests |
+| EXP-023 | EXP-023 | Expense approval workflow API endpoint tests |
+| EXP-024 | EXP-024 | ExpenseService unit tests |
+| EXP-025 | EXP-025 | Integrate Expenses page with all components and stores |
+| EXP-026 | EXP-026 | Frontend Vitest component tests |
+| EXP-027 | EXP-027 | E2E Playwright tests for expense feature |
+| EXP-028 | EXP-028 | OpenAPI specification update for expense endpoints |
 | EXP-029 | (AMD-05) | Create expense notification classes |
 | EXP-030 | (AMD-05) | Dispatch notifications from ExpenseService |
 

@@ -790,43 +790,43 @@ Sprint: |  S0   |    Sprint 1   |    Sprint 2   |    Sprint 3   |    Sprint 4   
 
 ## Appendix A: Task ID Cross-Reference
 
-The PRD uses `TASK-xxx` identifiers while the shared foundations document mandates `PTO-xxx` prefix (per AMD-01). This plan uses the `PTO-xxx` prefix throughout. The mapping is:
+The PRD uses `PTO-xxx` identifiers while the shared foundations document mandates `PTO-xxx` prefix (per AMD-01). This plan uses the `PTO-xxx` prefix throughout. The mapping is:
 
 | PRD Task ID | Sprint Plan ID | Description |
 |------------|----------------|-------------|
-| TASK-001 | PTO-001 | Database Migrations |
-| TASK-002 | PTO-002 | Eloquent Models |
-| TASK-003 | PTO-003 | PHP Enums |
-| TASK-004 | PTO-004 | Model Factories |
-| TASK-005 | PTO-005 | Permissions Registration |
-| TASK-006 | PTO-006 | TimeOffPolicy CRUD API |
-| TASK-007 | PTO-007 | Holiday CRUD API |
-| TASK-008 | PTO-008 | API Routes Registration |
-| TASK-009 | PTO-009 | TimeOffService Core Logic |
-| TASK-010 | PTO-010 | TimeOffRequest Lifecycle API |
-| TASK-011 | PTO-011 | TimeOffBalance API |
-| TASK-012 | PTO-012 | Approval State Machine |
-| TASK-013 | PTO-013 | Policy Assignment |
-| TASK-014 | PTO-014 | Balance Recalculation |
-| TASK-015 | PTO-015 | Accrual Scheduled Command |
-| TASK-016 | PTO-016 | Per-Hour-Worked Accrual |
-| TASK-017 | PTO-017 | Year-End Carryover Command |
-| TASK-018 | PTO-018 | TypeScript Type Definitions |
-| TASK-019 | PTO-019 | Pinia Store |
-| TASK-020 | PTO-020 | Web Routes & Page Shell |
-| TASK-021 | PTO-021 | Balance Dashboard Components |
-| TASK-022 | PTO-022 | Request Form Components |
-| TASK-023 | PTO-023 | Request List Components |
-| TASK-024 | PTO-024 | Policy Admin Components |
-| TASK-025 | PTO-025 | Holiday Admin Components |
-| TASK-026 | PTO-026 | Attendance Service (Backend) |
-| TASK-027 | PTO-027 | Attendance Frontend |
-| TASK-028 | PTO-028 | Policy/Holiday API Tests |
-| TASK-029 | PTO-029 | Request/Balance API Tests |
-| TASK-030 | PTO-030 | Service Unit Tests |
-| TASK-031 | PTO-031 | Scheduled Command Tests |
-| TASK-032 | PTO-032 | Frontend Component Tests |
-| TASK-033 | PTO-033 | E2E Playwright Tests |
+| PTO-001 | PTO-001 | Database Migrations |
+| PTO-002 | PTO-002 | Eloquent Models |
+| PTO-003 | PTO-003 | PHP Enums |
+| PTO-004 | PTO-004 | Model Factories |
+| PTO-005 | PTO-005 | Permissions Registration |
+| PTO-006 | PTO-006 | TimeOffPolicy CRUD API |
+| PTO-007 | PTO-007 | Holiday CRUD API |
+| PTO-008 | PTO-008 | API Routes Registration |
+| PTO-009 | PTO-009 | TimeOffService Core Logic |
+| PTO-010 | PTO-010 | TimeOffRequest Lifecycle API |
+| PTO-011 | PTO-011 | TimeOffBalance API |
+| PTO-012 | PTO-012 | Approval State Machine |
+| PTO-013 | PTO-013 | Policy Assignment |
+| PTO-014 | PTO-014 | Balance Recalculation |
+| PTO-015 | PTO-015 | Accrual Scheduled Command |
+| PTO-016 | PTO-016 | Per-Hour-Worked Accrual |
+| PTO-017 | PTO-017 | Year-End Carryover Command |
+| PTO-018 | PTO-018 | TypeScript Type Definitions |
+| PTO-019 | PTO-019 | Pinia Store |
+| PTO-020 | PTO-020 | Web Routes & Page Shell |
+| PTO-021 | PTO-021 | Balance Dashboard Components |
+| PTO-022 | PTO-022 | Request Form Components |
+| PTO-023 | PTO-023 | Request List Components |
+| PTO-024 | PTO-024 | Policy Admin Components |
+| PTO-025 | PTO-025 | Holiday Admin Components |
+| PTO-026 | PTO-026 | Attendance Service (Backend) |
+| PTO-027 | PTO-027 | Attendance Frontend |
+| PTO-028 | PTO-028 | Policy/Holiday API Tests |
+| PTO-029 | PTO-029 | Request/Balance API Tests |
+| PTO-030 | PTO-030 | Service Unit Tests |
+| PTO-031 | PTO-031 | Scheduled Command Tests |
+| PTO-032 | PTO-032 | Frontend Component Tests |
+| PTO-033 | PTO-033 | E2E Playwright Tests |
 
 ---
 

@@ -16,7 +16,7 @@ The Invoicing System is a major feature for Solidtime that enables users to gene
 
 | Metric | Value |
 |--------|-------|
-| **Total Effort** | 296 hours |
+| **Total Effort** | 297 hours |
 | **Total Story Points** | 110 SP |
 | **Number of Sprints** | 7 (14 weeks) |
 | **Sprint Duration** | 2 weeks each |
@@ -43,16 +43,16 @@ The Invoicing System is a major feature for Solidtime that enables users to gene
 | Sprint | Name | Duration | Story Points | Effort (hours) | Key Deliverables |
 |:------:|------|----------|:------------:|:--------------:|------------------|
 | 0 | Shared Foundations | 1 week (pre-sprint) | 15 | 30 | Notification infra, modular permissions (FOUND-001 to FOUND-007) |
-| 1 | Database & Models | Weeks 1-2 | 19 | 46 | All migrations, Eloquent models, enums, factories, client billing UI, invoice number generator |
-| 2 | Core Invoice Backend | Weeks 3-4 | 19 | 46 | InvoiceService, InvoiceController, permissions, settings API, PDF service, OpenAPI regen |
+| 1 | Database & Models | Weeks 1-2 | 17 | 42 | All migrations, Eloquent models, enums, factories, client billing UI |
+| 2 | Core Invoice Backend | Weeks 3-4 | 21 | 56 | InvoiceService, InvoiceController, permissions, settings API, PDF service, OpenAPI regen |
 | 3 | Invoice Frontend | Weeks 5-6 | 20 | 56 | Pinia store, invoice list page, detail/edit page, creation wizard, PDF preview |
 | 4 | Email, Payments & Settings UI | Weeks 7-8 | 15 | 38 | Invoice email, overdue command, payment controller, settings UI, InvoiceService unit tests |
 | 5 | Recurring Invoices & Endpoint Tests | Weeks 9-10 | 13 | 38 | Recurring invoice service/UI, comprehensive endpoint test suite |
 | 6 | Stripe, Export & Integration Tests | Weeks 11-12 | 15 | 44 | Stripe integration, accounting export, recurring/payment tests |
 | 7 | E2E Testing & Polish | Weeks 13-14 | 9 | 23 | Frontend component tests, Playwright E2E tests, web routes, bug fixes |
-| | **TOTAL** | **14 weeks + 1 pre-sprint week** | **125** | **321** | |
+| | **TOTAL** | **14 weeks + 1 pre-sprint week** | **125** | **327** | |
 
-> Note: Sprint 0 (Shared Foundations) accounts for 30 hours / 15 SP of prerequisite work from FOUND-001 through FOUND-007. These are cross-feature tasks that unblock the invoicing feature as well as other features. The 296 hours of feature-specific work spans Sprints 1-7.
+> Note: Sprint 0 (Shared Foundations) accounts for 30 hours / 15 SP of prerequisite work from FOUND-001 through FOUND-007. These are cross-feature tasks that unblock the invoicing feature as well as other features. The 297 hours of feature-specific work spans Sprints 1-7.
 
 ---
 
@@ -339,7 +339,7 @@ Day 5-6:  INV-006 (needs INV-005) + INV-008 (needs INV-007)      [12h total]
 **Sprint 2 Total**: 56h, 21 SP
 **Backend**: 52h | **Frontend**: 4h (OpenAPI regen)
 
-**Note on AMD-08**: The original task assignments had 56h backend in Sprint 2. Per AMD-08, the InvoiceNumberGenerator (4h) was recommended to move to Sprint 1, and INV-015 (PDF Service, originally listed as TASK-015 in the assignments doc at 8h but actually INV-013 at 12h) was recommended to start in Sprint 3. However, since the backend developer has the capacity in Sprint 2 after the number generator extraction, and the PDF service is on the critical path for Sprint 3 frontend work, we keep INV-013 in Sprint 2 to avoid blocking the frontend.
+**Note on AMD-08**: The original task assignments had 56h backend in Sprint 2. Per AMD-08, the InvoiceNumberGenerator (4h) was recommended to move to Sprint 1, and INV-015 (PDF Service, originally listed as INV-015 in the assignments doc at 8h but actually INV-013 at 12h) was recommended to start in Sprint 3. However, since the backend developer has the capacity in Sprint 2 after the number generator extraction, and the PDF service is on the critical path for Sprint 3 frontend work, we keep INV-013 in Sprint 2 to avoid blocking the frontend.
 
 #### Execution Order (Within Sprint)
 
@@ -981,45 +981,45 @@ If timeline pressure requires scope reduction:
 
 ## Appendix A: Task ID Cross-Reference
 
-The task assignments document uses `TASK-xxx` numbering. Per AMD-01, all tasks in this sprint plan use the `INV-` prefix. The mapping is:
+The task assignments document uses `INV-xxx` numbering. Per AMD-01, all tasks in this sprint plan use the `INV-` prefix. The mapping is:
 
 | Task Assignments ID | Sprint Plan ID | Description |
 |:------------------:|:--------------:|-------------|
-| TASK-001 | INV-001 | Core invoice table migrations |
-| TASK-002 | INV-002 | Client billing columns |
-| TASK-003 | INV-003 | Org invoice settings columns |
-| TASK-004 | INV-004 | TimeEntry invoice_id FK |
-| TASK-005 | INV-005 | Eloquent models + enums |
-| TASK-006 | INV-006 | Model factories |
-| TASK-007 | INV-007 | Client billing API |
-| TASK-008 | INV-008 | Client billing UI |
-| TASK-009 | INV-009 | InvoiceService core logic |
-| TASK-010 | INV-010 | InvoiceController + routes (merged with TASK-011 per AMD-06) |
-| TASK-011 | (merged into INV-010) | API routes (merged per AMD-06) |
-| TASK-012 | INV-012 | Invoice permissions |
-| TASK-013 | INV-013 | Invoice PDF Service |
-| TASK-014 | INV-014 | Invoice settings API |
-| TASK-015 | INV-015 | OpenAPI + TS client regen |
-| TASK-016 | INV-016 | Invoice Pinia store |
-| TASK-017 | INV-017 | Invoice list page |
-| TASK-018 | INV-018 | Invoice detail/edit page |
-| TASK-019 | INV-019 | Invoice creation wizard |
-| TASK-020 | INV-020 | PDF preview UI |
-| TASK-021 | INV-021 | Invoice settings UI |
-| TASK-022 | INV-022 | Invoice email service |
-| TASK-023 | INV-023 | Overdue detection command |
-| TASK-024 | INV-024 | Payment controller |
-| TASK-025 | INV-025 | Recurring invoice service |
-| TASK-026 | INV-026 | Recurring invoices UI |
-| TASK-027 | INV-027 | Stripe integration |
-| TASK-028 | INV-028 | Stripe frontend |
-| TASK-029 | INV-029 | Accounting export service |
-| TASK-030 | INV-030 | Accounting export UI |
-| TASK-031 | INV-031 | InvoiceService unit tests |
-| TASK-032 | INV-032 | Endpoint tests |
-| TASK-033 | INV-033 | Recurring + payment tests |
-| TASK-034 | INV-034 | Frontend component tests |
-| TASK-035 | INV-035 | E2E Playwright tests |
+| INV-001 | INV-001 | Core invoice table migrations |
+| INV-002 | INV-002 | Client billing columns |
+| INV-003 | INV-003 | Org invoice settings columns |
+| INV-004 | INV-004 | TimeEntry invoice_id FK |
+| INV-005 | INV-005 | Eloquent models + enums |
+| INV-006 | INV-006 | Model factories |
+| INV-007 | INV-007 | Client billing API |
+| INV-008 | INV-008 | Client billing UI |
+| INV-009 | INV-009 | InvoiceService core logic |
+| INV-010 | INV-010 | InvoiceController + routes (merged with INV-011 per AMD-06) |
+| INV-011 | (merged into INV-010) | API routes (merged per AMD-06) |
+| INV-012 | INV-012 | Invoice permissions |
+| INV-013 | INV-013 | Invoice PDF Service |
+| INV-014 | INV-014 | Invoice settings API |
+| INV-015 | INV-015 | OpenAPI + TS client regen |
+| INV-016 | INV-016 | Invoice Pinia store |
+| INV-017 | INV-017 | Invoice list page |
+| INV-018 | INV-018 | Invoice detail/edit page |
+| INV-019 | INV-019 | Invoice creation wizard |
+| INV-020 | INV-020 | PDF preview UI |
+| INV-021 | INV-021 | Invoice settings UI |
+| INV-022 | INV-022 | Invoice email service |
+| INV-023 | INV-023 | Overdue detection command |
+| INV-024 | INV-024 | Payment controller |
+| INV-025 | INV-025 | Recurring invoice service |
+| INV-026 | INV-026 | Recurring invoices UI |
+| INV-027 | INV-027 | Stripe integration |
+| INV-028 | INV-028 | Stripe frontend |
+| INV-029 | INV-029 | Accounting export service |
+| INV-030 | INV-030 | Accounting export UI |
+| INV-031 | INV-031 | InvoiceService unit tests |
+| INV-032 | INV-032 | Endpoint tests |
+| INV-033 | INV-033 | Recurring + payment tests |
+| INV-034 | INV-034 | Frontend component tests |
+| INV-035 | INV-035 | E2E Playwright tests |
 | (AMD-10) | INV-036 | Web route registration |
 
 ---

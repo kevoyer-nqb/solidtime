@@ -720,45 +720,45 @@ Week:  |  W1  |  W2  |  W3  |  W4  |  W5  |  W6  |  W7  |  W8  |  W9  | W10  |
 
 ## Appendix A: Task ID Cross-Reference
 
-The original task assignment document uses `TASK-xxx` IDs. Per AMD-01 and SF-01, all task IDs are prefixed with `SCHED-`. The mapping is:
+The original task assignment document uses `SCHED-xxx` IDs. Per AMD-01 and SF-01, all task IDs are prefixed with `SCHED-`. The mapping is:
 
 | Original ID | Sprint Plan ID | Description |
 |:-----------:|:--------------:|-------------|
-| TASK-001 | SCHED-001 | Create `assignments` table |
-| TASK-002 | SCHED-002 | Create `milestones` table |
-| TASK-003 | **REMOVED** | Capacity columns (replaced by FOUND-006) |
-| TASK-004 | SCHED-004 | Assignment model + factory |
-| TASK-005 | SCHED-005 | Milestone model + factory |
-| TASK-006 | SCHED-006 | Update existing model relationships |
-| TASK-007 | SCHED-007 | Register permissions |
-| TASK-008 | SCHED-008 | SchedulingService |
-| TASK-009 | SCHED-009 | Assignment form requests |
-| TASK-010 | SCHED-010 | Milestone form requests |
-| TASK-011 | SCHED-011 | API resources |
-| TASK-012 | SCHED-012 | AssignmentController |
-| TASK-013 | SCHED-013 | MilestoneController |
-| TASK-014 | SCHED-014 | SchedulingController |
-| TASK-015 | SCHED-015 | API routes |
-| TASK-016 | SCHED-016 | Web route |
-| TASK-017 | SCHED-017 | OpenAPI + TS client |
-| TASK-018 | SCHED-018 | TypeScript types |
-| TASK-019 | SCHED-019 | Pinia store |
-| TASK-020 | SCHED-020 | Frontend permission helpers |
-| TASK-021 | SCHED-021 | Scheduling page |
-| TASK-022 | SCHED-022 | Sidebar navigation |
-| TASK-023 | SCHED-023 | Timeline component |
-| TASK-024 | SCHED-024 | Assignment form modal |
-| TASK-025 | SCHED-025 | Capacity panel |
-| TASK-026 | SCHED-026 | Milestone section |
-| TASK-027 | SCHED-027 | Assignment endpoint tests |
-| TASK-028 | SCHED-028 | Milestone endpoint tests |
-| TASK-029 | SCHED-029 | SchedulingService unit tests |
-| TASK-030 | SCHED-030 | Scheduling endpoint tests |
-| TASK-031 | SCHED-031 | Vitest component tests |
-| TASK-032 | SCHED-032 | E2E Playwright tests |
-| TASK-033 | SCHED-033 | Cascade deletion logic |
-| TASK-034 | SCHED-034 | Weekly capacity settings |
-| TASK-035 | SCHED-035 | Documentation |
+| SCHED-001 | SCHED-001 | Create `assignments` table |
+| SCHED-002 | SCHED-002 | Create `milestones` table |
+| SCHED-003 | **REMOVED** | Capacity columns (replaced by FOUND-006) |
+| SCHED-004 | SCHED-004 | Assignment model + factory |
+| SCHED-005 | SCHED-005 | Milestone model + factory |
+| SCHED-006 | SCHED-006 | Update existing model relationships |
+| SCHED-007 | SCHED-007 | Register permissions |
+| SCHED-008 | SCHED-008 | SchedulingService |
+| SCHED-009 | SCHED-009 | Assignment form requests |
+| SCHED-010 | SCHED-010 | Milestone form requests |
+| SCHED-011 | SCHED-011 | API resources |
+| SCHED-012 | SCHED-012 | AssignmentController |
+| SCHED-013 | SCHED-013 | MilestoneController |
+| SCHED-014 | SCHED-014 | SchedulingController |
+| SCHED-015 | SCHED-015 | API routes |
+| SCHED-016 | SCHED-016 | Web route |
+| SCHED-017 | SCHED-017 | OpenAPI + TS client |
+| SCHED-018 | SCHED-018 | TypeScript types |
+| SCHED-019 | SCHED-019 | Pinia store |
+| SCHED-020 | SCHED-020 | Frontend permission helpers |
+| SCHED-021 | SCHED-021 | Scheduling page |
+| SCHED-022 | SCHED-022 | Sidebar navigation |
+| SCHED-023 | SCHED-023 | Timeline component |
+| SCHED-024 | SCHED-024 | Assignment form modal |
+| SCHED-025 | SCHED-025 | Capacity panel |
+| SCHED-026 | SCHED-026 | Milestone section |
+| SCHED-027 | SCHED-027 | Assignment endpoint tests |
+| SCHED-028 | SCHED-028 | Milestone endpoint tests |
+| SCHED-029 | SCHED-029 | SchedulingService unit tests |
+| SCHED-030 | SCHED-030 | Scheduling endpoint tests |
+| SCHED-031 | SCHED-031 | Vitest component tests |
+| SCHED-032 | SCHED-032 | E2E Playwright tests |
+| SCHED-033 | SCHED-033 | Cascade deletion logic |
+| SCHED-034 | SCHED-034 | Weekly capacity settings |
+| SCHED-035 | SCHED-035 | Documentation |
 
 ---
 

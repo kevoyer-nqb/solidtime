@@ -659,40 +659,40 @@ Week 6          Week 7          Week 8          Week 9          Week 10
 
 ## Appendix A: Task-to-APPR ID Mapping
 
-The task_assignments document uses `TASK-xxx` IDs. Per PRD AMD-01, all task IDs are namespaced as `APPR-xxx`. The mapping is 1:1:
+The task_assignments document uses `APPR-xxx` IDs. Per PRD AMD-01, all task IDs are namespaced as `APPR-xxx`. The mapping is 1:1:
 
 | TASK ID | APPR ID | Description |
 |---------|---------|-------------|
-| TASK-001 | APPR-001 | Create TimesheetApprovalStatus Enum |
-| TASK-002 | APPR-002 | Create Database Migration for timesheet_approvals Table |
-| TASK-003 | APPR-003 | Create TimesheetApproval Model + Factory |
-| TASK-004 | APPR-004 | Add Organization Reminder Settings Migration |
-| TASK-005 | APPR-005 | Register New Permissions in JetstreamServiceProvider |
-| TASK-006 | APPR-006 | Create TimesheetApprovalService |
-| TASK-007 | APPR-007 | Enhance TimesheetService with Lock Checks |
-| TASK-008 | APPR-008 | Enhance TimeEntryController with Lock Checks |
-| TASK-009 | APPR-009 | Create TimesheetApprovalController |
-| TASK-010 | APPR-010 | Create Request Validation Classes |
-| TASK-011 | APPR-011 | Register API Routes |
-| TASK-012 | APPR-012 | Create Notification Mail Classes |
-| TASK-013 | APPR-013 | Dispatch Notifications from TimesheetApprovalService |
-| TASK-014 | APPR-014 | Create TimesheetReminderCommand |
-| TASK-015 | APPR-015 | Add TypeScript Types for Approval |
-| TASK-016 | APPR-016 | Enhance useTimesheetStore with Approval Actions |
-| TASK-017 | APPR-017 | Add Submit/Withdraw UI to TimesheetWeekAccordion |
-| TASK-018 | APPR-018 | Disable Cell Editing When Week is Locked |
-| TASK-019 | APPR-019 | Create useApprovalsStore Pinia Store |
-| TASK-020 | APPR-020 | Create Approvals Vue Page |
-| TASK-021 | APPR-021 | Add Sidebar Navigation Item for Approvals |
-| TASK-022 | APPR-022 | Add Approval Settings to Organization Settings Page |
-| TASK-023 | APPR-023 | TimesheetApprovalService Unit Tests |
-| TASK-024 | APPR-024 | TimesheetApprovalController API Endpoint Tests |
-| TASK-025 | APPR-025 | Enhanced TimesheetEndpointTest (Lock Checks) |
-| TASK-026 | APPR-026 | Notification Mail Tests |
-| TASK-027 | APPR-027 | Reminder Command Test |
-| TASK-028 | APPR-028 | Frontend Component Tests |
-| TASK-029 | APPR-029 | E2E Playwright Tests |
-| TASK-030 | APPR-030 | Update OpenAPI Specification |
+| APPR-001 | APPR-001 | Create TimesheetApprovalStatus Enum |
+| APPR-002 | APPR-002 | Create Database Migration for timesheet_approvals Table |
+| APPR-003 | APPR-003 | Create TimesheetApproval Model + Factory |
+| APPR-004 | APPR-004 | Add Organization Reminder Settings Migration |
+| APPR-005 | APPR-005 | Register New Permissions in JetstreamServiceProvider |
+| APPR-006 | APPR-006 | Create TimesheetApprovalService |
+| APPR-007 | APPR-007 | Enhance TimesheetService with Lock Checks |
+| APPR-008 | APPR-008 | Enhance TimeEntryController with Lock Checks |
+| APPR-009 | APPR-009 | Create TimesheetApprovalController |
+| APPR-010 | APPR-010 | Create Request Validation Classes |
+| APPR-011 | APPR-011 | Register API Routes |
+| APPR-012 | APPR-012 | Create Notification Mail Classes |
+| APPR-013 | APPR-013 | Dispatch Notifications from TimesheetApprovalService |
+| APPR-014 | APPR-014 | Create TimesheetReminderCommand |
+| APPR-015 | APPR-015 | Add TypeScript Types for Approval |
+| APPR-016 | APPR-016 | Enhance useTimesheetStore with Approval Actions |
+| APPR-017 | APPR-017 | Add Submit/Withdraw UI to TimesheetWeekAccordion |
+| APPR-018 | APPR-018 | Disable Cell Editing When Week is Locked |
+| APPR-019 | APPR-019 | Create useApprovalsStore Pinia Store |
+| APPR-020 | APPR-020 | Create Approvals Vue Page |
+| APPR-021 | APPR-021 | Add Sidebar Navigation Item for Approvals |
+| APPR-022 | APPR-022 | Add Approval Settings to Organization Settings Page |
+| APPR-023 | APPR-023 | TimesheetApprovalService Unit Tests |
+| APPR-024 | APPR-024 | TimesheetApprovalController API Endpoint Tests |
+| APPR-025 | APPR-025 | Enhanced TimesheetEndpointTest (Lock Checks) |
+| APPR-026 | APPR-026 | Notification Mail Tests |
+| APPR-027 | APPR-027 | Reminder Command Test |
+| APPR-028 | APPR-028 | Frontend Component Tests |
+| APPR-029 | APPR-029 | E2E Playwright Tests |
+| APPR-030 | APPR-030 | Update OpenAPI Specification |
 
 ## Appendix B: Sprint Assignment Summary by Role
 

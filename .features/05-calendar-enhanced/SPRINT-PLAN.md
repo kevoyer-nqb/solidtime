@@ -13,8 +13,8 @@
 
 The Calendar Enhanced feature extends Solidtime's existing FullCalendar-based time tracking interface with external calendar integration (Google Calendar, Microsoft 365), a month view, event-to-entry conversion, and a planning vs. actual overlay mode. The existing calendar page already provides week/day views, drag-to-create, drag-to-move, and drag-to-resize functionality. This feature adds the remaining pieces to turn Solidtime's calendar into a unified scheduling and time-tracking hub.
 
-**Total Effort**: 159 hours (156h from original 20 tasks + 3h from AMD-09 cleanup command CAL-021)
-**Total Story Points**: 81 SP (at 2.0 hours per SP per SF-10)
+**Total Effort**: 144 hours (sum of individual task hours from sprint details: 19h + 41h + 32h + 52h)
+**Total Story Points**: 74 SP (sum of individual task SPs from sprint details)
 **Number of Sprints**: 4 sprints (2-week sprints, 8 weeks total)
 **Team Size Assumption**: 2 developers (1 Backend, 1 Frontend), with overlap on integration tasks
 **Velocity Assumption**: ~40 SP per sprint (2 devs x 40h/week x 2 weeks = 160h available; ~50% utilization for feature work = 80h = 40 SP)
@@ -27,11 +27,11 @@ The Calendar Enhanced feature extends Solidtime's existing FullCalendar-based ti
 
 | Sprint | Name | Duration | Story Points | Key Deliverables |
 |:------:|------|----------|:------------:|------------------|
-| 1 | Foundation & Month View | 2 weeks | 19 SP (38h) | Database schema, Eloquent models with factories, month view in FullCalendar, OAuth config in `services.php`, permissions registration |
-| 2 | Backend API & Sync Engine | 2 weeks | 22 SP (44h) | CalendarIntegrationService (Google + Microsoft providers), REST API controller, background sync job, OpenAPI spec + TS client regeneration |
-| 3 | Frontend Integration | 2 weeks | 21 SP (42h) | Pinia store, settings panel UI, external event rendering on calendar, event-to-entry conversion modal |
-| 4 | Planning Overlay, Tests & Polish | 2 weeks | 19 SP (35h) | Planning vs. actual overlay, all backend tests, all frontend tests, E2E tests, cleanup command, documentation |
-| **Total** | | **8 weeks** | **81 SP (159h)** | |
+| 1 | Foundation & Month View | 2 weeks | 10 SP (19h) | Database schema, Eloquent models with factories, month view in FullCalendar, OAuth config in `services.php`, permissions registration |
+| 2 | Backend API & Sync Engine | 2 weeks | 21 SP (41h) | CalendarIntegrationService (Google + Microsoft providers), REST API controller, background sync job, OpenAPI spec + TS client regeneration, cleanup command |
+| 3 | Frontend Integration | 2 weeks | 16 SP (32h) | Pinia store, settings panel UI, external event rendering on calendar, event-to-entry conversion modal |
+| 4 | Planning Overlay, Tests & Polish | 2 weeks | 27 SP (52h) | Planning vs. actual overlay, all backend tests, all frontend tests, E2E tests, documentation |
+| **Total** | | **8 weeks** | **74 SP (144h)** | |
 
 ---
 
@@ -123,7 +123,7 @@ Total critical path duration: **84 hours** (~10.5 working days). This fits withi
 | CAL-004 | Month view frontend enhancement (`dayGridMonth` in FullCalendar) | 6h | 3 | None | Frontend | Add month to toolbar, compact event rendering, "+N more" handling, localStorage view persistence |
 | | **Sprint 1 Buffer**: Credential provisioning, dev environment setup, PR reviews | ~5h | -- | -- | Shared | |
 
-**Sprint 1 Total**: 19 SP (38h planned work)
+**Sprint 1 Total**: 10 SP (19h planned work)
 
 **Acceptance Criteria**:
 - Migrations run and rollback cleanly on PostgreSQL
@@ -172,7 +172,7 @@ Total critical path duration: **84 hours** (~10.5 working days). This fits withi
 | CAL-008 | OpenAPI spec update + TypeScript client regeneration | 4h | 2 | CAL-006 | Backend | New types: `CalendarConnection`, `CalendarEvent`, `ConvertEventBody` |
 | CAL-021 | Calendar events cleanup command (`calendar:cleanup`) | 3h | 2 | CAL-002 | Backend | Delete events older than 90 days; weekly cron; per AMD-09 |
 
-**Sprint 2 Total**: 22 SP (41h planned work; backend-heavy -- frontend dev can begin CAL-009 prep/spike or assist with CAL-008)
+**Sprint 2 Total**: 21 SP (41h planned work; backend-heavy -- frontend dev can begin CAL-009 prep/spike or assist with CAL-008)
 
 **Acceptance Criteria**:
 - Google OAuth flow completes end-to-end in test environment (redirect -> consent -> callback -> token stored)
@@ -239,7 +239,7 @@ Total critical path duration: **84 hours** (~10.5 working days). This fits withi
 | CAL-012 | EventToEntryModal component (convert external event to time entry) | 8h | 4 | CAL-009, CAL-011 | Frontend | Pre-fill start/end/description; project/task/tag selection; overlap error handling; "converted" checkmark indicator |
 | | **Sprint 3 Buffer**: Integration testing, PR reviews, bug fixes from Sprint 2 | ~10h | -- | -- | Shared | Backend dev assists with integration issues, starts writing backend tests |
 
-**Sprint 3 Total**: 21 SP (32h planned frontend + integration buffer)
+**Sprint 3 Total**: 16 SP (32h planned frontend + integration buffer)
 
 **Acceptance Criteria**:
 - `useCalendarIntegrationsStore` correctly fetches connections and events via API
@@ -296,7 +296,7 @@ Total critical path duration: **84 hours** (~10.5 working days). This fits withi
 | CAL-019 | OpenAPI specification documentation update | 3h | 2 | CAL-008 | Backend | Descriptions, examples, error responses for all new endpoints |
 | CAL-020 | JSDoc and PHPDoc inline documentation | 3h | 2 | All impl tasks | Shared | Document all public methods in services, controllers, stores, and components |
 
-**Sprint 4 Total**: 19 SP (52h planned work; tight but achievable -- testing is parallelizable between backend and frontend devs; buffer from earlier sprints absorbs overflow)
+**Sprint 4 Total**: 27 SP (52h planned work; tight but achievable -- testing is parallelizable between backend and frontend devs; buffer from earlier sprints absorbs overflow)
 
 **Acceptance Criteria**:
 - Planning overlay toggle appears in calendar toolbar (premium-gated)
@@ -509,30 +509,30 @@ Week 1         Week 2         Week 3         Week 4         Week 5         Week 
 
 ## Appendix A: Task ID Cross-Reference
 
-The task assignments file uses `TASK-xxx` identifiers. Per AMD-01, all task IDs are prefixed with `CAL-`. This table provides the mapping:
+The task assignments file uses `CAL-xxx` identifiers. Per AMD-01, all task IDs are prefixed with `CAL-`. This table provides the mapping:
 
 | Task Assignments ID | Sprint Plan ID | Description |
 |---------------------|----------------|-------------|
-| TASK-001 | CAL-001 | Database migrations |
-| TASK-002 | CAL-002 | Eloquent models + factories |
-| TASK-003 | CAL-003a + CAL-003b | CalendarIntegrationService (split per AMD-06) |
-| TASK-004 | CAL-004 | Month view frontend |
-| TASK-005 | CAL-005 | Config/env setup |
-| TASK-006 | CAL-006 | Controller + routes |
-| TASK-007 | CAL-007 | Background sync job |
-| TASK-008 | CAL-008 | OpenAPI + TS client |
-| TASK-009 | CAL-009 | Pinia store |
-| TASK-010 | CAL-010 | Settings panel UI |
-| TASK-011 | CAL-011 | External event rendering |
-| TASK-012 | CAL-012 | Event-to-entry modal |
-| TASK-013 | CAL-013 | Planning vs. actual overlay |
-| TASK-014 | CAL-014 | Permissions registration |
-| TASK-015 | CAL-015 | Backend unit tests |
-| TASK-016 | CAL-016 | Backend endpoint tests |
-| TASK-017 | CAL-017 | Frontend component tests |
-| TASK-018 | CAL-018 | E2E Playwright tests |
-| TASK-019 | CAL-019 | OpenAPI documentation |
-| TASK-020 | CAL-020 | JSDoc/PHPDoc documentation |
+| CAL-001 | CAL-001 | Database migrations |
+| CAL-002 | CAL-002 | Eloquent models + factories |
+| CAL-003 | CAL-003a + CAL-003b | CalendarIntegrationService (split per AMD-06) |
+| CAL-004 | CAL-004 | Month view frontend |
+| CAL-005 | CAL-005 | Config/env setup |
+| CAL-006 | CAL-006 | Controller + routes |
+| CAL-007 | CAL-007 | Background sync job |
+| CAL-008 | CAL-008 | OpenAPI + TS client |
+| CAL-009 | CAL-009 | Pinia store |
+| CAL-010 | CAL-010 | Settings panel UI |
+| CAL-011 | CAL-011 | External event rendering |
+| CAL-012 | CAL-012 | Event-to-entry modal |
+| CAL-013 | CAL-013 | Planning vs. actual overlay |
+| CAL-014 | CAL-014 | Permissions registration |
+| CAL-015 | CAL-015 | Backend unit tests |
+| CAL-016 | CAL-016 | Backend endpoint tests |
+| CAL-017 | CAL-017 | Frontend component tests |
+| CAL-018 | CAL-018 | E2E Playwright tests |
+| CAL-019 | CAL-019 | OpenAPI documentation |
+| CAL-020 | CAL-020 | JSDoc/PHPDoc documentation |
 | (AMD-09) | CAL-021 | Calendar events cleanup command |
 
 ## Appendix B: File Manifest (All New Files)

@@ -724,49 +724,49 @@ If Phase B is deferred, Phase A can ship with a minimal frontend (data accessibl
 
 ## Appendix A: Task ID Cross-Reference
 
-The task_assignments file uses `TASK-xxx` identifiers. Per AMD-01 in the PRD, all task IDs are officially prefixed `RPT-`. This sprint plan uses `RPT-` throughout. The mapping is:
+The task_assignments file uses `RPT-xxx` identifiers. Per AMD-01 in the PRD, all task IDs are officially prefixed `RPT-`. This sprint plan uses `RPT-` throughout. The mapping is:
 
 | RPT ID | Legacy ID | Description |
 |--------|-----------|-------------|
-| RPT-001 | TASK-001 | Migration: cost_rate on members |
-| RPT-002 | TASK-002 | Migration: cost_rate on project_members |
-| RPT-003 | TASK-003 | Migration: default_cost_rate on organizations |
-| RPT-004 | TASK-004 | Migration: cost_rate on time_entries |
-| RPT-005 | TASK-005 | Migration: budget_amount on projects |
-| RPT-006 | TASK-006 | Migration: report_templates table |
-| RPT-007 | TASK-007 | Migration: report_schedules table |
-| RPT-008 | TASK-008 | Migration: expenses table |
-| RPT-009 | TASK-009 | Update Eloquent models for new columns |
-| RPT-010 | TASK-010 | Create new Eloquent models |
-| RPT-011 | TASK-011 | Create CostRateService |
-| RPT-012 | TASK-012 | Create ExpenseCategory enum |
-| RPT-013 | TASK-013 | Create ReportScheduleFrequency/Status enums |
-| RPT-014 | TASK-014 | Create ProfitabilityReportService |
-| RPT-015 | TASK-015 | Create UtilizationReportService |
-| RPT-016 | TASK-016 | Create ReportScheduleService |
-| RPT-017 | TASK-017 | Create SendScheduledReportsCommand |
-| RPT-018 | TASK-018 | Create ReportExportService |
-| RPT-019 | TASK-019 | Profitability Report API endpoint |
-| RPT-020 | TASK-020 | Utilization Report API endpoint |
-| RPT-021 | TASK-021 | Report Templates CRUD API |
-| RPT-022 | TASK-022 | Report Schedules CRUD API |
-| RPT-023 | TASK-023 | Expenses CRUD API |
-| RPT-024 | TASK-024 | Budget Report API endpoint |
-| RPT-025 | TASK-025 | Update existing API endpoints |
-| RPT-026 | TASK-026 | Frontend: reporting navigation |
-| RPT-027 | TASK-027 | Frontend: profitability page |
-| RPT-028 | TASK-028 | Frontend: utilization page |
-| RPT-029 | TASK-029 | Frontend: budget page |
-| RPT-030 | TASK-030 | Frontend: templates UI |
-| RPT-031 | TASK-031 | Frontend: schedules UI |
-| RPT-032 | TASK-032 | Frontend: expenses page |
-| RPT-033 | TASK-033 | Frontend: export modal |
-| RPT-034 | TASK-034 | Frontend: cost rate management UI |
-| RPT-035 | TASK-035 | Backfill cost_rate command |
-| RPT-036 | TASK-036 | OpenAPI spec update |
-| RPT-037 | TASK-037 | E2E Playwright tests |
-| RPT-038 | TASK-038 | Vitest component tests |
-| RPT-039 | TASK-039 | Performance optimization |
+| RPT-001 | RPT-001 | Migration: cost_rate on members |
+| RPT-002 | RPT-002 | Migration: cost_rate on project_members |
+| RPT-003 | RPT-003 | Migration: default_cost_rate on organizations |
+| RPT-004 | RPT-004 | Migration: cost_rate on time_entries |
+| RPT-005 | RPT-005 | Migration: budget_amount on projects |
+| RPT-006 | RPT-006 | Migration: report_templates table |
+| RPT-007 | RPT-007 | Migration: report_schedules table |
+| RPT-008 | RPT-008 | Migration: expenses table |
+| RPT-009 | RPT-009 | Update Eloquent models for new columns |
+| RPT-010 | RPT-010 | Create new Eloquent models |
+| RPT-011 | RPT-011 | Create CostRateService |
+| RPT-012 | RPT-012 | Create ExpenseCategory enum |
+| RPT-013 | RPT-013 | Create ReportScheduleFrequency/Status enums |
+| RPT-014 | RPT-014 | Create ProfitabilityReportService |
+| RPT-015 | RPT-015 | Create UtilizationReportService |
+| RPT-016 | RPT-016 | Create ReportScheduleService |
+| RPT-017 | RPT-017 | Create SendScheduledReportsCommand |
+| RPT-018 | RPT-018 | Create ReportExportService |
+| RPT-019 | RPT-019 | Profitability Report API endpoint |
+| RPT-020 | RPT-020 | Utilization Report API endpoint |
+| RPT-021 | RPT-021 | Report Templates CRUD API |
+| RPT-022 | RPT-022 | Report Schedules CRUD API |
+| RPT-023 | RPT-023 | Expenses CRUD API |
+| RPT-024 | RPT-024 | Budget Report API endpoint |
+| RPT-025 | RPT-025 | Update existing API endpoints |
+| RPT-026 | RPT-026 | Frontend: reporting navigation |
+| RPT-027 | RPT-027 | Frontend: profitability page |
+| RPT-028 | RPT-028 | Frontend: utilization page |
+| RPT-029 | RPT-029 | Frontend: budget page |
+| RPT-030 | RPT-030 | Frontend: templates UI |
+| RPT-031 | RPT-031 | Frontend: schedules UI |
+| RPT-032 | RPT-032 | Frontend: expenses page |
+| RPT-033 | RPT-033 | Frontend: export modal |
+| RPT-034 | RPT-034 | Frontend: cost rate management UI |
+| RPT-035 | RPT-035 | Backfill cost_rate command |
+| RPT-036 | RPT-036 | OpenAPI spec update |
+| RPT-037 | RPT-037 | E2E Playwright tests |
+| RPT-038 | RPT-038 | Vitest component tests |
+| RPT-039 | RPT-039 | Performance optimization |
 
 ---
 

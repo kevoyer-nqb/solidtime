@@ -120,8 +120,8 @@ The PRD review introduced several amendments that create additional tasks or mod
 |-----------|------------|--------|
 | AMD-04 (Dual-Hash PIN) | Modifies KIO-001 migration and KIO-005 service logic | Sprint 1 |
 | AMD-05 (Badge QR Token) | New task KIO-021 (6h / 3 SP) | Sprint 2 |
-| AMD-09 (Split TASK-008) | KIO-008 becomes KIO-008a + KIO-008b (8h + 8h) | Sprint 2 |
-| AMD-10 (Split TASK-007) | KIO-007 becomes KIO-007a + KIO-007b (6h + 6h) | Sprint 2 |
+| AMD-09 (Split KIO-008) | KIO-008 becomes KIO-008a + KIO-008b (8h + 8h) | Sprint 2 |
+| AMD-10 (Split KIO-007) | KIO-007 becomes KIO-007a + KIO-007b (6h + 6h) | Sprint 2 |
 | AMD-11 (Frontend Sprint 1) | New tasks KIO-022 (2h/1SP) + KIO-023 (3h/2SP) | Sprint 1 |
 | AMD-12 (Earlier Testing) | KIO-015 unit tests moved to Sprint 3 alongside KIO-006 | Sprint 3 |
 | AMD-13 (HasFactory) | KioskPinAttempt includes HasFactory trait | Sprint 1 (KIO-002) |
