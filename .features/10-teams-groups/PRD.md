@@ -7,7 +7,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Reference](#1-source-reference)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements & Constraints](#4-technical-requirements--constraints)
@@ -123,7 +123,7 @@ The model is named `Team` despite the Jetstream collision (where Jetstream's `Te
 
 ---
 
-## 1. Source Reference
+## 1. Source & Context
 
 - **Feature ID**: 10-teams-groups
 - **Title**: Teams & Groups -- Sub-organizational team scoping

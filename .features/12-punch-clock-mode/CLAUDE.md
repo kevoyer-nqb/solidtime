@@ -22,7 +22,7 @@ Phase 2 -- independent feature. Does not depend on Feature 00 (Weekly Timesheet 
 **Total**: ~77 SP / ~119h across 3 sprints (6 weeks)
 
 ## Shared Foundation Dependencies
-- None -- this feature is self-contained with its own migrations and models
+- FOUND-007: Modular permissions infrastructure (`app/Permissions/`). If not available, permissions are added directly to `JetstreamServiceProvider.php`.
 - Soft dependency on Feature 00 (Weekly Timesheet Grid) for readonly grid mode. If Feature 00 is not present, the guard on `PUT /timesheet/cell` is not applied and the readonly grid components are not rendered.
 
 ## Key Architecture Decisions

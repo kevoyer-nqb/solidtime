@@ -5,7 +5,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Context & Motivation](#1-source-context--motivation)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements & Constraints](#4-technical-requirements--constraints)
@@ -89,7 +89,7 @@ Status change notifications are mentioned as "future phase" in REQ-005. With the
 
 ---
 
-## 1. Source Context & Motivation
+## 1. Source & Context
 
 ### 1.1 Background
 

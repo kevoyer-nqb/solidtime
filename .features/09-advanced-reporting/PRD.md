@@ -7,7 +7,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Context and Motivation](#1-source-context-and-motivation)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements and Constraints](#4-technical-requirements-and-constraints)
@@ -109,7 +109,7 @@ Both use the same `weekly_capacity` column but represent different measurements.
 
 ---
 
-## 1. Source Context and Motivation
+## 1. Source & Context
 
 ### Current State of Reporting in Solidtime
 
@@ -261,17 +261,17 @@ Solidtime currently provides a foundational reporting system consisting of:
 
 ### 3.4 Enhanced Export (8.6)
 
-#### REQ-EXP-001: Custom Column Selection
+#### REQ-EXPRT-001: Custom Column Selection
 
 - **Description**: When exporting a detailed report, users can select which columns to include: Date, Start Time, End Time, Duration, Description, Project, Client, Task, Tags, Member, Billable, Billable Rate, Billable Amount, Cost Rate, Cost Amount.
 - **Priority**: P1
 
-#### REQ-EXP-002: Multi-Level Grouped Export
+#### REQ-EXPRT-002: Multi-Level Grouped Export
 
 - **Description**: When exporting a grouped report, the export file reflects the grouping hierarchy with subtotals per group and a grand total row.
 - **Priority**: P1
 
-#### REQ-EXP-003: PDF Report Styling
+#### REQ-EXPRT-003: PDF Report Styling
 
 - **Description**: PDF exports include the organization name, report name, date range, and are styled with proper headers, alternating row colors, and page numbers.
 - **Priority**: P2

@@ -5,7 +5,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Feature Reference](#1-source-feature-reference)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements & Constraints](#4-technical-requirements--constraints)
@@ -112,7 +112,7 @@ The `KioskPinAttempt` model must include `HasFactory` trait for testing.
 
 ---
 
-## 1. Source Feature Reference
+## 1. Source & Context
 
 ### Feature Information
 

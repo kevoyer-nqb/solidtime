@@ -7,7 +7,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Context & Problem Statement](#1-source-context--problem-statement)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements & Constraints](#4-technical-requirements--constraints)
@@ -83,7 +83,7 @@ BUD-005 (extend Project model with budget fields) no longer depends on BUD-004 (
 
 ---
 
-## 1. Source Context & Problem Statement
+## 1. Source & Context
 
 ### Current State
 
@@ -2301,7 +2301,7 @@ public function rules(): array
 
 ```
 Total Tasks:       33
-Total Effort:      ~170 hours / 88 SP
+Total Effort:      ~165 hours / 88 SP
 Duration:          6 weeks (3 sprints)
 Team Size:         2-3 developers (1 backend, 1 frontend, 1 QA/fullstack)
 
@@ -2563,69 +2563,7 @@ Log::info('Monthly budget alerts reset', [
 
 ## 13. Sprint Plan
 
-### Sprint 1 (Weeks 1-2): Foundation
-
-**Goal**: Budget data model, CRUD, consumption calculation, and basic API.
-
-| Task ID | Description | Effort | Assignee Type |
-|---|---|---|---|
-| TASK-001 | BudgetType and BudgetPeriod Enums | 2h | Backend |
-| TASK-002 | Migration: Budget columns on projects | 4h | Backend |
-| TASK-003 | Migration: Budget alerts table | 4h | Backend |
-| TASK-004 | BudgetAlert Model | 3h | Backend |
-| TASK-005 | Extend Project Model | 3h | Backend |
-| TASK-006 | BudgetService (consumption) | 8h | Backend |
-| TASK-007 | Extend Project Requests (validation) | 4h | Backend |
-| TASK-008 | Extend ProjectController + BudgetController | 6h | Backend |
-| TASK-009 | Extend ProjectResource | 3h | Backend |
-| TASK-010 | Register Permissions | 2h | Backend |
-| TASK-011 | API Routes | 2h | Backend |
-| TASK-012 | BudgetService Unit Tests | 8h | Backend/QA |
-| TASK-013 | Budget Endpoint Tests | 8h | Backend/QA |
-
-**Sprint 1 Total**: 57h / 33 SP
-
----
-
-### Sprint 2 (Weeks 3-4): Alerts, Dashboard, and Frontend Core
-
-**Goal**: Alert system, dashboard integration, and core frontend components.
-
-| Task ID | Description | Effort | Assignee Type |
-|---|---|---|---|
-| TASK-014 | BudgetAlertService | 8h | Backend |
-| TASK-015 | Budget Notification Classes | 4h | Backend |
-| TASK-016 | Integrate alerts with TimeEntryService | 4h | Backend |
-| TASK-017 | Monthly Alert Reset Command | 3h | Backend |
-| TASK-018 | BudgetAlertService Tests | 6h | Backend/QA |
-| TASK-019 | Budget Dashboard Chart Endpoint | 4h | Backend |
-| TASK-020 | TypeScript Types | 3h | Frontend |
-| TASK-021 | Budget Pinia Store | 6h | Frontend |
-| TASK-022 | Budget Progress Bar Component | 4h | Frontend |
-| TASK-023 | Budget Section on Project Page | 6h | Frontend |
-| TASK-024 | Budget Dashboard Card | 6h | Frontend |
-| TASK-033 | Update OpenAPI + Regen TS Client | 3h | Tooling |
-
-**Sprint 2 Total**: 57h / 33 SP
-
----
-
-### Sprint 3 (Weeks 5-6): Forecasting, Reports, and Polish
-
-**Goal**: Forecasting engine, budget reports page, final testing, and polish.
-
-| Task ID | Description | Effort | Assignee Type |
-|---|---|---|---|
-| TASK-025 | BudgetForecastService | 6h | Backend |
-| TASK-026 | BudgetForecastService Tests | 4h | Backend/QA |
-| TASK-027 | Budget Report Service | 8h | Backend |
-| TASK-028 | Budget Report Endpoint | 4h | Backend |
-| TASK-029 | Budget Report Frontend Page | 8h | Frontend |
-| TASK-030 | Budget Config in Project Modals | 6h | Frontend |
-| TASK-031 | Frontend Component Tests | 6h | Frontend/QA |
-| TASK-032 | E2E Tests | 8h | QA |
-
-**Sprint 3 Total**: 50h / 27 SP
+See `SPRINT-PLAN.md` for the detailed sprint-by-sprint implementation plan.
 
 ---
 

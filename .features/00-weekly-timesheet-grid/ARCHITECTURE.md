@@ -520,3 +520,4 @@ All roles have at least `time-entries:view:own` and `time-entries:create:own`.
 | `resources/js/Layouts/AppLayout.vue` | Add sidebar nav item | TSG-010 |
 | `openapi.json` | Add 4 endpoint definitions | TSG-006 |
 | `resources/js/packages/api/src/openapi.json.client.ts` | Regenerate from OpenAPI | TSG-006 |
+| `vite.config.js` | Vitest configuration for component tests | TSG-015 |

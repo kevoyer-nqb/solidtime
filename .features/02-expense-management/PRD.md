@@ -7,7 +7,7 @@ Version: 1.0
 
 ## Table of Contents
 
-1. [Source Ticket Reference](#1-source-ticket-reference)
+1. [Source & Context](#1-source--context)
 2. [Technical Interpretation](#2-technical-interpretation)
 3. [Functional Specifications](#3-functional-specifications)
 4. [Technical Requirements and Constraints](#4-technical-requirements-and-constraints)
@@ -79,12 +79,16 @@ The `ON DELETE RESTRICT` for expenses → projects/tasks is intentional and corr
 
 ---
 
-## 1. Source Ticket Reference
+## 1. Source & Context
 
 - **Feature ID**: 02-expense-management
 - **Sub-features**: 6.1 (Expense Entry), 6.2 (Markups and Selling Price)
 - **Status**: PRD Development
 - **Original Requirement**: Implement expense tracking and management for solidtime, complementing the existing time tracking capabilities. Members log expenses against projects with receipt attachments, categories, markup rules, approval workflows, and export functionality.
+
+### Problem Statement
+
+Solidtime currently has no expense tracking capability. Users must use external tools to record project-related expenses (travel, materials, software licenses), making it impossible to calculate true project costs or generate comprehensive invoices that include both time and expenses.
 
 ---
 
