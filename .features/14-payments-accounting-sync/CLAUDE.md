@@ -60,13 +60,13 @@ Phase 3 -- after Feature 04 (Invoicing) is complete and merged to `main`
 - `app/Enums/PaymentMethod.php`
 - `app/Enums/PaymentStatus.php`
 - `app/Enums/PaymentType.php`
-- `app/Enums/IntegrationProvider.php`
+- `app/Enums/PaymentProvider.php`
 - `app/Enums/SyncStatus.php`
 
 ### Backend: Controllers (3)
 - `app/Http/Controllers/Api/V1/PaymentController.php`
-- `app/Http/Controllers/Api/V1/IntegrationController.php`
-- `app/Http/Controllers/Api/V1/WebhookController.php`
+- `app/Http/Controllers/Api/V1/PaymentIntegrationController.php`
+- `app/Http/Controllers/Api/V1/PaymentWebhookController.php`
 
 ### Backend: Services (6)
 - `app/Service/PaymentService.php`
@@ -80,10 +80,10 @@ Phase 3 -- after Feature 04 (Invoicing) is complete and merged to `main`
 - `app/Http/Requests/V1/Payment/PaymentIndexRequest.php`
 - `app/Http/Requests/V1/Payment/PaymentStoreRequest.php`
 - `app/Http/Requests/V1/Payment/PaymentVoidRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationConnectRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationClientMappingRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationSyncInvoiceRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationSyncLogRequest.php`
+- `app/Http/Requests/V1/PaymentIntegration/PaymentIntegrationConnectRequest.php`
+- `app/Http/Requests/V1/PaymentIntegration/IntegrationClientMappingRequest.php`
+- `app/Http/Requests/V1/PaymentIntegration/IntegrationSyncInvoiceRequest.php`
+- `app/Http/Requests/V1/PaymentIntegration/IntegrationSyncLogRequest.php`
 
 ### Backend: Middleware (2)
 - `app/Http/Middleware/VerifyStripeWebhook.php`

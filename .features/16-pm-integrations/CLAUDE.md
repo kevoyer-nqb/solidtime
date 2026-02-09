@@ -7,7 +7,7 @@
 `PMI-` (PMI-001 through PMI-044)
 
 ## Migration Date Prefix
-`2026_02_09` -- 4 new tables (integration_connections, integration_projects, external_task_mappings, integration_sync_logs)
+`2026_03_16` -- 4 new tables (integration_connections, integration_projects, external_task_mappings, integration_sync_logs)
 
 ## Execution Phase
 Phase 3 -- requires core platform on `main` (Project, Task, TimeEntry models). Should be developed after Feature 00 (Weekly Timesheet Grid) is merged, as PMI-030 touches task selector UI.
@@ -16,23 +16,24 @@ Phase 3 -- requires core platform on `main` (Project, Task, TimeEntry models). S
 | Sprint | Focus | Story Points |
 |--------|-------|-------------|
 | Sprint 1 | Backend Foundation: Migrations, Models, Enums, Interface, Permissions, Controller Stubs, Validation, IntegrationService (partial) | ~33 SP |
-| Sprint 2 | Provider Adapters: JiraAdapter, AsanaAdapter, TrelloAdapter, WebhookController, Route Registration, Controller Wiring | ~45 SP |
+| Sprint 2 | Provider Adapters: JiraAdapter, AsanaAdapter, TrelloAdapter, PmWebhookController, Route Registration, Controller Wiring | ~45 SP |
 | Sprint 3 | Jobs & Frontend Foundation: SyncJob, ExportJob, RefreshJob, Scheduled Commands, OpenAPI, TS Types, Pinia Store, Page Scaffold | ~35 SP |
 | Sprint 4 | Frontend Components: IntegrationCard, IntegrationDetail, ProjectSyncPanel, SyncHistoryLog, External Ref Badges, Nav, Backend Tests | ~35 SP |
 | Sprint 5 | Testing: Endpoint Tests, Adapter Tests, Job Tests, Component Tests, E2E Tests | ~33 SP |
 
-**Total**: ~192 SP / ~288h across 5 sprints (10 weeks)
+**Total**: ~181 SP / ~288h across 5 sprints (10 weeks) -- 181 SP allocated in sprint overview + ~11 SP buffer/documentation
 
 ## Shared Foundation Dependencies
 - Core platform (`main`): Project, Task, TimeEntry models and CRUD
 - Permission system: Role-based access control via Jetstream
 - Laravel Queue: Job dispatching infrastructure
 - Feature 00 (Weekly Timesheet Grid): Should be merged before frontend work begins (Sprint 3+)
+- FOUND-007: Modular permissions infrastructure (`app/Permissions/`). If not available, permissions are added directly to `JetstreamServiceProvider.php`.
 
 ## Key Architecture Decisions
 - 4 new database tables: `integration_connections`, `integration_projects`, `external_task_mappings`, `integration_sync_logs`
 - 3 new Eloquent models + 1 sync log model, all with `HasUuids`, `CustomAuditable`, `HasFactory` traits
-- 3 new enums: `IntegrationProvider`, `IntegrationStatus`, `SyncDirection`
+- 3 new enums: `PmProvider`, `IntegrationStatus`, `SyncDirection`
 - Adapter pattern: `IntegrationAdapterInterface` with `JiraAdapter`, `AsanaAdapter`, `TrelloAdapter` implementations
 - `BaseIntegrationAdapter` abstract class with shared HTTP client, rate limiting, token refresh helpers
 - `IntegrationService` orchestrates connection lifecycle, project/task sync, time entry export, webhook processing
@@ -49,17 +50,17 @@ Phase 3 -- requires core platform on `main` (Project, Task, TimeEntry models). S
 
 ## New Files to Create
 ### Backend (25 files)
-- `app/Enums/IntegrationProvider.php`
+- `app/Enums/PmProvider.php`
 - `app/Enums/IntegrationStatus.php`
 - `app/Enums/SyncDirection.php`
-- `app/Http/Controllers/Api/V1/IntegrationController.php`
+- `app/Http/Controllers/Api/V1/PmIntegrationController.php`
 - `app/Http/Controllers/Api/V1/IntegrationProjectController.php`
-- `app/Http/Controllers/Api/V1/WebhookController.php`
-- `app/Http/Requests/V1/Integration/IntegrationConnectRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationUpdateRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationProjectToggleRequest.php`
-- `app/Http/Requests/V1/Integration/IntegrationSyncLogIndexRequest.php`
-- `app/Http/Requests/V1/Integration/ExternalProjectListRequest.php`
+- `app/Http/Controllers/Api/V1/PmWebhookController.php`
+- `app/Http/Requests/V1/PmIntegration/PmIntegrationConnectRequest.php`
+- `app/Http/Requests/V1/PmIntegration/IntegrationUpdateRequest.php`
+- `app/Http/Requests/V1/PmIntegration/IntegrationProjectToggleRequest.php`
+- `app/Http/Requests/V1/PmIntegration/IntegrationSyncLogIndexRequest.php`
+- `app/Http/Requests/V1/PmIntegration/ExternalProjectListRequest.php`
 - `app/Jobs/SyncIntegrationJob.php`
 - `app/Jobs/ExportTimeEntriesJob.php`
 - `app/Jobs/RefreshIntegrationTokenJob.php`
@@ -79,10 +80,10 @@ Phase 3 -- requires core platform on `main` (Project, Task, TimeEntry models). S
 - `config/integrations.php`
 
 ### Database (8 files)
-- `database/migrations/2026_02_09_000001_create_integration_connections_table.php`
-- `database/migrations/2026_02_09_000002_create_integration_projects_table.php`
-- `database/migrations/2026_02_09_000003_create_external_task_mappings_table.php`
-- `database/migrations/2026_02_09_000004_create_integration_sync_logs_table.php`
+- `database/migrations/2026_03_16_000001_create_integration_connections_table.php`
+- `database/migrations/2026_03_16_000002_create_integration_projects_table.php`
+- `database/migrations/2026_03_16_000003_create_external_task_mappings_table.php`
+- `database/migrations/2026_03_16_000004_create_integration_sync_logs_table.php`
 - `database/factories/IntegrationConnectionFactory.php`
 - `database/factories/IntegrationProjectFactory.php`
 - `database/factories/ExternalTaskMappingFactory.php`

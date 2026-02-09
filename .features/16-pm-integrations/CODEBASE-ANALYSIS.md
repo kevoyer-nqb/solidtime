@@ -536,11 +536,11 @@ protected function member(Organization $organization): Member
 - Similar to resource controllers
 - Returns computed data, not model resources directly
 
-**Pattern for the IntegrationController**:
+**Pattern for the PmIntegrationController**:
 The integration controller is closest to a resource controller but with additional methods for OAuth flow and sync. It follows the existing pattern exactly:
 
 ```php
-class IntegrationController extends Controller
+class PmIntegrationController extends Controller
 {
     public function __construct(
         private readonly IntegrationService $integrationService
@@ -557,9 +557,9 @@ class IntegrationController extends Controller
 }
 ```
 
-### 9.3 WebhookController Special Considerations
+### 9.3 PmWebhookController Special Considerations
 
-The `WebhookController` does NOT extend the standard API base controller because:
+The `PmWebhookController` does NOT extend the standard API base controller because:
 1. Webhook requests come from external services, not authenticated users
 2. There is no Bearer token or session cookie
 3. Authentication is via webhook signature validation, not Passport
@@ -640,7 +640,7 @@ All request classes extend this. It provides:
 ### 11.3 Integration Request Approach
 
 The integration request classes use simpler validation:
-- `IntegrationConnectRequest`: Validates `provider` is one of the allowed values, conditional fields for Trello (api_key, api_token) and Jira (site_url)
+- `PmIntegrationConnectRequest`: Validates `provider` is one of the allowed values, conditional fields for Trello (api_key, api_token) and Jira (site_url)
 - `IntegrationUpdateRequest`: Validates enum values for sync direction and frequency
 - `IntegrationProjectToggleRequest`: Simple boolean validation
 - `IntegrationSyncLogIndexRequest`: Standard pagination params
@@ -677,8 +677,8 @@ All existing enums are backed by `string` values and follow the pattern:
 The integration feature introduces 3 new enums following the same pattern:
 
 ```php
-// app/Enums/IntegrationProvider.php
-enum IntegrationProvider: string
+// app/Enums/PmProvider.php
+enum PmProvider: string
 {
     case Jira = 'jira';
     case Asana = 'asana';
@@ -704,8 +704,8 @@ enum SyncDirection: string
 ```
 
 These enums are used in:
-- Model casts (`'provider' => IntegrationProvider::class`)
-- Request validation (`Rule::in(IntegrationProvider::cases())`)
+- Model casts (`'provider' => PmProvider::class`)
+- Request validation (`Rule::in(PmProvider::cases())`)
 - Service logic (match expressions)
 
 ---
@@ -878,7 +878,7 @@ Uses `PuzzlePieceIcon` from `@heroicons/vue/20/solid`.
 Admin clicks "Connect Jira" in Integrations.vue
     -> useIntegrationStore.initiateConnect('jira', { site_url: '...' })
         -> POST /api/v1/organizations/{org}/integrations/connect
-        -> IntegrationController.connect()
+        -> PmIntegrationController.connect()
             -> IntegrationService.initiateConnection()
             -> JiraAdapter.getAuthorizationUrl()
             -> Return { redirect_url, state }
@@ -888,7 +888,7 @@ Admin clicks "Connect Jira" in Integrations.vue
 User grants access on Atlassian consent page
     -> Atlassian redirects to: /api/v1/organizations/{org}/integrations/callback?code=...&state=...
 
-    -> IntegrationController.callback()
+    -> PmIntegrationController.callback()
         -> Validate state parameter against session
         -> IntegrationService.completeOAuthConnection()
             -> JiraAdapter.exchangeCode(code)
@@ -943,7 +943,7 @@ SyncIntegrationJob::handle()
 ```
 Jira sends webhook to POST /api/v1/webhooks/jira/{org}
 
-WebhookController.jira()
+PmWebhookController.jira()
     -> Look up IntegrationConnection for org + provider='jira'
     -> If no connection: return 404
     -> JiraAdapter.validateWebhookSignature(connection, payload, signature)

@@ -39,7 +39,7 @@ The Online Payments and Accounting Sync feature enables organizations to accept 
 | Sprint | Name | Duration | Story Points | Key Deliverables |
 |--------|------|----------|:------------:|------------------|
 | **1** | Database, Models, Core Services | 2 weeks | 42 SP | Migrations, 6 models, permissions, token encryption, PaymentService, StripeService, PayPalService, PaymentService unit tests |
-| **2** | Controllers, Routes, Webhooks | 2 weeks | 42 SP | PaymentController, IntegrationController, WebhookController, request validation, webhook signature verification, ProcessWebhookJob, public payment link, all routes, Stripe/PayPal unit tests |
+| **2** | Controllers, Routes, Webhooks | 2 weeks | 42 SP | PaymentController, PaymentIntegrationController, PaymentWebhookController, request validation, webhook signature verification, ProcessWebhookJob, public payment link, all routes, Stripe/PayPal unit tests |
 | **3** | Accounting Services, OpenAPI, Frontend Stores | 2 weeks | 44 SP | QuickBooksService, XeroService, AccountingSyncService, sync jobs, token refresh job, OpenAPI spec, TS client, Pinia stores |
 | **4** | Frontend Implementation | 2 weeks | 40 SP | IntegrationSettings page, ClientMapping dialog, PaymentsList page, InvoiceDetail extension, RecordPayment dialog, badges, SyncLogs page, navigation, public pages, retry logic |
 | **5** | Testing, Documentation, Polish | 2 weeks | 46 SP | All endpoint tests, all service unit tests, webhook tests, frontend component tests, E2E Playwright tests, JSDoc, env var docs |
@@ -62,7 +62,7 @@ Wave 2 (after Wave 1):
 
 Wave 3 (after Wave 2):
     PAY-003 (PaymentService, 12h)     <- PAY-002
-    PAY-006 (IntegrationController, 8h) <- PAY-002
+    PAY-006 (PaymentIntegrationController, 8h) <- PAY-002
     PAY-007 (StripeService, 12h)      <- PAY-002
     PAY-008 (PayPalService, 10h)      <- PAY-002
     PAY-012 (QuickBooksService, 16h)  <- PAY-002
@@ -71,7 +71,7 @@ Wave 3 (after Wave 2):
 
 Wave 4 (after Wave 3):
     PAY-004 (PaymentController, 8h)   <- PAY-003
-    PAY-009 (WebhookController, 8h)   <- PAY-007, PAY-008
+    PAY-009 (PaymentWebhookController, 8h)   <- PAY-007, PAY-008
     PAY-014 (AccountingSyncService, 8h) <- PAY-012, PAY-013
     PAY-016 (RefreshOAuthTokenJob, 4h) <- PAY-012, PAY-013
     PAY-018 (Integration validation, 4h) <- PAY-006
@@ -184,7 +184,7 @@ Streams A, B, C, D, E, and F can all run concurrently after Wave 2. A single bac
 **Deliverables**:
 - [ ] 6 database migrations creating `payment_integrations`, `accounting_integrations`, `accounting_client_mappings`, `payments`, `accounting_sync_logs`, `webhook_events`
 - [ ] 6 Eloquent models: `Payment`, `PaymentIntegration`, `AccountingIntegration`, `AccountingClientMapping`, `AccountingSyncLog`, `WebhookEvent`
-- [ ] 5 enum classes: `PaymentMethod`, `PaymentStatus`, `PaymentType`, `IntegrationProvider`, `SyncStatus`
+- [ ] 5 enum classes: `PaymentMethod`, `PaymentStatus`, `PaymentType`, `PaymentProvider`, `SyncStatus`
 - [ ] 3 model factories: `PaymentFactory`, `PaymentIntegrationFactory`, `AccountingIntegrationFactory`
 - [ ] `PaymentPermissions.php` registered with modular permission pattern
 - [ ] `PaymentService` with `recordPayment()`, `recordWebhookPayment()`, `recordRefund()`, `voidPayment()`, `updateInvoicePaymentStatus()`
@@ -211,9 +211,9 @@ Streams A, B, C, D, E, and F can all run concurrently after Wave 2. A single bac
 |---------|-------------|----------|:--:|--------------|:---:|
 | PAY-004 | Create PaymentController with CRUD endpoints | Backend | 5 | PAY-003 | 1-2 |
 | PAY-005 | Create request validation classes for payment endpoints | Backend | 3 | PAY-004 | 2 |
-| PAY-006 | Create IntegrationController with OAuth flow endpoints | Backend | 5 | PAY-002 | 1-2 |
+| PAY-006 | Create PaymentIntegrationController with OAuth flow endpoints | Backend | 5 | PAY-002 | 1-2 |
 | PAY-018 | Create request validation classes for integration endpoints | Backend | 3 | PAY-006 | 3 |
-| PAY-009 | Create WebhookController with Stripe and PayPal handlers | Backend | 5 | PAY-007, PAY-008 | 3-4 |
+| PAY-009 | Create PaymentWebhookController with Stripe and PayPal handlers | Backend | 5 | PAY-007, PAY-008 | 3-4 |
 | PAY-010 | Implement webhook signature verification middleware | Backend | 3 | PAY-009 | 4-5 |
 | PAY-011 | Create ProcessWebhookJob for async webhook processing | Backend | 4 | PAY-009, PAY-003 | 5-6 |
 | PAY-019 | Create public payment link route and redirect logic | Backend | 3 | PAY-007, PAY-008 | 5 |
@@ -225,8 +225,8 @@ Streams A, B, C, D, E, and F can all run concurrently after Wave 2. A single bac
 
 **Deliverables**:
 - [ ] `PaymentController` with `index()`, `store()`, `show()`, `void()` methods
-- [ ] `IntegrationController` with `index()`, `connect()`, `callback()`, `disconnect()`, `clientMappings()`, `updateClientMapping()`, `syncInvoice()`, `syncLogs()` methods
-- [ ] `WebhookController` with `stripe()` and `paypal()` handlers
+- [ ] `PaymentIntegrationController` with `index()`, `connect()`, `callback()`, `disconnect()`, `clientMappings()`, `updateClientMapping()`, `syncInvoice()`, `syncLogs()` methods
+- [ ] `PaymentWebhookController` with `stripe()` and `paypal()` handlers
 - [ ] 7 request validation classes
 - [ ] 2 webhook signature verification middleware classes
 - [ ] `ProcessWebhookJob` with retry logic and dead letter handling
@@ -360,7 +360,7 @@ npm run build  # Verify no build errors
 | Task ID | Description | Assignee | SP | Dependencies | Day |
 |---------|-------------|----------|:--:|--------------|:---:|
 | PAY-033 | Backend endpoint tests for PaymentController | Backend QA | 5 | PAY-004, PAY-005, PAY-017 | 1-2 |
-| PAY-034 | Backend endpoint tests for IntegrationController | Backend QA | 5 | PAY-006, PAY-018, PAY-017 | 2-4 |
+| PAY-034 | Backend endpoint tests for PaymentIntegrationController | Backend QA | 5 | PAY-006, PAY-018, PAY-017 | 2-4 |
 | PAY-038 | Backend unit tests for QuickBooksService | Backend QA | 5 | PAY-012 | 1-2 |
 | PAY-039 | Backend unit tests for XeroService | Backend QA | 5 | PAY-013 | 2-3 |
 | PAY-040 | Backend unit tests for AccountingSyncService | Backend QA | 4 | PAY-014 | 3-4 |

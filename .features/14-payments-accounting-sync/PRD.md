@@ -425,7 +425,7 @@ Admin views payment history:
 |  +----------------+------------------+                               |
 |                   |                                                  |
 |  +-----------------------------------+                               |
-|  | IntegrationController.php         |                               |
+|  | PaymentIntegrationController.php         |                               |
 |  | - index()     GET /integrations   |                               |
 |  | - connect()   POST /integrations/{provider}/connect |             |
 |  | - callback()  GET /integrations/{provider}/callback  |            |
@@ -436,7 +436,7 @@ Admin views payment history:
 |  +----------------+------------------+                               |
 |                   |                                                  |
 |  +-----------------------------------+                               |
-|  | WebhookController.php             |  (NO auth middleware)         |
+|  | PaymentWebhookController.php             |  (NO auth middleware)         |
 |  | - stripe()    POST /webhooks/stripe    |                          |
 |  | - paypal()    POST /webhooks/paypal    |                          |
 |  +----------------+------------------+                               |
@@ -1220,10 +1220,10 @@ See `task_assignments_20260209.md` for the full task table.
 | PAY-003 | Create PaymentService with core payment business logic | Backend | 12h | PAY-002 |
 | PAY-004 | Create PaymentController with CRUD endpoints | Backend | 8h | PAY-003 |
 | PAY-005 | Create request validation classes for payment endpoints | Backend | 4h | PAY-004 |
-| PAY-006 | Create IntegrationController with OAuth flow endpoints | Backend | 8h | PAY-002 |
+| PAY-006 | Create PaymentIntegrationController with OAuth flow endpoints | Backend | 8h | PAY-002 |
 | PAY-007 | Create StripeService for Stripe Connect OAuth and Checkout Session creation | Backend | 12h | PAY-002 |
 | PAY-008 | Create PayPalService for PayPal OAuth and Order creation | Backend | 10h | PAY-002 |
-| PAY-009 | Create WebhookController with Stripe and PayPal handlers | Backend | 8h | PAY-007, PAY-008 |
+| PAY-009 | Create PaymentWebhookController with Stripe and PayPal handlers | Backend | 8h | PAY-007, PAY-008 |
 | PAY-010 | Implement webhook signature verification for Stripe and PayPal | Backend | 4h | PAY-009 |
 | PAY-011 | Create ProcessWebhookJob for async webhook processing | Backend | 6h | PAY-009, PAY-003 |
 | PAY-012 | Create QuickBooksService for OAuth, invoice push, payment push, customer fetch | Backend | 16h | PAY-002 |
@@ -1248,7 +1248,7 @@ See `task_assignments_20260209.md` for the full task table.
 | PAY-031 | Add web routes and sidebar navigation for payments and integrations | Frontend | 2h | PAY-024, PAY-026 |
 | PAY-032 | Create payment success/failure public pages | Frontend | 4h | PAY-019 |
 | PAY-033 | Backend endpoint tests for PaymentController | Testing | 8h | PAY-004, PAY-005, PAY-017 |
-| PAY-034 | Backend endpoint tests for IntegrationController | Testing | 8h | PAY-006, PAY-018, PAY-017 |
+| PAY-034 | Backend endpoint tests for PaymentIntegrationController | Testing | 8h | PAY-006, PAY-018, PAY-017 |
 | PAY-035 | Backend unit tests for PaymentService | Testing | 6h | PAY-003 |
 | PAY-036 | Backend unit tests for StripeService | Testing | 6h | PAY-007 |
 | PAY-037 | Backend unit tests for PayPalService | Testing | 6h | PAY-008 |
@@ -1566,14 +1566,14 @@ solidtime/
 |   +-- Http/
 |   |   +-- Controllers/Api/V1/
 |   |   |   +-- PaymentController.php                       # NEW
-|   |   |   +-- IntegrationController.php                   # NEW
-|   |   |   +-- WebhookController.php                       # NEW
+|   |   |   +-- PaymentIntegrationController.php                   # NEW
+|   |   |   +-- PaymentWebhookController.php                       # NEW
 |   |   +-- Requests/V1/Payment/
 |   |   |   +-- PaymentIndexRequest.php                     # NEW
 |   |   |   +-- PaymentStoreRequest.php                     # NEW
 |   |   |   +-- PaymentVoidRequest.php                      # NEW
-|   |   +-- Requests/V1/Integration/
-|   |   |   +-- IntegrationConnectRequest.php               # NEW
+|   |   +-- Requests/V1/PaymentIntegration/
+|   |   |   +-- PaymentIntegrationConnectRequest.php               # NEW
 |   |   |   +-- IntegrationClientMappingRequest.php         # NEW
 |   |   |   +-- IntegrationSyncInvoiceRequest.php           # NEW
 |   |   |   +-- IntegrationSyncLogRequest.php               # NEW
@@ -1605,7 +1605,7 @@ solidtime/
 |       +-- PaymentMethod.php                               # NEW
 |       +-- PaymentStatus.php                               # NEW
 |       +-- PaymentType.php                                 # NEW
-|       +-- IntegrationProvider.php                         # NEW
+|       +-- PaymentProvider.php                         # NEW
 |       +-- SyncStatus.php                                  # NEW
 +-- database/
 |   +-- migrations/

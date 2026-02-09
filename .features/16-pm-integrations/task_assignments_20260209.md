@@ -16,14 +16,14 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/16-pm-integra
 | PMI-005  | Implement AsanaAdapter with OAuth 2.0 and API methods          | Backend             | Backend Dev         | PMI-003                           | 16 hours | To Do  |
 | PMI-006  | Implement TrelloAdapter with API key auth and methods          | Backend             | Backend Dev         | PMI-003                           | 12 hours | To Do  |
 | PMI-007  | Create IntegrationService (connection lifecycle, sync)         | Backend             | Backend Dev         | PMI-002, PMI-003                  | 16 hours | To Do  |
-| PMI-008  | Create IntegrationController with endpoint stubs               | Backend             | Backend Dev         | PMI-002                           | 4 hours  | To Do  |
+| PMI-008  | Create PmIntegrationController with endpoint stubs               | Backend             | Backend Dev         | PMI-002                           | 4 hours  | To Do  |
 | PMI-009  | Create IntegrationProjectController                            | Backend             | Backend Dev         | PMI-002                           | 4 hours  | To Do  |
-| PMI-010  | Create WebhookController for Jira and Asana                    | Backend             | Backend Dev         | PMI-004, PMI-005                  | 8 hours  | To Do  |
+| PMI-010  | Create PmWebhookController for Jira and Asana                    | Backend             | Backend Dev         | PMI-004, PMI-005                  | 8 hours  | To Do  |
 | PMI-011  | Create request validation classes                              | Backend             | Backend Dev         | PMI-008, PMI-009                  | 4 hours  | To Do  |
 | PMI-012  | Register API routes for integration endpoints                  | Backend             | Backend Dev         | PMI-008, PMI-009, PMI-010        | 2 hours  | To Do  |
-| PMI-013  | Wire IntegrationController to IntegrationService               | Backend             | Backend Dev         | PMI-007, PMI-008, PMI-011        | 8 hours  | To Do  |
+| PMI-013  | Wire PmIntegrationController to IntegrationService               | Backend             | Backend Dev         | PMI-007, PMI-008, PMI-011        | 8 hours  | To Do  |
 | PMI-014  | Wire IntegrationProjectController to IntegrationService        | Backend             | Backend Dev         | PMI-007, PMI-009, PMI-011        | 4 hours  | To Do  |
-| PMI-015  | Wire WebhookController to IntegrationService                   | Backend             | Backend Dev         | PMI-007, PMI-010                  | 4 hours  | To Do  |
+| PMI-015  | Wire PmWebhookController to IntegrationService                   | Backend             | Backend Dev         | PMI-007, PMI-010                  | 4 hours  | To Do  |
 | PMI-016  | Register integration permissions (IntegrationPermissions)      | Backend             | Backend Dev         | None                              | 2 hours  | To Do  |
 | PMI-017  | Create SyncIntegrationJob (background sync)                    | Backend             | Backend Dev         | PMI-007, PMI-004, PMI-005, PMI-006 | 8 hours  | To Do  |
 | PMI-018  | Create ExportTimeEntriesJob (time entry write-back)            | Backend             | Backend Dev         | PMI-007, PMI-004, PMI-005, PMI-006 | 8 hours  | To Do  |
@@ -41,9 +41,9 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/16-pm-integra
 | PMI-030  | Add external reference badges to task selector and time entry  | Frontend            | Frontend Dev        | PMI-022                           | 8 hours  | To Do  |
 | PMI-031  | Add Integrations link to Organization Settings navigation      | Frontend            | Frontend Dev        | PMI-024                           | 2 hours  | To Do  |
 | PMI-032  | Add web route for Integrations page                            | Frontend            | Frontend Dev        | PMI-024                           | 1 hour   | To Do  |
-| PMI-033  | Create backend endpoint tests for IntegrationController        | Testing             | Backend QA          | PMI-013, PMI-012                  | 8 hours  | To Do  |
+| PMI-033  | Create backend endpoint tests for PmIntegrationController        | Testing             | Backend QA          | PMI-013, PMI-012                  | 8 hours  | To Do  |
 | PMI-034  | Create backend endpoint tests for IntegrationProjectController | Testing             | Backend QA          | PMI-014, PMI-012                  | 4 hours  | To Do  |
-| PMI-035  | Create backend endpoint tests for WebhookController            | Testing             | Backend QA          | PMI-015, PMI-012                  | 6 hours  | To Do  |
+| PMI-035  | Create backend endpoint tests for PmWebhookController            | Testing             | Backend QA          | PMI-015, PMI-012                  | 6 hours  | To Do  |
 | PMI-036  | Create unit tests for IntegrationService                       | Testing             | Backend QA          | PMI-007                           | 8 hours  | To Do  |
 | PMI-037  | Create unit tests for JiraAdapter                              | Testing             | Backend QA          | PMI-004                           | 6 hours  | To Do  |
 | PMI-038  | Create unit tests for AsanaAdapter                             | Testing             | Backend QA          | PMI-005                           | 6 hours  | To Do  |
@@ -81,7 +81,7 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/16-pm-integra
 | PMI-002  | Create Eloquent models for integration entities          | Backend Dev      | 5   |
 | PMI-003  | Create IntegrationAdapterInterface and base adapter      | Backend Dev      | 3   |
 | PMI-016  | Register integration permissions                         | Backend Dev      | 1   |
-| PMI-008  | Create IntegrationController with endpoint stubs         | Backend Dev      | 3   |
+| PMI-008  | Create PmIntegrationController with endpoint stubs         | Backend Dev      | 3   |
 | PMI-009  | Create IntegrationProjectController                      | Backend Dev      | 3   |
 | PMI-011  | Create request validation classes                        | Backend Dev      | 3   |
 | PMI-007  | Create IntegrationService (partial: connection lifecycle)| Backend Dev      | 10  |
@@ -94,11 +94,11 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/16-pm-integra
 | PMI-004  | Implement JiraAdapter with OAuth 2.0 and API methods     | Backend Dev      | 10  |
 | PMI-005  | Implement AsanaAdapter with OAuth 2.0 and API methods    | Backend Dev      | 10  |
 | PMI-006  | Implement TrelloAdapter with API key auth and methods    | Backend Dev      | 8   |
-| PMI-010  | Create WebhookController for Jira and Asana              | Backend Dev      | 5   |
+| PMI-010  | Create PmWebhookController for Jira and Asana              | Backend Dev      | 5   |
 | PMI-012  | Register API routes for integration endpoints            | Backend Dev      | 1   |
-| PMI-013  | Wire IntegrationController to IntegrationService         | Backend Dev      | 5   |
+| PMI-013  | Wire PmIntegrationController to IntegrationService         | Backend Dev      | 5   |
 | PMI-014  | Wire IntegrationProjectController                        | Backend Dev      | 3   |
-| PMI-015  | Wire WebhookController to IntegrationService             | Backend Dev      | 3   |
+| PMI-015  | Wire PmWebhookController to IntegrationService             | Backend Dev      | 3   |
 | **Total** |                                                          |                  | **45** |
 
 ### Sprint 3 (Weeks 5-6): Background Jobs, OpenAPI, Frontend Foundation
@@ -137,9 +137,9 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/16-pm-integra
 
 | Task ID  | Description                                              | Assignee         | SP  |
 |----------|----------------------------------------------------------|------------------|-----|
-| PMI-033  | Backend endpoint tests for IntegrationController         | Backend QA       | 5   |
+| PMI-033  | Backend endpoint tests for PmIntegrationController         | Backend QA       | 5   |
 | PMI-034  | Backend endpoint tests for IntegrationProjectController  | Backend QA       | 3   |
-| PMI-035  | Backend endpoint tests for WebhookController             | Backend QA       | 4   |
+| PMI-035  | Backend endpoint tests for PmWebhookController             | Backend QA       | 4   |
 | PMI-038  | Create unit tests for AsanaAdapter                       | Backend QA       | 4   |
 | PMI-039  | Create unit tests for TrelloAdapter                      | Backend QA       | 3   |
 | PMI-040  | Create unit tests for sync and export jobs               | Backend QA       | 4   |

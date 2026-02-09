@@ -15,7 +15,7 @@ This document provides the complete technical architecture for the **PM Tool Int
 - **4 new database tables** -- `integration_connections`, `integration_projects`, `external_task_mappings`, `integration_sync_logs` (no modifications to existing tables)
 - **Adapter pattern** -- `IntegrationAdapterInterface` with provider-specific implementations (`JiraAdapter`, `AsanaAdapter`, `TrelloAdapter`)
 - **New `IntegrationService`** orchestrates connection lifecycle, project/task sync, and time entry export
-- **New controllers** -- `IntegrationController` (7 endpoints), `IntegrationProjectController` (3 endpoints), `WebhookController` (2 endpoints plus 1 callback)
+- **New controllers** -- `PmPmIntegrationController` (7 endpoints), `IntegrationProjectController` (3 endpoints), `PmPmWebhookController` (2 endpoints plus 1 callback)
 - **3 new background jobs** -- `SyncIntegrationJob`, `ExportTimeEntriesJob`, `RefreshIntegrationTokenJob`
 - **New permissions** -- `integrations:view`, `integrations:manage`, `integrations:sync` registered via `IntegrationPermissions`
 - **OAuth 2.0 consumer** for Jira and Asana; API key authentication for Trello
@@ -101,7 +101,7 @@ protected function accessToken(): Attribute
 }
 ```
 
-**Migration file**: `database/migrations/2026_02_09_000001_create_integration_connections_table.php`
+**Migration file**: `database/migrations/2026_03_16_000001_create_integration_connections_table.php`
 
 ```sql
 CREATE TABLE integration_connections (
@@ -164,7 +164,7 @@ Maps an external project (Jira project, Asana project, Trello board) to a Solidt
 
 **Unique constraint**: `(integration_connection_id, external_project_id)`
 
-**Migration file**: `database/migrations/2026_02_09_000002_create_integration_projects_table.php`
+**Migration file**: `database/migrations/2026_03_16_000002_create_integration_projects_table.php`
 
 ```sql
 CREATE TABLE integration_projects (
@@ -222,7 +222,7 @@ Maps an external task (Jira issue, Asana task, Trello card) to a Solidtime task.
 
 **Unique constraint**: `(integration_project_id, external_task_id)`
 
-**Migration file**: `database/migrations/2026_02_09_000003_create_external_task_mappings_table.php`
+**Migration file**: `database/migrations/2026_03_16_000003_create_external_task_mappings_table.php`
 
 ```sql
 CREATE TABLE external_task_mappings (
@@ -279,7 +279,7 @@ Records the outcome of each sync operation for audit and troubleshooting.
 - `belongsTo` IntegrationConnection
 - `belongsTo` Organization
 
-**Migration file**: `database/migrations/2026_02_09_000004_create_integration_sync_logs_table.php`
+**Migration file**: `database/migrations/2026_03_16_000004_create_integration_sync_logs_table.php`
 
 ```sql
 CREATE TABLE integration_sync_logs (
@@ -324,9 +324,9 @@ CREATE INDEX idx_sync_logs_org_date ON integration_sync_logs(organization_id, st
 
 Three new PHP enums for type safety:
 
-**`app/Enums/IntegrationProvider.php`**:
+**`app/Enums/PmProvider.php`**:
 ```php
-enum IntegrationProvider: string
+enum PmProvider: string
 {
     case Jira = 'jira';
     case Asana = 'asana';
@@ -392,20 +392,20 @@ organizations
 ```php
 // Integration management routes (authenticated)
 Route::name('integrations.')->prefix('/organizations/{organization}')->group(static function (): void {
-    Route::get('/integrations', [IntegrationController::class, 'index'])->name('index');
-    Route::get('/integrations/{integration}', [IntegrationController::class, 'show'])->name('show');
-    Route::post('/integrations/connect', [IntegrationController::class, 'connect'])
+    Route::get('/integrations', [PmIntegrationController::class, 'index'])->name('index');
+    Route::get('/integrations/{integration}', [PmIntegrationController::class, 'show'])->name('show');
+    Route::post('/integrations/connect', [PmIntegrationController::class, 'connect'])
         ->name('connect')
         ->middleware('check-organization-blocked');
-    Route::get('/integrations/callback', [IntegrationController::class, 'callback'])->name('callback');
-    Route::put('/integrations/{integration}', [IntegrationController::class, 'update'])
+    Route::get('/integrations/callback', [PmIntegrationController::class, 'callback'])->name('callback');
+    Route::put('/integrations/{integration}', [PmIntegrationController::class, 'update'])
         ->name('update')
         ->middleware('check-organization-blocked');
-    Route::delete('/integrations/{integration}', [IntegrationController::class, 'destroy'])->name('destroy');
-    Route::post('/integrations/{integration}/sync', [IntegrationController::class, 'syncNow'])
+    Route::delete('/integrations/{integration}', [PmIntegrationController::class, 'destroy'])->name('destroy');
+    Route::post('/integrations/{integration}/sync', [PmIntegrationController::class, 'syncNow'])
         ->name('sync')
         ->middleware('check-organization-blocked');
-    Route::get('/integrations/{integration}/external-projects', [IntegrationController::class, 'externalProjects'])
+    Route::get('/integrations/{integration}/external-projects', [PmIntegrationController::class, 'externalProjects'])
         ->name('external-projects');
 });
 
@@ -417,7 +417,7 @@ Route::name('integration-projects.')->prefix('/organizations/{organization}')->g
 });
 
 Route::name('integration-sync-logs.')->prefix('/organizations/{organization}')->group(static function (): void {
-    Route::get('/integration-sync-logs', [IntegrationController::class, 'syncLogs'])->name('index');
+    Route::get('/integration-sync-logs', [PmIntegrationController::class, 'syncLogs'])->name('index');
 });
 ```
 
@@ -426,8 +426,8 @@ Route::name('integration-sync-logs.')->prefix('/organizations/{organization}')->
 ```php
 // Webhook routes (no auth middleware -- validated via provider-specific signatures)
 Route::prefix('v1/webhooks')->name('v1.webhooks.')->group(static function (): void {
-    Route::post('/jira/{organization}', [WebhookController::class, 'jira'])->name('jira');
-    Route::post('/asana/{organization}', [WebhookController::class, 'asana'])->name('asana');
+    Route::post('/jira/{organization}', [PmWebhookController::class, 'jira'])->name('jira');
+    Route::post('/asana/{organization}', [PmWebhookController::class, 'asana'])->name('asana');
 });
 ```
 
@@ -454,7 +454,7 @@ Write endpoints (`connect`, `update`, `sync`, `toggle`) use `check-organization-
 |--------|------|-------------------|---------------|------------|
 | GET | `/integrations` | `index()` | -- | `integrations:view` |
 | GET | `/integrations/{integration}` | `show()` | -- | `integrations:view` |
-| POST | `/integrations/connect` | `connect()` | `IntegrationConnectRequest` | `integrations:manage` |
+| POST | `/integrations/connect` | `connect()` | `PmIntegrationConnectRequest` | `integrations:manage` |
 | GET | `/integrations/callback` | `callback()` | -- | `integrations:manage` |
 | PUT | `/integrations/{integration}` | `update()` | `IntegrationUpdateRequest` | `integrations:manage` |
 | DELETE | `/integrations/{integration}` | `destroy()` | -- | `integrations:manage` |
@@ -866,16 +866,16 @@ Trello Card.closed     -> maps to is_active = false
 
 ## 5. Controller Layer
 
-### 5.1 IntegrationController
+### 5.1 PmIntegrationController
 
-**File**: `app/Http/Controllers/Api/V1/IntegrationController.php`
+**File**: `app/Http/Controllers/Api/V1/PmIntegrationController.php`
 
 Extends `App\Http\Controllers\Api\V1\Controller` (which provides `$this->checkPermission()`, `$this->user()`, `$this->member()`).
 
 **Dependency injection**: `IntegrationService` injected via constructor.
 
 ```php
-class IntegrationController extends Controller
+class PmIntegrationController extends Controller
 {
     public function __construct(
         private readonly IntegrationService $integrationService
@@ -889,7 +889,7 @@ class IntegrationController extends Controller
 |--------|-----------------|-------------|
 | `index(Organization $organization)` | `integrations:view` | List all connections for org |
 | `show(Organization $organization, IntegrationConnection $integration)` | `integrations:view` | Get connection detail with projects and recent logs |
-| `connect(Organization $organization, IntegrationConnectRequest $request)` | `integrations:manage` | Initiate connection (OAuth redirect or API key validation) |
+| `connect(Organization $organization, PmIntegrationConnectRequest $request)` | `integrations:manage` | Initiate connection (OAuth redirect or API key validation) |
 | `callback(Organization $organization, Request $request)` | `integrations:manage` | Handle OAuth callback, exchange code for tokens |
 | `update(Organization $organization, IntegrationConnection $integration, IntegrationUpdateRequest $request)` | `integrations:manage` | Update sync direction and frequency |
 | `destroy(Organization $organization, IntegrationConnection $integration)` | `integrations:manage` | Disconnect integration |
@@ -917,14 +917,14 @@ class IntegrationProjectController extends Controller
 | `index(Organization $organization)` | `integrations:view` | List synced project mappings, optional filter by `integration_id` |
 | `toggle(Organization $organization, IntegrationProject $integrationProject, IntegrationProjectToggleRequest $request)` | `integrations:manage` | Enable/disable sync for a project |
 
-### 5.3 WebhookController
+### 5.3 PmWebhookController
 
-**File**: `app/Http/Controllers/Api/V1/WebhookController.php`
+**File**: `app/Http/Controllers/Api/V1/PmWebhookController.php`
 
 Does NOT extend the standard API controller (no auth middleware). Instead, performs its own signature validation.
 
 ```php
-class WebhookController extends \App\Http\Controllers\Controller
+class PmWebhookController extends \App\Http\Controllers\Controller
 {
     public function __construct(
         private readonly IntegrationService $integrationService
@@ -955,7 +955,7 @@ class WebhookController extends \App\Http\Controllers\Controller
 
 All extend `App\Http\Requests\V1\BaseFormRequest`.
 
-**IntegrationConnectRequest**:
+**PmIntegrationConnectRequest**:
 ```php
 public function rules(): array
 {
@@ -1040,7 +1040,7 @@ Step 4: User grants access on Atlassian
     -> Atlassian redirects to: /api/v1/organizations/{org}/integrations/callback?code={code}&state={state}
 
 Step 5: Backend exchanges code for tokens
-    -> IntegrationController.callback()
+    -> PmIntegrationController.callback()
     -> Validate state parameter
     -> IntegrationService.completeOAuthConnection()
     -> JiraAdapter.exchangeCode(code)
@@ -1328,7 +1328,7 @@ const error = ref<string | null>(null);
 
 **File**: `resources/js/types/integration.d.ts`
 
-Defines: `IntegrationProvider`, `ConnectionStatus`, `SyncDirection`, `SyncLogStatus`, `IntegrationConnection`, `IntegrationProject`, `ExternalTaskMapping`, `IntegrationSyncLog`, `ExternalProjectListItem`
+Defines: `PmProvider`, `ConnectionStatus`, `SyncDirection`, `SyncLogStatus`, `IntegrationConnection`, `IntegrationProject`, `ExternalTaskMapping`, `IntegrationSyncLog`, `ExternalProjectListItem`
 
 See PRD Section 4.2 "Frontend Types (TypeScript)" for the full type definitions.
 
@@ -1536,17 +1536,17 @@ All database queries and API operations are scoped to the current organization:
 
 | File | Type | Task |
 |------|------|------|
-| `app/Enums/IntegrationProvider.php` | Enum | PMI-002 |
+| `app/Enums/PmProvider.php` | Enum | PMI-002 |
 | `app/Enums/IntegrationStatus.php` | Enum | PMI-002 |
 | `app/Enums/SyncDirection.php` | Enum | PMI-002 |
-| `app/Http/Controllers/Api/V1/IntegrationController.php` | Controller | PMI-008, PMI-013 |
+| `app/Http/Controllers/Api/V1/PmIntegrationController.php` | Controller | PMI-008, PMI-013 |
 | `app/Http/Controllers/Api/V1/IntegrationProjectController.php` | Controller | PMI-009, PMI-014 |
-| `app/Http/Controllers/Api/V1/WebhookController.php` | Controller | PMI-010, PMI-015 |
-| `app/Http/Requests/V1/Integration/IntegrationConnectRequest.php` | Request | PMI-011 |
-| `app/Http/Requests/V1/Integration/IntegrationUpdateRequest.php` | Request | PMI-011 |
-| `app/Http/Requests/V1/Integration/IntegrationProjectToggleRequest.php` | Request | PMI-011 |
-| `app/Http/Requests/V1/Integration/IntegrationSyncLogIndexRequest.php` | Request | PMI-011 |
-| `app/Http/Requests/V1/Integration/ExternalProjectListRequest.php` | Request | PMI-011 |
+| `app/Http/Controllers/Api/V1/PmWebhookController.php` | Controller | PMI-010, PMI-015 |
+| `app/Http/Requests/V1/PmIntegration/PmIntegrationConnectRequest.php` | Request | PMI-011 |
+| `app/Http/Requests/V1/PmIntegration/IntegrationUpdateRequest.php` | Request | PMI-011 |
+| `app/Http/Requests/V1/PmIntegration/IntegrationProjectToggleRequest.php` | Request | PMI-011 |
+| `app/Http/Requests/V1/PmIntegration/IntegrationSyncLogIndexRequest.php` | Request | PMI-011 |
+| `app/Http/Requests/V1/PmIntegration/ExternalProjectListRequest.php` | Request | PMI-011 |
 | `app/Jobs/SyncIntegrationJob.php` | Job | PMI-017 |
 | `app/Jobs/ExportTimeEntriesJob.php` | Job | PMI-018 |
 | `app/Jobs/RefreshIntegrationTokenJob.php` | Job | PMI-019 |
@@ -1562,10 +1562,10 @@ All database queries and API operations are scoped to the current organization:
 | `app/Service/Integration/AsanaAdapter.php` | Adapter | PMI-005 |
 | `app/Service/Integration/TrelloAdapter.php` | Adapter | PMI-006 |
 | `config/integrations.php` | Config | PMI-004, PMI-005, PMI-006 |
-| `database/migrations/2026_02_09_000001_create_integration_connections_table.php` | Migration | PMI-001 |
-| `database/migrations/2026_02_09_000002_create_integration_projects_table.php` | Migration | PMI-001 |
-| `database/migrations/2026_02_09_000003_create_external_task_mappings_table.php` | Migration | PMI-001 |
-| `database/migrations/2026_02_09_000004_create_integration_sync_logs_table.php` | Migration | PMI-001 |
+| `database/migrations/2026_03_16_000001_create_integration_connections_table.php` | Migration | PMI-001 |
+| `database/migrations/2026_03_16_000002_create_integration_projects_table.php` | Migration | PMI-001 |
+| `database/migrations/2026_03_16_000003_create_external_task_mappings_table.php` | Migration | PMI-001 |
+| `database/migrations/2026_03_16_000004_create_integration_sync_logs_table.php` | Migration | PMI-001 |
 | `database/factories/IntegrationConnectionFactory.php` | Factory | PMI-002 |
 | `database/factories/IntegrationProjectFactory.php` | Factory | PMI-002 |
 | `database/factories/ExternalTaskMappingFactory.php` | Factory | PMI-002 |

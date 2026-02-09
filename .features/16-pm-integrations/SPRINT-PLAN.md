@@ -41,7 +41,7 @@ The PM Tool Integrations feature connects Solidtime to Jira Cloud, Asana, and Tr
 | Sprint | Name | Duration | Story Points | Key Deliverables |
 |--------|------|----------|:------------:|------------------|
 | **1** | Backend Foundation | 2 weeks | 33 SP | Database migrations, Eloquent models, adapter interface, base adapter, permissions, controller stubs, request validation, IntegrationService (partial) |
-| **2** | Provider Adapters & Controller Wiring | 2 weeks | 45 SP | JiraAdapter, AsanaAdapter, TrelloAdapter, WebhookController, route registration, controller-to-service wiring |
+| **2** | Provider Adapters & Controller Wiring | 2 weeks | 45 SP | JiraAdapter, AsanaAdapter, TrelloAdapter, PmWebhookController, route registration, controller-to-service wiring |
 | **3** | Jobs, OpenAPI & Frontend Foundation | 2 weeks | 35 SP | SyncIntegrationJob, ExportTimeEntriesJob, RefreshIntegrationTokenJob, scheduled commands, OpenAPI spec, TS types, Pinia store, Integrations.vue page, OAuthCallbackHandler, env docs |
 | **4** | Frontend Components & Backend Tests | 2 weeks | 35 SP | IntegrationCard, IntegrationDetail, ProjectSyncPanel, SyncHistoryLog, external reference badges, navigation, web route, JSDoc, IntegrationService unit tests, JiraAdapter unit tests |
 | **5** | Testing & Polish | 2 weeks | 33 SP | Endpoint tests (3 controllers), AsanaAdapter tests, TrelloAdapter tests, job tests, frontend component tests, E2E Playwright tests |
@@ -68,9 +68,9 @@ Wave 2 (after Wave 1):
 
 Wave 3 (after Wave 2):
     PMI-007 (IntegrationService, 16h)      <- PMI-002, PMI-003
-    PMI-008 (IntegrationController, 4h)    <- PMI-002
+    PMI-008 (PmIntegrationController, 4h)    <- PMI-002
     PMI-009 (IntegrationProjectCtrl, 4h)   <- PMI-002
-    PMI-010 (WebhookController, 8h)        <- PMI-004, PMI-005
+    PMI-010 (PmWebhookController, 8h)        <- PMI-004, PMI-005
 
 Wave 4 (after Wave 3):
     PMI-011 (Request validation, 4h)       <- PMI-008, PMI-009
@@ -161,7 +161,7 @@ Backend Streams A and B can run in parallel during Sprints 1-2. Frontend and tes
 | PMI-003 | Create IntegrationAdapterInterface and BaseIntegrationAdapter | Backend | 3 | None | 1 |
 | PMI-016 | Register integration permissions (IntegrationPermissions) | Backend | 1 | None | 1 |
 | PMI-002 | Create Eloquent models (4 models + 3 enums + factories) | Backend | 5 | PMI-001 | 3-4 |
-| PMI-008 | Create IntegrationController with endpoint stubs | Backend | 3 | PMI-002 | 5 |
+| PMI-008 | Create PmIntegrationController with endpoint stubs | Backend | 3 | PMI-002 | 5 |
 | PMI-009 | Create IntegrationProjectController | Backend | 3 | PMI-002 | 5 |
 | PMI-011 | Create request validation classes (5 classes) | Backend | 3 | PMI-008, PMI-009 | 6 |
 | PMI-007 | Create IntegrationService (connection lifecycle portion) | Backend | 10 | PMI-002, PMI-003 | 6-10 |
@@ -171,12 +171,12 @@ Backend Streams A and B can run in parallel during Sprints 1-2. Frontend and tes
 **Deliverables**:
 - [ ] 4 database migrations creating `integration_connections`, `integration_projects`, `external_task_mappings`, `integration_sync_logs`
 - [ ] 4 Eloquent models with relationships, casts, encryption accessors
-- [ ] 3 enums (`IntegrationProvider`, `IntegrationStatus`, `SyncDirection`)
+- [ ] 3 enums (`PmProvider`, `IntegrationStatus`, `SyncDirection`)
 - [ ] 4 model factories for testing
 - [ ] `IntegrationAdapterInterface` with 11 method signatures
 - [ ] `BaseIntegrationAdapter` with shared HTTP client and utility methods
 - [ ] `IntegrationPermissions` registered (3 new permissions across 4 roles)
-- [ ] `IntegrationController` with 9 method stubs
+- [ ] `PmIntegrationController` with 9 method stubs
 - [ ] `IntegrationProjectController` with 2 method stubs
 - [ ] 5 request validation classes
 - [ ] `IntegrationService` with connection lifecycle methods (`initiateConnection`, `completeOAuthConnection`, `disconnect`, `updateSettings`, `getAdapter`)
@@ -192,18 +192,18 @@ Backend Streams A and B can run in parallel during Sprints 1-2. Frontend and tes
 
 ### Sprint 2 (Weeks 3-4): Provider Adapters & Controller Wiring
 
-**Goal**: All 3 provider adapters implemented, WebhookController created, API routes registered, controllers wired to service.
+**Goal**: All 3 provider adapters implemented, PmWebhookController created, API routes registered, controllers wired to service.
 
 | Task ID | Description | Assignee | SP | Dependencies | Day |
 |---------|-------------|----------|:--:|--------------|:---:|
 | PMI-004 | Implement JiraAdapter (OAuth 2.0, projects, tasks, worklogs, webhooks) | Backend | 10 | PMI-003 | 1-4 |
 | PMI-005 | Implement AsanaAdapter (OAuth 2.0, projects, tasks, comments, webhooks) | Backend | 10 | PMI-003 | 1-4 |
 | PMI-006 | Implement TrelloAdapter (API key, boards, cards, comments) | Backend | 8 | PMI-003 | 5-7 |
-| PMI-010 | Create WebhookController for Jira and Asana | Backend | 5 | PMI-004, PMI-005 | 5-6 |
+| PMI-010 | Create PmWebhookController for Jira and Asana | Backend | 5 | PMI-004, PMI-005 | 5-6 |
 | PMI-012 | Register API routes for all integration endpoints | Backend | 1 | PMI-008, PMI-009, PMI-010 | 7 |
-| PMI-013 | Wire IntegrationController to IntegrationService and adapters | Backend | 5 | PMI-007, PMI-008, PMI-011 | 7-8 |
+| PMI-013 | Wire PmIntegrationController to IntegrationService and adapters | Backend | 5 | PMI-007, PMI-008, PMI-011 | 7-8 |
 | PMI-014 | Wire IntegrationProjectController to IntegrationService | Backend | 3 | PMI-007, PMI-009, PMI-011 | 8 |
-| PMI-015 | Wire WebhookController to IntegrationService | Backend | 3 | PMI-007, PMI-010 | 9 |
+| PMI-015 | Wire PmWebhookController to IntegrationService | Backend | 3 | PMI-007, PMI-010 | 9 |
 
 **Sprint 2 Total**: 45 SP
 
@@ -211,11 +211,11 @@ Backend Streams A and B can run in parallel during Sprints 1-2. Frontend and tes
 - [ ] `JiraAdapter` with OAuth token exchange, project listing, issue listing, worklog creation, webhook registration and validation
 - [ ] `AsanaAdapter` with OAuth token exchange, project listing, task listing, comment posting, webhook subscription and validation
 - [ ] `TrelloAdapter` with API key validation, board listing, card listing, comment posting
-- [ ] `WebhookController` with Jira and Asana handlers (signature validation, event parsing)
+- [ ] `PmWebhookController` with Jira and Asana handlers (signature validation, event parsing)
 - [ ] All 13 API routes registered in `routes/api.php` (11 authenticated + 2 webhook)
-- [ ] `IntegrationController` fully wired: index, show, connect, callback, update, destroy, syncNow, externalProjects, syncLogs
+- [ ] `PmIntegrationController` fully wired: index, show, connect, callback, update, destroy, syncNow, externalProjects, syncLogs
 - [ ] `IntegrationProjectController` fully wired: index, toggle
-- [ ] `WebhookController` wired to `IntegrationService::processWebhookEvent()`
+- [ ] `PmWebhookController` wired to `IntegrationService::processWebhookEvent()`
 - [ ] Full connection flow testable manually: Connect Jira/Asana via OAuth, Trello via API key
 
 **QA Gate**:
@@ -331,9 +331,9 @@ npm run build
 
 | Task ID | Description | Assignee | SP | Dependencies | Day |
 |---------|-------------|----------|:--:|--------------|:---:|
-| PMI-033 | Backend endpoint tests for IntegrationController (9 endpoints) | Backend QA | 5 | PMI-013, PMI-012 | 1-3 |
+| PMI-033 | Backend endpoint tests for PmIntegrationController (9 endpoints) | Backend QA | 5 | PMI-013, PMI-012 | 1-3 |
 | PMI-034 | Backend endpoint tests for IntegrationProjectController | Backend QA | 3 | PMI-014, PMI-012 | 3-4 |
-| PMI-035 | Backend endpoint tests for WebhookController | Backend QA | 4 | PMI-015, PMI-012 | 4-5 |
+| PMI-035 | Backend endpoint tests for PmWebhookController | Backend QA | 4 | PMI-015, PMI-012 | 4-5 |
 | PMI-038 | Create unit tests for AsanaAdapter (mocked HTTP) | Backend QA | 4 | PMI-005 | 5-6 |
 | PMI-039 | Create unit tests for TrelloAdapter (mocked HTTP) | Backend QA | 3 | PMI-006 | 6-7 |
 | PMI-040 | Create unit tests for sync, export, and refresh jobs | Backend QA | 4 | PMI-017, PMI-018, PMI-019 | 7-8 |
@@ -343,9 +343,9 @@ npm run build
 **Sprint 5 Total**: 33 SP
 
 **Deliverables**:
-- [ ] IntegrationController endpoint tests: list, show, connect (Jira OAuth, Asana OAuth, Trello API key), callback, update, destroy, syncNow, externalProjects, syncLogs
+- [ ] PmIntegrationController endpoint tests: list, show, connect (Jira OAuth, Asana OAuth, Trello API key), callback, update, destroy, syncNow, externalProjects, syncLogs
 - [ ] IntegrationProjectController endpoint tests: index, toggle
-- [ ] WebhookController endpoint tests: Jira valid/invalid signature, Asana handshake, Asana event valid/invalid
+- [ ] PmWebhookController endpoint tests: Jira valid/invalid signature, Asana handshake, Asana event valid/invalid
 - [ ] AsanaAdapter unit tests: OAuth flow, getProjects, getTasks, postTimeEntry, validateWebhookSignature
 - [ ] TrelloAdapter unit tests: validateCredentials, getBoards, getCards, postTimeComment
 - [ ] Job tests: SyncIntegrationJob (active/disconnected/error handling), ExportTimeEntriesJob (batch processing, retry), RefreshIntegrationTokenJob (refresh success/failure)

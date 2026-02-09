@@ -372,7 +372,7 @@ Webhook receives real-time event (Jira/Asana):
 |                        Backend (Laravel 11)                            |
 +-----------------------------------------------------------------------+
 |  +----------------------------------------------+                     |
-|  | IntegrationController.php                    |                     |
+|  | PmIntegrationController.php                    |                     |
 |  | - index()        GET  /integrations          |                     |
 |  | - show()         GET  /integrations/{id}     |                     |
 |  | - connect()      POST /integrations/connect  |                     |
@@ -390,7 +390,7 @@ Webhook receives real-time event (Jira/Asana):
 |  +---------------------+------------------------+                     |
 |                        |                                               |
 |  +----------------------------------------------+                     |
-|  | WebhookController.php                        |                     |
+|  | PmWebhookController.php                        |                     |
 |  | - jira()         POST /webhooks/jira/{org}   |                     |
 |  | - asana()        POST /webhooks/asana/{org}  |                     |
 |  +---------------------+------------------------+                     |
@@ -562,7 +562,7 @@ CREATE INDEX idx_sync_logs_org_date ON integration_sync_logs(organization_id, st
 #### Frontend Types (TypeScript)
 
 ```typescript
-type IntegrationProvider = 'jira' | 'asana' | 'trello';
+type PmProvider = 'jira' | 'asana' | 'trello';
 type ConnectionStatus = 'connected' | 'requires_reauth' | 'error' | 'disconnected';
 type SyncDirection = 'import' | 'export' | 'bidirectional';
 type SyncLogStatus = 'started' | 'completed' | 'partial' | 'failed';
@@ -570,7 +570,7 @@ type SyncLogStatus = 'started' | 'completed' | 'partial' | 'failed';
 interface IntegrationConnection {
     id: string;
     organization_id: string;
-    provider: IntegrationProvider;
+    provider: PmProvider;
     status: ConnectionStatus;
     external_account_id: string | null;
     external_account_name: string | null;
@@ -1111,14 +1111,14 @@ See `task_assignments_20260209.md` for the full task table.
 | PMI-005 | Implement AsanaAdapter with OAuth 2.0 and API methods | Backend | 16h | PMI-003 |
 | PMI-006 | Implement TrelloAdapter with API key auth and methods | Backend | 12h | PMI-003 |
 | PMI-007 | Create IntegrationService (connection lifecycle, sync orchestration) | Backend | 16h | PMI-002, PMI-003 |
-| PMI-008 | Create IntegrationController with endpoint stubs | Backend | 4h | PMI-002 |
+| PMI-008 | Create PmIntegrationController with endpoint stubs | Backend | 4h | PMI-002 |
 | PMI-009 | Create IntegrationProjectController | Backend | 4h | PMI-002 |
-| PMI-010 | Create WebhookController for Jira and Asana | Backend | 8h | PMI-004, PMI-005 |
+| PMI-010 | Create PmWebhookController for Jira and Asana | Backend | 8h | PMI-004, PMI-005 |
 | PMI-011 | Create request validation classes | Backend | 4h | PMI-008, PMI-009 |
 | PMI-012 | Register API routes for integration endpoints | Backend | 2h | PMI-008, PMI-009, PMI-010 |
-| PMI-013 | Wire IntegrationController to IntegrationService and adapters | Backend | 8h | PMI-007, PMI-008, PMI-011 |
+| PMI-013 | Wire PmIntegrationController to IntegrationService and adapters | Backend | 8h | PMI-007, PMI-008, PMI-011 |
 | PMI-014 | Wire IntegrationProjectController to IntegrationService | Backend | 4h | PMI-007, PMI-009, PMI-011 |
-| PMI-015 | Wire WebhookController to IntegrationService | Backend | 4h | PMI-007, PMI-010 |
+| PMI-015 | Wire PmWebhookController to IntegrationService | Backend | 4h | PMI-007, PMI-010 |
 | PMI-016 | Register integration permissions in CorePermissions/IntegrationPermissions | Backend | 2h | None |
 | PMI-017 | Create SyncIntegrationJob (background sync) | Backend | 8h | PMI-007, PMI-004, PMI-005, PMI-006 |
 | PMI-018 | Create ExportTimeEntriesJob (time entry write-back) | Backend | 8h | PMI-007, PMI-004, PMI-005, PMI-006 |
@@ -1136,9 +1136,9 @@ See `task_assignments_20260209.md` for the full task table.
 | PMI-030 | Add external reference badges to task selector and time entry UI | Frontend | 8h | PMI-022 |
 | PMI-031 | Add Integrations link to Organization Settings navigation | Frontend | 2h | PMI-024 |
 | PMI-032 | Add web route for Integrations page | Frontend | 1h | PMI-024 |
-| PMI-033 | Create backend endpoint tests for IntegrationController | Testing | 8h | PMI-013, PMI-012 |
+| PMI-033 | Create backend endpoint tests for PmIntegrationController | Testing | 8h | PMI-013, PMI-012 |
 | PMI-034 | Create backend endpoint tests for IntegrationProjectController | Testing | 4h | PMI-014, PMI-012 |
-| PMI-035 | Create backend endpoint tests for WebhookController | Testing | 6h | PMI-015, PMI-012 |
+| PMI-035 | Create backend endpoint tests for PmWebhookController | Testing | 6h | PMI-015, PMI-012 |
 | PMI-036 | Create unit tests for IntegrationService | Testing | 8h | PMI-007 |
 | PMI-037 | Create unit tests for JiraAdapter | Testing | 6h | PMI-004 |
 | PMI-038 | Create unit tests for AsanaAdapter | Testing | 6h | PMI-005 |
@@ -1486,16 +1486,16 @@ Log::error('integration.webhook.invalid_signature', [
 solidtime/
 +-- app/
 |   +-- Enums/
-|   |   +-- IntegrationProvider.php                           # NEW
+|   |   +-- PmProvider.php                           # NEW
 |   |   +-- IntegrationStatus.php                             # NEW
 |   |   +-- SyncDirection.php                                 # NEW
 |   +-- Http/
 |   |   +-- Controllers/Api/V1/
-|   |   |   +-- IntegrationController.php                     # NEW
+|   |   |   +-- PmIntegrationController.php                     # NEW
 |   |   |   +-- IntegrationProjectController.php              # NEW
-|   |   |   +-- WebhookController.php                         # NEW
-|   |   +-- Requests/V1/Integration/
-|   |   |   +-- IntegrationConnectRequest.php                 # NEW
+|   |   |   +-- PmWebhookController.php                         # NEW
+|   |   +-- Requests/V1/PmIntegration/
+|   |   |   +-- PmIntegrationConnectRequest.php                 # NEW
 |   |   |   +-- IntegrationUpdateRequest.php                  # NEW
 |   |   |   +-- IntegrationProjectToggleRequest.php           # NEW
 |   |   |   +-- IntegrationSyncLogIndexRequest.php            # NEW
@@ -1523,10 +1523,10 @@ solidtime/
 |   +-- integrations.php                                      # NEW (provider credentials, defaults)
 +-- database/
 |   +-- migrations/
-|   |   +-- 2026_02_09_000001_create_integration_connections_table.php   # NEW
-|   |   +-- 2026_02_09_000002_create_integration_projects_table.php      # NEW
-|   |   +-- 2026_02_09_000003_create_external_task_mappings_table.php    # NEW
-|   |   +-- 2026_02_09_000004_create_integration_sync_logs_table.php     # NEW
+|   |   +-- 2026_03_16_000001_create_integration_connections_table.php   # NEW
+|   |   +-- 2026_03_16_000002_create_integration_projects_table.php      # NEW
+|   |   +-- 2026_03_16_000003_create_external_task_mappings_table.php    # NEW
+|   |   +-- 2026_03_16_000004_create_integration_sync_logs_table.php     # NEW
 |   +-- factories/
 |   |   +-- IntegrationConnectionFactory.php                  # NEW
 |   |   +-- IntegrationProjectFactory.php                     # NEW

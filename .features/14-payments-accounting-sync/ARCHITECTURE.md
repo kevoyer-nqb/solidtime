@@ -15,7 +15,7 @@ This document provides the complete technical architecture for the **Online Paym
 - **6 new database tables** -- `payment_integrations`, `accounting_integrations`, `accounting_client_mappings`, `payments`, `accounting_sync_logs`, `webhook_events`
 - **6 new Eloquent models** with encrypted token storage, polymorphic sync logging, and organization scoping
 - **6 new service classes** -- `PaymentService`, `StripeService`, `PayPalService`, `QuickBooksService`, `XeroService`, `AccountingSyncService`
-- **3 new controllers** -- `PaymentController`, `IntegrationController`, `WebhookController`
+- **3 new controllers** -- `PaymentController`, `PaymentPaymentIntegrationController`, `PaymentPaymentWebhookController`
 - **15 API endpoints** including 4 payment endpoints, 8 integration endpoints, 2 webhook endpoints, 1 public payment link
 - **5 queued jobs** -- `ProcessWebhookJob`, `SyncInvoiceJob`, `SyncPaymentJob`, `RefreshOAuthTokenJob`, `RetryFailedSyncJob`
 - **5 new permissions** -- `payments:view:own`, `payments:view:all`, `payments:create:own`, `payments:create:all`, `integrations:manage`
@@ -378,9 +378,9 @@ enum PaymentType: string
 }
 ```
 
-**File**: `app/Enums/IntegrationProvider.php`
+**File**: `app/Enums/PaymentProvider.php`
 ```php
-enum IntegrationProvider: string
+enum PaymentProvider: string
 {
     case STRIPE = 'stripe';
     case PAYPAL = 'paypal';
@@ -513,24 +513,24 @@ Route::name('payments.')->prefix('/organizations/{organization}')->group(static 
 
 // Integration routes (authenticated)
 Route::name('integrations.')->prefix('/organizations/{organization}')->group(static function (): void {
-    Route::get('/integrations', [IntegrationController::class, 'index'])->name('index');
-    Route::post('/integrations/{provider}/connect', [IntegrationController::class, 'connect'])
+    Route::get('/integrations', [PaymentIntegrationController::class, 'index'])->name('index');
+    Route::post('/integrations/{provider}/connect', [PaymentIntegrationController::class, 'connect'])
         ->name('connect')
         ->middleware('check-organization-blocked');
-    Route::get('/integrations/{provider}/callback', [IntegrationController::class, 'callback'])
+    Route::get('/integrations/{provider}/callback', [PaymentIntegrationController::class, 'callback'])
         ->name('callback');
-    Route::delete('/integrations/{provider}', [IntegrationController::class, 'disconnect'])
+    Route::delete('/integrations/{provider}', [PaymentIntegrationController::class, 'disconnect'])
         ->name('disconnect')
         ->middleware('check-organization-blocked');
-    Route::get('/integrations/{provider}/client-mappings', [IntegrationController::class, 'clientMappings'])
+    Route::get('/integrations/{provider}/client-mappings', [PaymentIntegrationController::class, 'clientMappings'])
         ->name('client-mappings');
-    Route::put('/integrations/client-mappings/{mapping}', [IntegrationController::class, 'updateClientMapping'])
+    Route::put('/integrations/client-mappings/{mapping}', [PaymentIntegrationController::class, 'updateClientMapping'])
         ->name('update-client-mapping')
         ->middleware('check-organization-blocked');
-    Route::post('/integrations/sync-invoice', [IntegrationController::class, 'syncInvoice'])
+    Route::post('/integrations/sync-invoice', [PaymentIntegrationController::class, 'syncInvoice'])
         ->name('sync-invoice')
         ->middleware('check-organization-blocked');
-    Route::get('/integrations/sync-logs', [IntegrationController::class, 'syncLogs'])
+    Route::get('/integrations/sync-logs', [PaymentIntegrationController::class, 'syncLogs'])
         ->name('sync-logs');
 });
 ```
@@ -540,8 +540,8 @@ Route::name('integrations.')->prefix('/organizations/{organization}')->group(sta
 ```php
 // Webhook routes (no auth middleware -- signature verification handled in controller)
 Route::name('webhooks.')->prefix('/v1/webhooks')->group(static function (): void {
-    Route::post('/stripe', [WebhookController::class, 'stripe'])->name('stripe');
-    Route::post('/paypal', [WebhookController::class, 'paypal'])->name('paypal');
+    Route::post('/stripe', [PaymentWebhookController::class, 'stripe'])->name('stripe');
+    Route::post('/paypal', [PaymentWebhookController::class, 'paypal'])->name('paypal');
 });
 ```
 
@@ -577,16 +577,16 @@ Route names resolve to:
 | POST | `/payments` | `PaymentController::store()` | `PaymentStoreRequest` | `payments:create:own` or `payments:create:all` |
 | GET | `/payments/{payment}` | `PaymentController::show()` | -- | `payments:view:own` or `payments:view:all` |
 | POST | `/payments/{payment}/void` | `PaymentController::void()` | `PaymentVoidRequest` | `payments:create:all` |
-| GET | `/integrations` | `IntegrationController::index()` | -- | `integrations:manage` |
-| POST | `/integrations/{provider}/connect` | `IntegrationController::connect()` | `IntegrationConnectRequest` | `integrations:manage` |
-| GET | `/integrations/{provider}/callback` | `IntegrationController::callback()` | -- | `integrations:manage` (via state token) |
-| DELETE | `/integrations/{provider}` | `IntegrationController::disconnect()` | -- | `integrations:manage` |
-| GET | `/integrations/{provider}/client-mappings` | `IntegrationController::clientMappings()` | -- | `integrations:manage` |
-| PUT | `/integrations/client-mappings/{mapping}` | `IntegrationController::updateClientMapping()` | `IntegrationClientMappingRequest` | `integrations:manage` |
-| POST | `/integrations/sync-invoice` | `IntegrationController::syncInvoice()` | `IntegrationSyncInvoiceRequest` | `integrations:manage` |
-| GET | `/integrations/sync-logs` | `IntegrationController::syncLogs()` | `IntegrationSyncLogRequest` | `integrations:manage` |
-| POST | `/webhooks/stripe` | `WebhookController::stripe()` | -- | None (signature verified) |
-| POST | `/webhooks/paypal` | `WebhookController::paypal()` | -- | None (signature verified) |
+| GET | `/integrations` | `PaymentIntegrationController::index()` | -- | `integrations:manage` |
+| POST | `/integrations/{provider}/connect` | `PaymentIntegrationController::connect()` | `PaymentIntegrationConnectRequest` | `integrations:manage` |
+| GET | `/integrations/{provider}/callback` | `PaymentIntegrationController::callback()` | -- | `integrations:manage` (via state token) |
+| DELETE | `/integrations/{provider}` | `PaymentIntegrationController::disconnect()` | -- | `integrations:manage` |
+| GET | `/integrations/{provider}/client-mappings` | `PaymentIntegrationController::clientMappings()` | -- | `integrations:manage` |
+| PUT | `/integrations/client-mappings/{mapping}` | `PaymentIntegrationController::updateClientMapping()` | `IntegrationClientMappingRequest` | `integrations:manage` |
+| POST | `/integrations/sync-invoice` | `PaymentIntegrationController::syncInvoice()` | `IntegrationSyncInvoiceRequest` | `integrations:manage` |
+| GET | `/integrations/sync-logs` | `PaymentIntegrationController::syncLogs()` | `IntegrationSyncLogRequest` | `integrations:manage` |
+| POST | `/webhooks/stripe` | `PaymentWebhookController::stripe()` | -- | None (signature verified) |
+| POST | `/webhooks/paypal` | `PaymentWebhookController::paypal()` | -- | None (signature verified) |
 | GET | `/pay/{token}` | `PaymentLinkController::redirect()` | -- | None (signed URL) |
 
 ### 2.3 Response Shapes
@@ -1227,14 +1227,14 @@ class PaymentController extends Controller
 }
 ```
 
-### 4.2 IntegrationController
+### 4.2 PaymentIntegrationController
 
-**File**: `app/Http/Controllers/Api/V1/IntegrationController.php`
+**File**: `app/Http/Controllers/Api/V1/PaymentIntegrationController.php`
 
 Handles OAuth flows, client mapping, and sync triggers.
 
 ```php
-class IntegrationController extends Controller
+class PaymentIntegrationController extends Controller
 {
     public function __construct(
         private readonly StripeService $stripeService,
@@ -1264,19 +1264,19 @@ class IntegrationController extends Controller
         ]);
     }
 
-    public function connect(Organization $organization, string $provider, IntegrationConnectRequest $request): JsonResponse
+    public function connect(Organization $organization, string $provider, PaymentIntegrationConnectRequest $request): JsonResponse
     {
         $this->checkPermission($organization, 'integrations:manage');
 
         $state = Str::random(40);
         session(['oauth_state' => $state, 'oauth_organization' => $organization->id]);
 
-        $providerEnum = IntegrationProvider::from($provider);
+        $providerEnum = PaymentProvider::from($provider);
         $redirectUrl = match ($providerEnum) {
-            IntegrationProvider::STRIPE => $this->stripeService->getConnectUrl($organization, $state),
-            IntegrationProvider::PAYPAL => $this->payPalService->getAuthorizationUrl($organization, $state),
-            IntegrationProvider::QUICKBOOKS => $this->quickBooksService->getAuthorizationUrl($organization, $state),
-            IntegrationProvider::XERO => $this->xeroService->getAuthorizationUrl($organization, $state),
+            PaymentProvider::STRIPE => $this->stripeService->getConnectUrl($organization, $state),
+            PaymentProvider::PAYPAL => $this->payPalService->getAuthorizationUrl($organization, $state),
+            PaymentProvider::QUICKBOOKS => $this->quickBooksService->getAuthorizationUrl($organization, $state),
+            PaymentProvider::XERO => $this->xeroService->getAuthorizationUrl($organization, $state),
         };
 
         return response()->json(['data' => ['redirect_url' => $redirectUrl]]);
@@ -1334,14 +1334,14 @@ class IntegrationController extends Controller
 }
 ```
 
-### 4.3 WebhookController
+### 4.3 PaymentWebhookController
 
-**File**: `app/Http/Controllers/Api/V1/WebhookController.php`
+**File**: `app/Http/Controllers/Api/V1/PaymentWebhookController.php`
 
 Handles incoming webhooks from Stripe and PayPal. This controller does NOT extend the authenticated base controller -- it uses signature verification instead.
 
 ```php
-class WebhookController extends BaseController  // Note: Laravel's base Controller, NOT Api\V1\Controller
+class PaymentWebhookController extends BaseController  // Note: Laravel's base Controller, NOT Api\V1\Controller
 {
     public function __construct(
         private readonly StripeService $stripeService,
@@ -1447,7 +1447,7 @@ public function rules(): array
 }
 ```
 
-**IntegrationConnectRequest**:
+**PaymentIntegrationConnectRequest**:
 ```php
 public function rules(): array
 {
@@ -1518,7 +1518,7 @@ public function rules(): array
 External Provider
     |
     v  (HTTP POST)
-WebhookController
+PaymentWebhookController
     |  1. Verify signature (reject 401 if invalid)
     |  2. Check idempotency (return 200 if already processed)
     |  3. Store WebhookEvent record (status: 'received')
@@ -1761,7 +1761,7 @@ Defines: `Payment`, `PaymentSummary`, `PaymentFilters`, `RecordPaymentInput`, `P
 
 **File**: `resources/js/types/integration.d.ts`
 
-Defines: `PaymentIntegration`, `AccountingIntegration`, `AccountingClientMapping`, `ExternalCustomer`, `AccountingSyncLog`, `SyncLogFilters`, `ClientMappingInput`, `IntegrationProvider`
+Defines: `PaymentIntegration`, `AccountingIntegration`, `AccountingClientMapping`, `ExternalCustomer`, `AccountingSyncLog`, `SyncLogFilters`, `ClientMappingInput`, `PaymentProvider`
 
 ### 7.4 Page Registration
 
@@ -2042,12 +2042,12 @@ This feature enables:
 | `app/Enums/PaymentMethod.php` | Enum | PAY-002 |
 | `app/Enums/PaymentStatus.php` | Enum | PAY-002 |
 | `app/Enums/PaymentType.php` | Enum | PAY-002 |
-| `app/Enums/IntegrationProvider.php` | Enum | PAY-002 |
+| `app/Enums/PaymentProvider.php` | Enum | PAY-002 |
 | `app/Enums/SyncStatus.php` | Enum | PAY-002 |
 | **Backend: Controllers (3)** | | |
 | `app/Http/Controllers/Api/V1/PaymentController.php` | Controller | PAY-004 |
-| `app/Http/Controllers/Api/V1/IntegrationController.php` | Controller | PAY-006 |
-| `app/Http/Controllers/Api/V1/WebhookController.php` | Controller | PAY-009 |
+| `app/Http/Controllers/Api/V1/PaymentIntegrationController.php` | Controller | PAY-006 |
+| `app/Http/Controllers/Api/V1/PaymentWebhookController.php` | Controller | PAY-009 |
 | **Backend: Services (6)** | | |
 | `app/Service/PaymentService.php` | Service | PAY-003 |
 | `app/Service/StripeService.php` | Service | PAY-007 |
@@ -2059,10 +2059,10 @@ This feature enables:
 | `app/Http/Requests/V1/Payment/PaymentIndexRequest.php` | Request | PAY-005 |
 | `app/Http/Requests/V1/Payment/PaymentStoreRequest.php` | Request | PAY-005 |
 | `app/Http/Requests/V1/Payment/PaymentVoidRequest.php` | Request | PAY-005 |
-| `app/Http/Requests/V1/Integration/IntegrationConnectRequest.php` | Request | PAY-018 |
-| `app/Http/Requests/V1/Integration/IntegrationClientMappingRequest.php` | Request | PAY-018 |
-| `app/Http/Requests/V1/Integration/IntegrationSyncInvoiceRequest.php` | Request | PAY-018 |
-| `app/Http/Requests/V1/Integration/IntegrationSyncLogRequest.php` | Request | PAY-018 |
+| `app/Http/Requests/V1/PaymentIntegration/PaymentIntegrationConnectRequest.php` | Request | PAY-018 |
+| `app/Http/Requests/V1/PaymentIntegration/IntegrationClientMappingRequest.php` | Request | PAY-018 |
+| `app/Http/Requests/V1/PaymentIntegration/IntegrationSyncInvoiceRequest.php` | Request | PAY-018 |
+| `app/Http/Requests/V1/PaymentIntegration/IntegrationSyncLogRequest.php` | Request | PAY-018 |
 | **Backend: Middleware (2)** | | |
 | `app/Http/Middleware/VerifyStripeWebhook.php` | Middleware | PAY-010 |
 | `app/Http/Middleware/VerifyPayPalWebhook.php` | Middleware | PAY-010 |

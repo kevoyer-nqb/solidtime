@@ -14,10 +14,10 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/14-payments-a
 | PAY-003  | Create PaymentService with core payment business logic               | Backend             | Backend Dev         | PAY-002                       | 12 hours | To Do  |
 | PAY-004  | Create PaymentController with CRUD endpoints                         | Backend             | Backend Dev         | PAY-003                       | 8 hours  | To Do  |
 | PAY-005  | Create request validation classes for payment endpoints              | Backend             | Backend Dev         | PAY-004                       | 4 hours  | To Do  |
-| PAY-006  | Create IntegrationController with OAuth flow endpoints               | Backend             | Backend Dev         | PAY-002                       | 8 hours  | To Do  |
+| PAY-006  | Create PaymentIntegrationController with OAuth flow endpoints               | Backend             | Backend Dev         | PAY-002                       | 8 hours  | To Do  |
 | PAY-007  | Create StripeService for Connect OAuth and Checkout Sessions         | Backend             | Backend Dev         | PAY-002                       | 12 hours | To Do  |
 | PAY-008  | Create PayPalService for OAuth and Order creation                    | Backend             | Backend Dev         | PAY-002                       | 10 hours | To Do  |
-| PAY-009  | Create WebhookController with Stripe and PayPal handlers            | Backend             | Backend Dev         | PAY-007, PAY-008              | 8 hours  | To Do  |
+| PAY-009  | Create PaymentWebhookController with Stripe and PayPal handlers            | Backend             | Backend Dev         | PAY-007, PAY-008              | 8 hours  | To Do  |
 | PAY-010  | Implement webhook signature verification middleware                  | Backend             | Backend Dev         | PAY-009                       | 4 hours  | To Do  |
 | PAY-011  | Create ProcessWebhookJob for async webhook processing               | Backend             | Backend Dev         | PAY-009, PAY-003              | 6 hours  | To Do  |
 | PAY-012  | Create QuickBooksService for OAuth, invoice/payment push, customers  | Backend             | Backend Dev         | PAY-002                       | 16 hours | To Do  |
@@ -42,7 +42,7 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/14-payments-a
 | PAY-031  | Add web routes and sidebar navigation for payments and integrations  | Frontend            | Frontend Dev        | PAY-024, PAY-026              | 2 hours  | To Do  |
 | PAY-032  | Create payment success/failure public pages                          | Frontend            | Frontend Dev        | PAY-019                       | 4 hours  | To Do  |
 | PAY-033  | Backend endpoint tests for PaymentController                         | Testing             | Backend QA          | PAY-004, PAY-005, PAY-017     | 8 hours  | To Do  |
-| PAY-034  | Backend endpoint tests for IntegrationController                     | Testing             | Backend QA          | PAY-006, PAY-018, PAY-017     | 8 hours  | To Do  |
+| PAY-034  | Backend endpoint tests for PaymentIntegrationController                     | Testing             | Backend QA          | PAY-006, PAY-018, PAY-017     | 8 hours  | To Do  |
 | PAY-035  | Backend unit tests for PaymentService                                | Testing             | Backend QA          | PAY-003                       | 6 hours  | To Do  |
 | PAY-036  | Backend unit tests for StripeService                                 | Testing             | Backend QA          | PAY-007                       | 6 hours  | To Do  |
 | PAY-037  | Backend unit tests for PayPalService                                 | Testing             | Backend QA          | PAY-008                       | 6 hours  | To Do  |
@@ -97,9 +97,9 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/14-payments-a
 |----------|---------------------------------------------------------------------|------------------|-----|
 | PAY-004  | Create PaymentController with CRUD endpoints                        | Backend Dev      | 5   |
 | PAY-005  | Create request validation classes for payment endpoints             | Backend Dev      | 3   |
-| PAY-006  | Create IntegrationController with OAuth flow endpoints              | Backend Dev      | 5   |
+| PAY-006  | Create PaymentIntegrationController with OAuth flow endpoints              | Backend Dev      | 5   |
 | PAY-018  | Create request validation classes for integration endpoints         | Backend Dev      | 3   |
-| PAY-009  | Create WebhookController with Stripe and PayPal handlers           | Backend Dev      | 5   |
+| PAY-009  | Create PaymentWebhookController with Stripe and PayPal handlers           | Backend Dev      | 5   |
 | PAY-010  | Implement webhook signature verification middleware                 | Backend Dev      | 3   |
 | PAY-011  | Create ProcessWebhookJob for async webhook processing              | Backend Dev      | 4   |
 | PAY-019  | Create public payment link route and redirect logic                 | Backend Dev      | 3   |
@@ -143,7 +143,7 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/14-payments-a
 | Task ID  | Description                                                         | Assignee         | SP  |
 |----------|---------------------------------------------------------------------|------------------|-----|
 | PAY-033  | Backend endpoint tests for PaymentController                        | Backend QA       | 5   |
-| PAY-034  | Backend endpoint tests for IntegrationController                    | Backend QA       | 5   |
+| PAY-034  | Backend endpoint tests for PaymentIntegrationController                    | Backend QA       | 5   |
 | PAY-038  | Backend unit tests for QuickBooksService                            | Backend QA       | 5   |
 | PAY-039  | Backend unit tests for XeroService                                  | Backend QA       | 5   |
 | PAY-040  | Backend unit tests for AccountingSyncService                        | Backend QA       | 4   |

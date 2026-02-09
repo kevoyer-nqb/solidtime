@@ -168,14 +168,14 @@ protected function member(Organization $organization): Member
 
 ### 5.2 Controller Pattern Alignment
 
-The `PaymentController` and `IntegrationController` follow the established pattern:
+The `PaymentController` and `PaymentIntegrationController` follow the established pattern:
 - Extend `Api\V1\Controller`
 - Constructor DI of service classes
 - Permission checks at the start of each method
 - Organization resolved via route model binding
 - JSON responses with `data` key
 
-The `WebhookController` is a **departure from the standard pattern**:
+The `PaymentWebhookController` is a **departure from the standard pattern**:
 - Does NOT extend `Api\V1\Controller` (no authentication)
 - Does NOT use `auth:api` middleware
 - Uses signature verification instead of Passport token authentication
@@ -562,8 +562,8 @@ Webhook routes are **outside** the auth group:
 ```php
 // After the auth group
 Route::name('v1.webhooks.')->prefix('v1/webhooks')->group(static function (): void {
-    Route::post('/stripe', [WebhookController::class, 'stripe'])->name('stripe');
-    Route::post('/paypal', [WebhookController::class, 'paypal'])->name('paypal');
+    Route::post('/stripe', [PaymentWebhookController::class, 'stripe'])->name('stripe');
+    Route::post('/paypal', [PaymentWebhookController::class, 'paypal'])->name('paypal');
 });
 ```
 
@@ -628,7 +628,7 @@ Admin connects Stripe:
     -> IntegrationSettings.vue: Click "Connect Stripe"
     -> useIntegrationsStore.connectProvider('stripe')
         -> POST /api/v1/organizations/{org}/integrations/stripe/connect
-        -> IntegrationController.connect()
+        -> PaymentIntegrationController.connect()
             -> StripeService.getConnectUrl()
             -> Store state in session
             -> Return redirect_url
@@ -637,7 +637,7 @@ Admin connects Stripe:
     -> User authorizes
     -> Stripe redirects to callback URL
         -> GET /api/v1/organizations/{org}/integrations/stripe/callback?code=xxx&state=xxx
-        -> IntegrationController.callback()
+        -> PaymentIntegrationController.callback()
             -> Verify state parameter
             -> StripeService.handleOAuthCallback(code)
                 -> Exchange code for access token and account ID
@@ -658,7 +658,7 @@ Client pays invoice:
     -> Client completes payment on Stripe
     -> Stripe sends webhook:
         -> POST /api/v1/webhooks/stripe
-        -> WebhookController.stripe()
+        -> PaymentWebhookController.stripe()
             -> StripeService.verifyWebhookSignature() -> validates HMAC
             -> Check WebhookEvent for duplicate event_id
             -> Store WebhookEvent (status: 'received')
