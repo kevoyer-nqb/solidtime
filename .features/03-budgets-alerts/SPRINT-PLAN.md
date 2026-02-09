@@ -13,7 +13,7 @@
 
 The Budgets & Alerts feature adds project-level budget tracking (hours, cost, fixed-fee), configurable threshold alerts with email and in-app notifications, a dashboard overview widget, burn-rate forecasting, and budget-vs-actual reporting to Solidtime.
 
-**Total Effort**: 88 story points / ~165 developer-hours (sum of individual task hours from sprint details)
+**Total Effort**: 94 story points / ~165 developer-hours (sum of individual task hours from sprint details)
 **Number of Sprints**: 3 (2-week sprints, 6 weeks total)
 **Team Size Assumption**: 2 developers (1 backend-focused, 1 frontend-focused, both capable of fullstack work)
 **Sprint Capacity**: ~40 SP per sprint per team (assumes ~80h productive time per developer per 2-week sprint, with 20% overhead for reviews, meetings, and context switching, yielding ~128 productive hours = 64 SP theoretical max, budgeted at ~35-40 SP to account for risk)
@@ -35,7 +35,7 @@ A prerequisite **Phase 0** consisting of Shared Foundation tasks (FOUND-001 thro
 | 1 | Foundation | 2 weeks | 33 SP (66h) | BudgetType/BudgetPeriod enums, DB migrations, BudgetAlert model, BudgetService, ProjectController extensions, API routes, permissions, unit + endpoint tests |
 | 2 | Alerts & Dashboard | 2 weeks | 31 SP (62h) | BudgetAlertService, notification classes, TimeEntry integration, monthly reset command, TypeScript types, Pinia store, BudgetProgress component, project detail budget section, dashboard overview card, OpenAPI spec update |
 | 3 | Forecasting, Reports & Polish | 2 weeks | 30 SP (60h) | BudgetForecastService, BudgetReportService, report API endpoint, budget report page + web route, project create/edit modal budget config, frontend component tests, E2E Playwright tests |
-| **Total** | | **7 weeks** | **108 SP** | Full Budgets & Alerts feature (88 SP feature + 14 SP shared + 6 SP buffer) |
+| **Total** | | **7 weeks** | **108 SP** | Full Budgets & Alerts feature (94 SP feature + 14 SP shared) |
 
 ---
 

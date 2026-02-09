@@ -2301,7 +2301,7 @@ public function rules(): array
 
 ```
 Total Tasks:       33
-Total Effort:      ~165 hours / 88 SP
+Total Effort:      ~165 hours / 94 SP
 Duration:          6 weeks (3 sprints)
 Team Size:         2-3 developers (1 backend, 1 frontend, 1 QA/fullstack)
 

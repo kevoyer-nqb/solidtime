@@ -12,7 +12,7 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/02-expense-ma
 | Sprint 1 | 1-2 | Foundation (migrations, models, controllers, routes, permissions) | 70 hours (34 SP) |
 | Sprint 2 | 3-4 | Approval workflow + Frontend (stores, components, page) + Notifications | 70 hours (29 SP) |
 | Sprint 3 | 5-6 | Export, category UI, comprehensive testing | 84 hours (30 SP) |
-| **Total** | **6 weeks** | | **224 hours (112 SP)** |
+| **Total** | **6 weeks** | | **232 hours (108 SP)** |
 
 ---
 

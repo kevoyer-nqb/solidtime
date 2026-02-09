@@ -19,7 +19,7 @@ Phase 0 — prerequisite for all other features (01-Approvals depends on this)
 | Sprint 2 | Frontend: Page, Grid, Cell, Accordion, Add Task, Store | ~31 SP |
 | Sprint 3 | Polish: Keyboard nav, Indexes, E2E tests, Component tests, JSDoc | ~16 SP |
 
-**Total**: ~91 SP / ~137h across 3 sprints (6 weeks) -- 75 SP allocated across sprints + 16 SP parallelized testing/polish
+**Total**: ~75 SP / ~137h across 3 sprints (6 weeks)
 
 ## Shared Foundation Dependencies
 - None — this is the foundational feature that others depend on

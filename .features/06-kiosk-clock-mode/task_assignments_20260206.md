@@ -34,7 +34,7 @@ PRD Reference: `/home/keven/Documents/solidtime-analysis/.features/06-kiosk-cloc
 | Metric | Value |
 |--------|-------|
 | **Total Tasks** | 21 |
-| **Total Effort** | 158 hours (~79 story points) |
+| **Total Effort** | 162 hours (~89 story points) |
 | **Backend Tasks** | 14 (KIO-001 through KIO-007, KIO-010, KIO-011, KIO-015, KIO-016, KIO-019, KIO-020, KIO-021) |
 | **Frontend Tasks** | 5 (KIO-008, KIO-009, KIO-012, KIO-013, KIO-014) |
 | **Testing Tasks** | 4 (KIO-015, KIO-016, KIO-017, KIO-018) -- some overlap with backend/frontend devs |

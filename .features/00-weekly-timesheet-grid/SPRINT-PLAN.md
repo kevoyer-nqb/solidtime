@@ -15,7 +15,7 @@ The Weekly Timesheet Grid adds a spreadsheet-like weekly view to Solidtime, insp
 
 **Total effort estimate**: 137 hours
 
-**Total story points**: ~91 SP
+**Total story points**: ~75 SP
 
 **Number of sprints**: **3 sprints** (6 weeks)
 
@@ -40,7 +40,7 @@ The Weekly Timesheet Grid adds a spreadsheet-like weekly view to Solidtime, insp
 | **2** | Frontend Implementation | 2 weeks | 31 SP | Timesheet page, Grid/Cell/Accordion/AddTask components, Pinia store, Navigation, Last Week's Tasks, Optimistic Updates, Load More |
 | **3** | Polish & Testing | 2 weeks | 16 SP | Keyboard navigation, ARIA, Component tests, E2E tests, JSDoc docs |
 
-**Total**: ~75 SP across 6 weeks (remaining 16 SP is testing/polish that can be parallelized)
+**Total**: ~75 SP across 6 weeks (Sprint 3 testing/polish can be parallelized with Sprint 2)
 
 ---
 

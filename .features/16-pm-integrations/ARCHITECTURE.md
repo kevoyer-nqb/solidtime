@@ -15,7 +15,7 @@ This document provides the complete technical architecture for the **PM Tool Int
 - **4 new database tables** -- `integration_connections`, `integration_projects`, `external_task_mappings`, `integration_sync_logs` (no modifications to existing tables)
 - **Adapter pattern** -- `IntegrationAdapterInterface` with provider-specific implementations (`JiraAdapter`, `AsanaAdapter`, `TrelloAdapter`)
 - **New `IntegrationService`** orchestrates connection lifecycle, project/task sync, and time entry export
-- **New controllers** -- `PmPmIntegrationController` (7 endpoints), `IntegrationProjectController` (3 endpoints), `PmPmWebhookController` (2 endpoints plus 1 callback)
+- **New controllers** -- `PmIntegrationController` (7 endpoints), `IntegrationProjectController` (3 endpoints), `PmWebhookController` (2 endpoints plus 1 callback)
 - **3 new background jobs** -- `SyncIntegrationJob`, `ExportTimeEntriesJob`, `RefreshIntegrationTokenJob`
 - **New permissions** -- `integrations:view`, `integrations:manage`, `integrations:sync` registered via `IntegrationPermissions`
 - **OAuth 2.0 consumer** for Jira and Asana; API key authentication for Trello

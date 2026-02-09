@@ -15,7 +15,7 @@ This document provides the complete technical architecture for the **Online Paym
 - **6 new database tables** -- `payment_integrations`, `accounting_integrations`, `accounting_client_mappings`, `payments`, `accounting_sync_logs`, `webhook_events`
 - **6 new Eloquent models** with encrypted token storage, polymorphic sync logging, and organization scoping
 - **6 new service classes** -- `PaymentService`, `StripeService`, `PayPalService`, `QuickBooksService`, `XeroService`, `AccountingSyncService`
-- **3 new controllers** -- `PaymentController`, `PaymentPaymentIntegrationController`, `PaymentPaymentWebhookController`
+- **3 new controllers** -- `PaymentController`, `PaymentIntegrationController`, `PaymentWebhookController`
 - **15 API endpoints** including 4 payment endpoints, 8 integration endpoints, 2 webhook endpoints, 1 public payment link
 - **5 queued jobs** -- `ProcessWebhookJob`, `SyncInvoiceJob`, `SyncPaymentJob`, `RefreshOAuthTokenJob`, `RetryFailedSyncJob`
 - **5 new permissions** -- `payments:view:own`, `payments:view:all`, `payments:create:own`, `payments:create:all`, `integrations:manage`
