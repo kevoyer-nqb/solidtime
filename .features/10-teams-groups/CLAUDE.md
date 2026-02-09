@@ -4,7 +4,7 @@
 `feature/teams-groups`
 
 ## Task Prefix
-`TGR-` (TGR-001 through TGR-032)
+`TEAM-` (TEAM-001 through TEAM-032)
 
 ## Migration Date Prefix
 `2026_03_10_`

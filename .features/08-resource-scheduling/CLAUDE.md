@@ -4,7 +4,7 @@
 `feature/resource-scheduling`
 
 ## Task Prefix
-`RES-` (RES-001 through RES-035)
+`SCHED-` (SCHED-001 through SCHED-035)
 
 ## Migration Date Prefix
 `2026_03_08_`

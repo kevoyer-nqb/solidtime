@@ -4,7 +4,7 @@
 `feature/timesheet-approvals`
 
 ## Task Prefix
-`TSA-` (TSA-001 through TSA-030)
+`APPR-` (APPR-001 through APPR-030)
 
 ## Migration Date Prefix
 `2026_03_01_`
