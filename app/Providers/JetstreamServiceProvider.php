@@ -13,12 +13,12 @@ use App\Actions\Jetstream\RemoveOrganizationMember;
 use App\Actions\Jetstream\UpdateMemberRole;
 use App\Actions\Jetstream\UpdateOrganization;
 use App\Actions\Jetstream\ValidateOrganizationDeletion;
-use App\Enums\Role;
 use App\Enums\Weekday;
 use App\Models\Member;
 use App\Models\Organization;
 use App\Models\OrganizationInvitation;
 use App\Models\User;
+use App\Permissions\CorePermissions;
 use App\Service\TimezoneService;
 use Brick\Money\Currency;
 use Brick\Money\ISOCurrencyProvider;
@@ -79,205 +79,20 @@ class JetstreamServiceProvider extends ServiceProvider
     {
         Jetstream::defaultApiTokenPermissions([]);
 
-        Jetstream::role(Role::Owner->value, 'Owner', [
-            'charts:view:own',
-            'charts:view:all',
-            'projects:view',
-            'projects:view:all',
-            'projects:create',
-            'projects:update',
-            'projects:delete',
-            'project-members:view',
-            'project-members:create',
-            'project-members:update',
-            'project-members:delete',
-            'tasks:view',
-            'tasks:view:all',
-            'tasks:create',
-            'tasks:create:all',
-            'tasks:update',
-            'tasks:update:all',
-            'tasks:delete',
-            'tasks:delete:all',
-            'time-entries:view:all',
-            'time-entries:create:all',
-            'time-entries:update:all',
-            'time-entries:delete:all',
-            'time-entries:view:own',
-            'time-entries:create:own',
-            'time-entries:update:own',
-            'time-entries:delete:own',
-            'tags:view',
-            'tags:create',
-            'tags:update',
-            'tags:delete',
-            'clients:view',
-            'clients:view:all',
-            'clients:create',
-            'clients:update',
-            'clients:delete',
-            'organizations:view',
-            'organizations:update',
-            'organizations:delete',
-            'import',
-            'export',
-            'invitations:view',
-            'invitations:create',
-            'invitations:resend',
-            'invitations:remove',
-            'members:view',
-            'members:invite-placeholder',
-            'members:change-ownership',
-            'members:make-placeholder',
-            'members:merge-into',
-            'members:update',
-            'members:delete',
-            'billing',
-            'reports:view',
-            'reports:create',
-            'reports:update',
-            'reports:delete',
-            'invoices:view',
-            'invoices:create',
-            'invoices:update',
-            'invoices:download',
-            'invoices:delete',
-            'invoice-settings:view',
-            'invoice-settings:update',
-        ])->description('Owner users can perform any action. There is only one owner per organization.');
+        // Core permissions (extracted per SF-08 modular pattern)
+        CorePermissions::register();
 
-        Jetstream::role(Role::Admin->value, 'Administrator', [
-            'charts:view:own',
-            'charts:view:all',
-            'projects:view',
-            'projects:view:all',
-            'projects:create',
-            'projects:update',
-            'projects:delete',
-            'project-members:view',
-            'project-members:create',
-            'project-members:update',
-            'project-members:delete',
-            'tasks:view',
-            'tasks:view:all',
-            'tasks:create',
-            'tasks:create:all',
-            'tasks:update',
-            'tasks:update:all',
-            'tasks:delete',
-            'tasks:delete:all',
-            'time-entries:view:all',
-            'time-entries:create:all',
-            'time-entries:update:all',
-            'time-entries:delete:all',
-            'time-entries:view:own',
-            'time-entries:create:own',
-            'time-entries:update:own',
-            'time-entries:delete:own',
-            'tags:view',
-            'tags:create',
-            'tags:update',
-            'tags:delete',
-            'clients:view',
-            'clients:view:all',
-            'clients:create',
-            'clients:update',
-            'clients:delete',
-            'organizations:view',
-            'organizations:update',
-            'import',
-            'export',
-            'invitations:view',
-            'invitations:create',
-            'invitations:resend',
-            'invitations:remove',
-            'members:view',
-            'members:invite-placeholder',
-            'members:make-placeholder',
-            'members:merge-into',
-            'members:delete',
-            'members:update',
-            'reports:view',
-            'reports:create',
-            'reports:update',
-            'reports:delete',
-            'invoices:view',
-            'invoices:create',
-            'invoices:update',
-            'invoices:download',
-            'invoices:delete',
-            'invoice-settings:view',
-            'invoice-settings:update',
-        ])->description('Administrator users can perform any action, except accessing the billing dashboard.');
-
-        Jetstream::role(Role::Manager->value, 'Manager', [
-            'charts:view:own',
-            'charts:view:all',
-            'projects:view',
-            'projects:view:all',
-            'projects:create',
-            'projects:update',
-            'projects:delete',
-            'project-members:view',
-            'project-members:create',
-            'project-members:update',
-            'project-members:delete',
-            'tasks:view',
-            'tasks:view:all',
-            'tasks:create',
-            'tasks:create:all',
-            'tasks:update',
-            'tasks:update:all',
-            'tasks:delete',
-            'tasks:delete:all',
-            'time-entries:view:all',
-            'time-entries:create:all',
-            'time-entries:update:all',
-            'time-entries:delete:all',
-            'time-entries:view:own',
-            'time-entries:create:own',
-            'time-entries:update:own',
-            'time-entries:delete:own',
-            'tags:view',
-            'tags:create',
-            'tags:update',
-            'tags:delete',
-            'clients:view',
-            'clients:view:all',
-            'clients:create',
-            'clients:update',
-            'clients:delete',
-            'organizations:view',
-            'invitations:view',
-            'members:view',
-            'reports:view',
-            'reports:create',
-            'reports:update',
-            'reports:delete',
-            'invoices:view',
-            'invoices:create',
-            'invoices:update',
-            'invoices:download',
-            'invoices:delete',
-            'invoice-settings:view',
-            'invoice-settings:update',
-        ])->description('Managers have full access to all projects, time entries, ect. but cannot manage the organization (add/remove member, edit the organization, ect.).');
-
-        Jetstream::role(Role::Employee->value, 'Employee', [
-            'charts:view:own',
-            'projects:view',
-            'tags:view',
-            'tasks:view',
-            'clients:view',
-            'time-entries:view:own',
-            'time-entries:create:own',
-            'time-entries:update:own',
-            'time-entries:delete:own',
-            'organizations:view',
-        ])->description('Employees have the ability to read, create, and update their own time entries, they can see the projects that they are members of and the clients they are assigned to.');
-
-        Jetstream::role(Role::Placeholder->value, 'Placeholder', [
-        ])->description('Placeholders are used for importing data. They cannot log in and have no permissions.');
+        // Feature permissions will be registered here by each feature:
+        // TimesheetApprovalPermissions::register();
+        // ExpensePermissions::register();
+        // BudgetPermissions::register();
+        // InvoicePermissions::register();
+        // CalendarPermissions::register();
+        // KioskPermissions::register();
+        // TimeOffPermissions::register();
+        // SchedulingPermissions::register();
+        // ReportingPermissions::register();
+        // TeamPermissions::register();
 
         Jetstream::inertia()
             ->whenRendering(
