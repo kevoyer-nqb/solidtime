@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { BellIcon } from '@heroicons/vue/20/solid';
-import { api } from '@/packages/api/src';
 import { getCurrentOrganizationId } from '@/utils/useUser';
+import type { AppNotification } from '@/types/notification';
 
 const unreadCount = ref(0);
 const showDropdown = ref(false);
-const notifications = ref<Array<{
-    id: string;
-    type: string;
-    data: Record<string, unknown>;
-    read_at: string | null;
-    created_at: string;
-}>>([]);
+const notifications = ref<AppNotification[]>([]);
 const isLoading = ref(false);
+const fetchError = ref(false);
 let pollInterval: ReturnType<typeof setInterval> | null = null;
+let consecutivePollFailures = 0;
+
+const fetchHeaders: HeadersInit = {
+    Accept: 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+};
+
+const mutationHeaders: HeadersInit = {
+    ...fetchHeaders,
+    'Content-Type': 'application/json',
+};
 
 async function fetchUnreadCount(): Promise<void> {
     const orgId = getCurrentOrganizationId();
@@ -23,20 +29,24 @@ async function fetchUnreadCount(): Promise<void> {
     try {
         const response = await fetch(
             `/api/v1/organizations/${orgId}/notifications/unread-count`,
-            {
-                headers: {
-                    Accept: 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                credentials: 'same-origin',
-            }
+            { headers: fetchHeaders, credentials: 'same-origin' }
         );
-        if (response.ok) {
-            const json = await response.json();
-            unreadCount.value = json.data.unread_count;
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
         }
-    } catch {
-        // Silently fail on poll errors
+        const json = await response.json();
+        unreadCount.value = json.data.unread_count;
+        consecutivePollFailures = 0;
+    } catch (error) {
+        consecutivePollFailures++;
+        console.warn('[NotificationBell] Failed to fetch unread count:', error);
+        if (consecutivePollFailures >= 5 && pollInterval) {
+            clearInterval(pollInterval);
+            pollInterval = null;
+            console.error(
+                '[NotificationBell] Stopped polling after 5 consecutive failures'
+            );
+        }
     }
 }
 
@@ -45,23 +55,20 @@ async function fetchNotifications(): Promise<void> {
     if (!orgId) return;
 
     isLoading.value = true;
+    fetchError.value = false;
     try {
         const response = await fetch(
             `/api/v1/organizations/${orgId}/notifications?per_page=10`,
-            {
-                headers: {
-                    Accept: 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                credentials: 'same-origin',
-            }
+            { headers: fetchHeaders, credentials: 'same-origin' }
         );
-        if (response.ok) {
-            const json = await response.json();
-            notifications.value = json.data;
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
         }
-    } catch {
-        // Silently fail
+        const json = await response.json();
+        notifications.value = json.data;
+    } catch (error) {
+        fetchError.value = true;
+        console.error('[NotificationBell] Failed to fetch notifications:', error);
     } finally {
         isLoading.value = false;
     }
@@ -72,18 +79,17 @@ async function markAsRead(notificationId: string): Promise<void> {
     if (!orgId) return;
 
     try {
-        await fetch(
+        const response = await fetch(
             `/api/v1/organizations/${orgId}/notifications/${notificationId}/read`,
             {
                 method: 'PATCH',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
+                headers: mutationHeaders,
                 credentials: 'same-origin',
             }
         );
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
         const notification = notifications.value.find(
             (n) => n.id === notificationId
         );
@@ -93,8 +99,8 @@ async function markAsRead(notificationId: string): Promise<void> {
         if (unreadCount.value > 0) {
             unreadCount.value--;
         }
-    } catch {
-        // Silently fail
+    } catch (error) {
+        console.error('[NotificationBell] Failed to mark as read:', error);
     }
 }
 
@@ -103,24 +109,23 @@ async function markAllAsRead(): Promise<void> {
     if (!orgId) return;
 
     try {
-        await fetch(
+        const response = await fetch(
             `/api/v1/organizations/${orgId}/notifications/read-all`,
             {
                 method: 'PATCH',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
+                headers: mutationHeaders,
                 credentials: 'same-origin',
             }
         );
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
         notifications.value.forEach((n) => {
-            n.read_at = new Date().toISOString();
+            n.read_at = n.read_at ?? new Date().toISOString();
         });
         unreadCount.value = 0;
-    } catch {
-        // Silently fail
+    } catch (error) {
+        console.error('[NotificationBell] Failed to mark all as read:', error);
     }
 }
 
@@ -137,6 +142,9 @@ function closeDropdown(): void {
 
 function formatTime(dateString: string): string {
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return '';
+    }
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
@@ -153,12 +161,12 @@ function formatTime(dateString: string): string {
     return date.toLocaleDateString();
 }
 
-function getNotificationTitle(notification: (typeof notifications.value)[0]): string {
-    return (notification.data.title as string) || 'Notification';
+function getNotificationTitle(notification: AppNotification): string {
+    return notification.data.title || 'Notification';
 }
 
-function getNotificationMessage(notification: (typeof notifications.value)[0]): string {
-    return (notification.data.message as string) || '';
+function getNotificationMessage(notification: AppNotification): string {
+    return notification.data.message || '';
 }
 
 onMounted(() => {
@@ -208,8 +216,21 @@ onUnmounted(() => {
                 </button>
             </div>
 
-            <div v-if="isLoading" class="px-4 py-8 text-center text-text-tertiary text-sm">
+            <div
+                v-if="isLoading"
+                class="px-4 py-8 text-center text-text-tertiary text-sm">
                 Loading...
+            </div>
+
+            <div
+                v-else-if="fetchError"
+                class="px-4 py-8 text-center text-sm">
+                <p class="text-red-500">Failed to load notifications.</p>
+                <button
+                    class="text-accent-300 hover:text-accent-400 mt-2 text-xs"
+                    @click="fetchNotifications">
+                    Try again
+                </button>
             </div>
 
             <div
@@ -223,10 +244,12 @@ onUnmounted(() => {
                     v-for="notification in notifications"
                     :key="notification.id"
                     class="px-4 py-3 border-b border-card-border last:border-b-0 cursor-pointer hover:bg-tertiary transition-colors"
-                    :class="{ 'bg-card-background': notification.read_at, 'bg-secondary': !notification.read_at }"
+                    :class="{
+                        'bg-card-background': notification.read_at,
+                        'bg-secondary': !notification.read_at,
+                    }"
                     @click="
-                        !notification.read_at &&
-                            markAsRead(notification.id)
+                        !notification.read_at && markAsRead(notification.id)
                     ">
                     <div class="flex items-start gap-2">
                         <div
@@ -245,8 +268,7 @@ onUnmounted(() => {
                                 class="text-xs text-text-tertiary mt-0.5 line-clamp-2">
                                 {{ getNotificationMessage(notification) }}
                             </p>
-                            <p
-                                class="text-xs text-text-tertiary mt-1">
+                            <p class="text-xs text-text-tertiary mt-1">
                                 {{ formatTime(notification.created_at) }}
                             </p>
                         </div>

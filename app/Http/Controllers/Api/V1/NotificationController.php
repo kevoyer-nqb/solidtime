@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\Member;
 use App\Models\Organization;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -23,9 +22,11 @@ class NotificationController extends Controller
         $this->checkPermission($organization, 'notifications:view');
         $member = $this->member($organization);
 
+        $perPage = min(max((int) $request->query('per_page', '15'), 1), 100);
+
         $notifications = $member->notifications()
             ->orderByDesc('created_at')
-            ->paginate((int) $request->query('per_page', '15'));
+            ->paginate($perPage);
 
         return response()->json([
             'data' => $notifications->items(),
@@ -60,22 +61,22 @@ class NotificationController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function markAsRead(Organization $organization, string $notificationId): JsonResponse
+    public function markAsRead(Organization $organization, string $notification): JsonResponse
     {
         $this->checkPermission($organization, 'notifications:view');
         $member = $this->member($organization);
 
-        /** @var DatabaseNotification|null $notification */
-        $notification = $member->notifications()->where('id', $notificationId)->first();
+        /** @var DatabaseNotification|null $dbNotification */
+        $dbNotification = $member->notifications()->where('id', $notification)->first();
 
-        if ($notification === null) {
+        if ($dbNotification === null) {
             return response()->json(['message' => 'Notification not found.'], 404);
         }
 
-        $notification->markAsRead();
+        $dbNotification->markAsRead();
 
         return response()->json([
-            'data' => $notification,
+            'data' => $dbNotification,
         ]);
     }
 
@@ -89,7 +90,7 @@ class NotificationController extends Controller
         $this->checkPermission($organization, 'notifications:view');
         $member = $this->member($organization);
 
-        $member->unreadNotifications->markAsRead();
+        $member->unreadNotifications()->update(['read_at' => now()]);
 
         return response()->json([
             'data' => [

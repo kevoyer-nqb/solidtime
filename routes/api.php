@@ -179,8 +179,8 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
         Route::name('notifications.')->prefix('/organizations/{organization}')->group(static function (): void {
             Route::get('/notifications', [NotificationController::class, 'index'])->name('index');
             Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
-            Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
-            Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+            Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('mark-as-read')->middleware('check-organization-blocked');
+            Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read')->middleware('check-organization-blocked');
         });
     });
 
