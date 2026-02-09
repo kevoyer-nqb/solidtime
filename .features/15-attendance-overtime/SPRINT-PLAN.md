@@ -15,7 +15,7 @@ The Attendance & Overtime feature adds daily attendance computation, overtime ca
 
 **Total effort estimate**: 305 hours
 
-**Total story points**: ~153 SP
+**Total story points**: ~153 SP (125 SP allocated in sprint overview + 28 SP parallelized QA)
 
 **Number of sprints**: **5 sprints** (10 weeks)
 
@@ -43,9 +43,9 @@ The Attendance & Overtime feature adds daily attendance computation, overtime ca
 | **2** | Core: Computation Engine & Reporting APIs | 2 weeks | ~39 SP | AttendanceService (computation, overtime, breaks), ComputeAttendanceCommand, AttendanceController (reporting), CSV/PDF export, stale record marking, OpenAPI spec, TS client |
 | **3** | Frontend: Configuration UI | 2 weeks | ~17 SP | Attendance.vue page, WorkScheduleSettings, MemberScheduleAssignment, OvertimeRuleSettings, Pinia store, web route, sidebar nav |
 | **4** | Frontend: Attendance & Overtime Views | 2 weeks | ~24 SP | AttendanceGrid, StatusBadge, MemberDetail, Calendar, OvertimeReport, ExportButton, SummaryBar, DayTooltip |
-| **5** | Testing & Polish | 2 weeks | ~35 SP | Backend endpoint tests (3 controllers), service unit tests, command tests, frontend component tests, E2E tests, JSDoc, index optimization |
+| **5** | Testing & Polish | 2 weeks | ~16 SP | Frontend component tests, E2E tests, JSDoc, index optimization |
 
-**Total**: ~144 SP across 10 weeks (remaining ~9 SP is buffer for parallelized testing tasks)
+**Total**: ~125 SP across 10 weeks (remaining ~28 SP is parallelized QA testing across Sprints 2-3)
 
 ---
 

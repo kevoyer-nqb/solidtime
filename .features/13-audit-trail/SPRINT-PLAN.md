@@ -15,7 +15,7 @@ The Audit Trail feature exposes Solidtime's existing audit data -- already captu
 
 **Total effort estimate**: 140 hours
 
-**Total story points**: ~70 SP
+**Total story points**: ~65 SP
 
 **Number of sprints**: **3 sprints** (6 weeks)
 
@@ -40,9 +40,9 @@ The Audit Trail feature exposes Solidtime's existing audit data -- already captu
 |--------|------|----------|:------------:|------------------|
 | **1** | Backend Foundation | 2 weeks | ~29 SP | Migration, Backfill Command, Trait Extension, Permissions, Service, Controller, Validation, Routes, API Resources, OpenAPI, Backend Tests |
 | **2** | Frontend Implementation | 2 weeks | ~26 SP | Audit Log page, List, Filters, Detail Slide-over, Export, Pinia Store, Navigation, Entity History Links |
-| **3** | Testing & Documentation | 2 weeks | ~15 SP | Endpoint Tests, Service Tests, Backfill Tests, Component Tests, E2E Tests, JSDoc |
+| **3** | Testing & Documentation | 2 weeks | ~10 SP | Component Tests, E2E Tests |
 
-**Total**: ~70 SP across 6 weeks
+**Total**: ~65 SP across 6 weeks
 
 ---
 

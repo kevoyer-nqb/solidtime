@@ -16,10 +16,10 @@ Phase 0 — prerequisite for all other features (01-Approvals depends on this)
 | Sprint | Focus | Story Points |
 |--------|-------|-------------|
 | Sprint 1 | Backend: Controller, Service, Routes, Validation, OpenAPI | ~28 SP |
-| Sprint 2 | Frontend: Page, Grid, Cell, Accordion, Add Task, Store | ~38 SP |
-| Sprint 3 | Polish: Keyboard nav, Indexes, E2E tests, Component tests, JSDoc | ~25 SP |
+| Sprint 2 | Frontend: Page, Grid, Cell, Accordion, Add Task, Store | ~31 SP |
+| Sprint 3 | Polish: Keyboard nav, Indexes, E2E tests, Component tests, JSDoc | ~16 SP |
 
-**Total**: ~91 SP / ~137h across 3 sprints (6 weeks)
+**Total**: ~91 SP / ~137h across 3 sprints (6 weeks) -- 75 SP allocated across sprints + 16 SP parallelized testing/polish
 
 ## Shared Foundation Dependencies
 - None — this is the foundational feature that others depend on

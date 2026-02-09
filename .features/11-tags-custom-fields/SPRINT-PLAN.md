@@ -15,7 +15,7 @@ The Tags and Custom Fields feature enhances Solidtime's existing tag system with
 
 **Total effort estimate**: 232 hours
 
-**Total story points**: ~155 SP
+**Total story points**: ~137 SP
 
 **Number of sprints**: **4 sprints** (8 weeks)
 
@@ -37,12 +37,12 @@ The Tags and Custom Fields feature enhances Solidtime's existing tag system with
 
 | Sprint | Name | Duration | Story Points | Key Deliverables |
 |--------|------|----------|:------------:|------------------|
-| **1** | Tag Enhancements Backend + Frontend Start | 2 weeks | ~38 SP | Tag migrations, model updates, tag CRUD with color/description, mandatory tags validation, OpenAPI spec, TS client regen, permissions, tag badge/dropdown/create modal color support |
-| **2** | Custom Fields Backend + Tag Frontend Polish | 2 weeks | ~52 SP | Custom field migrations, models, service, controller, routes, validation, CF on time entries, tag edit modal, mandatory tags UI toggle, tag management enhancements start |
-| **3** | Custom Fields Frontend + Integration | 2 weeks | ~48 SP | CF on time entry controller, CF resource, OpenAPI regen, CF Pinia store, CF settings page, CF form renderer, tag management page polish, report tag filter, CF navigation |
-| **4** | Integration, Polish, Testing | 2 weeks | ~63 SP | CF in time entry modals, CF in time entry rows, all backend tests, all frontend component tests, all E2E tests |
+| **1** | Tag Enhancements Backend + Frontend Start | 2 weeks | ~26 SP | Tag migrations, model updates, tag CRUD with color/description, mandatory tags validation, OpenAPI spec, TS client regen, permissions, tag badge/dropdown/create modal color support |
+| **2** | Custom Fields Backend + Tag Frontend Polish | 2 weeks | ~34 SP | Custom field migrations, models, service, controller, routes, validation, CF on time entries, tag edit modal, mandatory tags UI toggle, tag management enhancements start |
+| **3** | Custom Fields Frontend + Integration | 2 weeks | ~33 SP | CF on time entry controller, CF resource, OpenAPI regen, CF Pinia store, CF settings page, CF form renderer, tag management page polish, report tag filter, CF navigation |
+| **4** | Integration, Polish, Testing | 2 weeks | ~44 SP | CF in time entry modals, CF in time entry rows, all backend tests, all frontend component tests, all E2E tests |
 
-**Total**: ~155 SP / ~232h across 4 sprints (8 weeks)
+**Total**: ~137 SP / ~232h across 4 sprints (8 weeks)
 
 ---
 

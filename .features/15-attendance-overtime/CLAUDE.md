@@ -25,9 +25,9 @@ Phase 3 -- depends on shared foundations (FOUND-007 modular permissions). Soft d
 | Sprint 2 | Backend: AttendanceService (computation, overtime, breaks), Command, Reporting Controller, Export, OpenAPI | ~39 SP |
 | Sprint 3 | Frontend: Attendance Page, Config UI (WorkSchedule, OvertimeRule, Assignment), Pinia Store, Nav | ~17 SP |
 | Sprint 4 | Frontend: AttendanceGrid, StatusBadge, MemberDetail, Calendar, OvertimeReport, Export, Tooltip | ~24 SP |
-| Sprint 5 | Testing: Endpoint tests, Service tests, Command tests, Component tests, E2E tests, JSDoc, Indexes | ~35 SP |
+| Sprint 5 | Testing: Component tests, E2E tests, JSDoc, Indexes | ~16 SP |
 
-**Total**: ~153 SP / ~305h across 5 sprints (10 weeks)
+**Total**: ~125 SP / ~305h across 5 sprints (10 weeks) -- 125 SP allocated in sprint overview + ~28 SP parallelized QA testing across Sprints 2-3
 
 ## Shared Foundation Dependencies
 - **FOUND-007**: Modular permissions infrastructure (for `AttendancePermissions.php`). If not available, permissions are added directly to `CorePermissions.php` as a temporary measure.

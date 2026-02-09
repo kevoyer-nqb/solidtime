@@ -17,14 +17,15 @@ Phase 3 -- standalone utility feature, no hard dependencies from other features
 |--------|-------|-------------|
 | Sprint 1 | Backend: Migration, Backfill Command, Trait Extension, Permissions, Service, Controller, Routes, Validation, API Resources, OpenAPI | ~29 SP |
 | Sprint 2 | Frontend: Page, List, Filters, Detail Slide-over, Export, Pinia Store, Navigation, Entity History Links, Backend Tests Complete | ~26 SP |
-| Sprint 3 | Testing: Component Tests, E2E Tests | ~15 SP |
+| Sprint 3 | Testing: Component Tests, E2E Tests | ~10 SP |
 
-**Total**: ~70 SP / ~140h across 3 sprints (6 weeks)
+**Total**: ~65 SP / ~140h across 3 sprints (6 weeks)
 
 ## Shared Foundation Dependencies
 - SF-02: Permission naming convention (`audit-logs:view`, `audit-logs:export`)
 - SF-03: Migration timestamp allocation (`2026_03_13_`)
 - SF-08: Modular permissions pattern (`AuditLogPermissions.php`)
+- FOUND-007: Modular permissions infrastructure (`app/Permissions/`). If not available, permissions are added directly to `JetstreamServiceProvider.php`.
 
 ## Key Architecture Decisions
 - One schema change: add nullable `organization_id` column to existing `audits` table
