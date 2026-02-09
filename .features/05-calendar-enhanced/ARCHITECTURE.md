@@ -2529,7 +2529,7 @@ Data cascades correctly:
 
 **Deliverable**: Production-ready feature with docs
 
-**Total Effort**: 156 hours (per AMD-07)
+**Total Effort**: 144 hours (per sum of individual task hours in SPRINT-PLAN.md detail tables)
 
 ---
 

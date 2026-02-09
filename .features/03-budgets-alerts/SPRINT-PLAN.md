@@ -13,7 +13,7 @@
 
 The Budgets & Alerts feature adds project-level budget tracking (hours, cost, fixed-fee), configurable threshold alerts with email and in-app notifications, a dashboard overview widget, burn-rate forecasting, and budget-vs-actual reporting to Solidtime.
 
-**Total Effort**: 88 story points / ~176 developer-hours (at 2h per SP per SF-10)
+**Total Effort**: 88 story points / ~165 developer-hours (sum of individual task hours from sprint details)
 **Number of Sprints**: 3 (2-week sprints, 6 weeks total)
 **Team Size Assumption**: 2 developers (1 backend-focused, 1 frontend-focused, both capable of fullstack work)
 **Sprint Capacity**: ~40 SP per sprint per team (assumes ~80h productive time per developer per 2-week sprint, with 20% overhead for reviews, meetings, and context switching, yielding ~128 productive hours = 64 SP theoretical max, budgeted at ~35-40 SP to account for risk)

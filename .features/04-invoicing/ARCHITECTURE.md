@@ -1117,7 +1117,7 @@ if (!$this->canAccessPremiumFeatures($organization)) {
 
 **Deliverable**: Full test coverage, production-ready
 
-**Total Effort**: 296 hours / 110 SP across 7 sprints (14 weeks)
+**Total Effort**: 297 hours / 110 SP across 7 sprints (14 weeks)
 
 ---
 

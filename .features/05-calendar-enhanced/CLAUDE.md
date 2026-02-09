@@ -20,7 +20,7 @@ Phase 1a (parallel with 10-Teams, 06-Kiosk)
 | Sprint 3 | Month view, conflict detection, color coding | ~20 SP |
 | Sprint 4 | Keyboard nav, export, E2E tests, polish | ~19 SP |
 
-**Total**: ~81 SP / ~159h across 4 sprints (8 weeks)
+**Total**: ~74 SP / ~144h across 4 sprints (8 weeks)
 
 ## Shared Foundation Dependencies
 - **FOUND-007**: Modular permissions (required for Sprint 2, CAL-014)

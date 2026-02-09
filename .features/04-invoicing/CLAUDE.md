@@ -23,7 +23,7 @@ Phase 2a (after Phase 1b completes)
 | Sprint 6 | Recurring invoices, automation | ~16 SP |
 | Sprint 7 | Reports, dashboard, E2E tests | ~14 SP |
 
-**Total**: ~110 SP / ~296h across 7 sprints (14 weeks)
+**Total**: ~110 SP / ~297h across 7 sprints (14 weeks)
 
 ## Shared Foundation Dependencies
 - **FOUND-001..005**: Notification infrastructure (for invoice emails/reminders)

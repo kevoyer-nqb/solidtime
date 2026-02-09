@@ -19,7 +19,7 @@ Phase 1b (parallel with 01-Approvals, 02-Expenses)
 | Sprint 2 | Alert engine, notifications, frontend core, dashboard widget | ~31 SP |
 | Sprint 3 | Forecasting, reports page, project modal, E2E tests, docs | ~30 SP |
 
-**Total**: ~108 SP / ~176h across 3 sprints (6 weeks + 1 week Phase 0)
+**Total**: ~94 SP / ~165h across 3 sprints (6 weeks + 1 week Phase 0)
 
 ## Shared Foundation Dependencies
 - **FOUND-001..005**: Notification infrastructure (required for Sprint 2 alerts)

@@ -2213,7 +2213,7 @@ Next time entry triggers alert evaluation, alerts can re-trigger
 
 **Sprint 3 Total**: 27 SP
 
-**Total Effort**: 88 SP (176 hours @ 2h/SP)
+**Total Effort**: 88 SP (165 hours per sprint task sums)
 
 ---
 
@@ -2541,4 +2541,4 @@ This architecture blueprint provides a complete, implementation-ready design for
 
 The design integrates seamlessly with existing services (`TimeEntryAggregationService`, `BillableRateService`, `DashboardService`) and follows established conventions for migrations, controllers, validation, and frontend components.
 
-Total implementation effort: **88 SP (176 hours)** across 3 sprints.
+Total implementation effort: **88 SP (165 hours)** across 3 sprints.
