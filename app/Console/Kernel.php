@@ -47,6 +47,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('self-host:database-consistency')
             ->when(fn (): bool => config('scheduling.tasks.self_hosting_database_consistency'))
             ->everySixHours();
+
+        $schedule->command('summaries:aggregate')
+            ->dailyAt('01:00');
     }
 
     /**
