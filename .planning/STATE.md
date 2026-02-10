@@ -9,29 +9,29 @@ See: .planning/PROJECT.md (updated 2026-02-10)
 
 ## Current Position
 
-Phase: 1 of 7 (Shared Foundations)
-Plan: 1 of 2 in current phase
-Status: Executing
-Last activity: 2026-02-10 — Completed 01-01 Notification System
+Phase: 1 of 7 (Shared Foundations) -- COMPLETE
+Plan: 2 of 2 in current phase
+Status: Phase Complete
+Last activity: 2026-02-10 — Completed 01-02 Shared Foundations Utilities
 
-Progress: [▓░░░░░░░░░] ~7%
+Progress: [▓▓░░░░░░░░] ~14%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 2h 41min
-- Total execution time: 2.7 hours
+- Total plans completed: 2
+- Average duration: 1h 24min
+- Total execution time: 2.8 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-shared-foundations | 1/2 | 2h 41min | 2h 41min |
+| 01-shared-foundations | 2/2 | 2h 47min | 1h 24min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (2h 41min)
-- Trend: baseline
+- Last 5 plans: 01-01 (2h 41min), 01-02 (6min)
+- Trend: improving
 
 *Updated after each plan completion*
 
@@ -50,6 +50,10 @@ Recent decisions affecting current work:
 - [01-01]: PostgreSQL ::jsonb cast needed for JSON arrow operator queries on notification data
 - [01-01]: Direct fetch with X-XSRF-TOKEN header for cookie-based auth API calls (not Zodios client)
 - [01-01]: NotificationPreference registered in enforced morph map (AppServiceProvider)
+- [01-02]: Organizations get timezone column (users already had one, orgs did not) for org-level timezone-aware reporting
+- [01-02]: DailyTimeSummary registered in enforced morph map for consistency
+- [01-02]: PostgreSQL unique constraint on (org, member, project, task, date) with application-level dedup for nullable columns
+- [01-02]: LEAST/GREATEST SQL pattern clips time entries to day boundaries for midnight-spanning aggregation
 
 ### Pending Todos
 
@@ -63,5 +67,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-10
-Stopped at: Completed 01-01-PLAN.md (Notification System)
+Stopped at: Completed 01-02-PLAN.md (Shared Foundations Utilities) -- Phase 01 complete
 Resume file: None
