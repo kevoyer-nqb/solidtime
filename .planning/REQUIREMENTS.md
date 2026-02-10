@@ -196,119 +196,119 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 0 | Pending |
-| FOUND-02 | Phase 0 | Pending |
-| FOUND-03 | Phase 0 | Pending |
-| FOUND-04 | Phase 0 | Pending |
-| FOUND-05 | Phase 0 | Pending |
-| FOUND-06 | Phase 0 | Pending |
-| FOUND-07 | Phase 0 | Pending |
-| FOUND-08 | Phase 0 | Pending |
-| FOUND-09 | Phase 0 | Pending |
-| FOUND-10 | Phase 0 | Pending |
-| TSG-01 | TBD | Pending |
-| TSG-02 | TBD | Pending |
-| TSG-03 | TBD | Pending |
-| TSG-04 | TBD | Pending |
-| TSG-05 | TBD | Pending |
-| TSG-06 | TBD | Pending |
-| APPR-01 | TBD | Pending |
-| APPR-02 | TBD | Pending |
-| APPR-03 | TBD | Pending |
-| APPR-04 | TBD | Pending |
-| APPR-05 | TBD | Pending |
-| APPR-06 | TBD | Pending |
-| APPR-07 | TBD | Pending |
-| APPR-08 | TBD | Pending |
-| APPR-09 | TBD | Pending |
-| APPR-10 | TBD | Pending |
-| EXP-01 | TBD | Pending |
-| EXP-02 | TBD | Pending |
-| EXP-03 | TBD | Pending |
-| EXP-04 | TBD | Pending |
-| EXP-05 | TBD | Pending |
-| EXP-06 | TBD | Pending |
-| EXP-07 | TBD | Pending |
-| EXP-08 | TBD | Pending |
-| BUD-01 | TBD | Pending |
-| BUD-02 | TBD | Pending |
-| BUD-03 | TBD | Pending |
-| BUD-04 | TBD | Pending |
-| BUD-05 | TBD | Pending |
-| BUD-06 | TBD | Pending |
-| INV-01 | TBD | Pending |
-| INV-02 | TBD | Pending |
-| INV-03 | TBD | Pending |
-| INV-04 | TBD | Pending |
-| INV-05 | TBD | Pending |
-| INV-06 | TBD | Pending |
-| INV-07 | TBD | Pending |
-| INV-08 | TBD | Pending |
-| CAL-01 | TBD | Pending |
-| CAL-02 | TBD | Pending |
-| CAL-03 | TBD | Pending |
-| CAL-04 | TBD | Pending |
-| CAL-05 | TBD | Pending |
-| KIO-01 | TBD | Pending |
-| KIO-02 | TBD | Pending |
-| KIO-03 | TBD | Pending |
-| KIO-04 | TBD | Pending |
-| KIO-05 | TBD | Pending |
-| KIO-06 | TBD | Pending |
-| KIO-07 | TBD | Pending |
-| PTO-01 | TBD | Pending |
-| PTO-02 | TBD | Pending |
-| PTO-03 | TBD | Pending |
-| PTO-04 | TBD | Pending |
-| PTO-05 | TBD | Pending |
-| PTO-06 | TBD | Pending |
-| PTO-07 | TBD | Pending |
-| SCHED-01 | TBD | Pending |
-| SCHED-02 | TBD | Pending |
-| SCHED-03 | TBD | Pending |
-| SCHED-04 | TBD | Pending |
-| SCHED-05 | TBD | Pending |
-| SCHED-06 | TBD | Pending |
-| RPT-01 | TBD | Pending |
-| RPT-02 | TBD | Pending |
-| RPT-03 | TBD | Pending |
-| RPT-04 | TBD | Pending |
-| RPT-05 | TBD | Pending |
-| RPT-06 | TBD | Pending |
-| TEAM-01 | TBD | Pending |
-| TEAM-02 | TBD | Pending |
-| TEAM-03 | TBD | Pending |
-| TEAM-04 | TBD | Pending |
-| TEAM-05 | TBD | Pending |
-| TEAM-06 | TBD | Pending |
-| TAG-01 | TBD | Pending |
-| TAG-02 | TBD | Pending |
-| TAG-03 | TBD | Pending |
-| TAG-04 | TBD | Pending |
-| PCM-01 | TBD | Pending |
-| PCM-02 | TBD | Pending |
-| PCM-03 | TBD | Pending |
-| PCM-04 | TBD | Pending |
-| AUD-01 | TBD | Pending |
-| AUD-02 | TBD | Pending |
-| AUD-03 | TBD | Pending |
-| AUD-04 | TBD | Pending |
-| PAY-01 | TBD | Pending |
-| PAY-02 | TBD | Pending |
-| PAY-03 | TBD | Pending |
-| PAY-04 | TBD | Pending |
-| PAY-05 | TBD | Pending |
-| ATT-01 | TBD | Pending |
-| ATT-02 | TBD | Pending |
-| ATT-03 | TBD | Pending |
-| ATT-04 | TBD | Pending |
-| ATT-05 | TBD | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Pending |
+| FOUND-07 | Phase 1 | Pending |
+| FOUND-08 | Phase 1 | Pending |
+| FOUND-09 | Phase 1 | Pending |
+| FOUND-10 | Phase 1 | Pending |
+| TSG-01 | Phase 2 | Pending |
+| TSG-02 | Phase 2 | Pending |
+| TSG-03 | Phase 2 | Pending |
+| TSG-04 | Phase 2 | Pending |
+| TSG-05 | Phase 2 | Pending |
+| TSG-06 | Phase 2 | Pending |
+| APPR-01 | Phase 3 | Pending |
+| APPR-02 | Phase 3 | Pending |
+| APPR-03 | Phase 3 | Pending |
+| APPR-04 | Phase 3 | Pending |
+| APPR-05 | Phase 3 | Pending |
+| APPR-06 | Phase 3 | Pending |
+| APPR-07 | Phase 3 | Pending |
+| APPR-08 | Phase 3 | Pending |
+| APPR-09 | Phase 3 | Pending |
+| APPR-10 | Phase 3 | Pending |
+| EXP-01 | Phase 3 | Pending |
+| EXP-02 | Phase 3 | Pending |
+| EXP-03 | Phase 3 | Pending |
+| EXP-04 | Phase 3 | Pending |
+| EXP-05 | Phase 3 | Pending |
+| EXP-06 | Phase 3 | Pending |
+| EXP-07 | Phase 3 | Pending |
+| EXP-08 | Phase 3 | Pending |
+| BUD-01 | Phase 3 | Pending |
+| BUD-02 | Phase 3 | Pending |
+| BUD-03 | Phase 3 | Pending |
+| BUD-04 | Phase 3 | Pending |
+| BUD-05 | Phase 3 | Pending |
+| BUD-06 | Phase 3 | Pending |
+| TEAM-01 | Phase 3 | Pending |
+| TEAM-02 | Phase 3 | Pending |
+| TEAM-03 | Phase 3 | Pending |
+| TEAM-04 | Phase 3 | Pending |
+| TEAM-05 | Phase 3 | Pending |
+| TEAM-06 | Phase 3 | Pending |
+| INV-01 | Phase 4 | Pending |
+| INV-02 | Phase 4 | Pending |
+| INV-03 | Phase 4 | Pending |
+| INV-04 | Phase 4 | Pending |
+| INV-05 | Phase 4 | Pending |
+| INV-06 | Phase 4 | Pending |
+| INV-07 | Phase 4 | Pending |
+| INV-08 | Phase 4 | Pending |
+| PAY-01 | Phase 4 | Pending |
+| PAY-02 | Phase 4 | Pending |
+| PAY-03 | Phase 4 | Pending |
+| PAY-04 | Phase 4 | Pending |
+| PAY-05 | Phase 4 | Pending |
+| CAL-01 | Phase 5 | Pending |
+| CAL-02 | Phase 5 | Pending |
+| CAL-03 | Phase 5 | Pending |
+| CAL-04 | Phase 5 | Pending |
+| CAL-05 | Phase 5 | Pending |
+| KIO-01 | Phase 5 | Pending |
+| KIO-02 | Phase 5 | Pending |
+| KIO-03 | Phase 5 | Pending |
+| KIO-04 | Phase 5 | Pending |
+| KIO-05 | Phase 5 | Pending |
+| KIO-06 | Phase 5 | Pending |
+| KIO-07 | Phase 5 | Pending |
+| PCM-01 | Phase 5 | Pending |
+| PCM-02 | Phase 5 | Pending |
+| PCM-03 | Phase 5 | Pending |
+| PCM-04 | Phase 5 | Pending |
+| PTO-01 | Phase 6 | Pending |
+| PTO-02 | Phase 6 | Pending |
+| PTO-03 | Phase 6 | Pending |
+| PTO-04 | Phase 6 | Pending |
+| PTO-05 | Phase 6 | Pending |
+| PTO-06 | Phase 6 | Pending |
+| PTO-07 | Phase 6 | Pending |
+| SCHED-01 | Phase 6 | Pending |
+| SCHED-02 | Phase 6 | Pending |
+| SCHED-03 | Phase 6 | Pending |
+| SCHED-04 | Phase 6 | Pending |
+| SCHED-05 | Phase 6 | Pending |
+| SCHED-06 | Phase 6 | Pending |
+| ATT-01 | Phase 6 | Pending |
+| ATT-02 | Phase 6 | Pending |
+| ATT-03 | Phase 6 | Pending |
+| ATT-04 | Phase 6 | Pending |
+| ATT-05 | Phase 6 | Pending |
+| RPT-01 | Phase 7 | Pending |
+| RPT-02 | Phase 7 | Pending |
+| RPT-03 | Phase 7 | Pending |
+| RPT-04 | Phase 7 | Pending |
+| RPT-05 | Phase 7 | Pending |
+| RPT-06 | Phase 7 | Pending |
+| TAG-01 | Phase 7 | Pending |
+| TAG-02 | Phase 7 | Pending |
+| TAG-03 | Phase 7 | Pending |
+| TAG-04 | Phase 7 | Pending |
+| AUD-01 | Phase 7 | Pending |
+| AUD-02 | Phase 7 | Pending |
+| AUD-03 | Phase 7 | Pending |
+| AUD-04 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 104 total
-- Mapped to phases: 10 (foundations)
-- Unmapped: 94 (awaiting roadmap)
+- v1 requirements: 107 total
+- Mapped to phases: 107
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-10*
-*Last updated: 2026-02-10 after initial definition*
+*Last updated: 2026-02-10 after roadmap creation*
