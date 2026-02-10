@@ -27,13 +27,20 @@ interface PaginatedNotifications {
     total: number;
 }
 
+function getXsrfToken(): string | undefined {
+    const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : undefined;
+}
+
 async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
+    const xsrfToken = getXsrfToken();
     const response = await fetch(url, {
         ...options,
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
+            ...(xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {}),
             ...options?.headers,
         },
         credentials: 'same-origin',

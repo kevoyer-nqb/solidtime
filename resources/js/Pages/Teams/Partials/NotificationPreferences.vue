@@ -18,15 +18,22 @@ const organizationId = getCurrentOrganizationId();
 const queryClient = useQueryClient();
 const notificationsStore = useNotificationsStore();
 
+function getXsrfToken(): string | undefined {
+    const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : undefined;
+}
+
 const { data: preferencesData, isLoading } = useQuery({
     queryKey: ['notification-preferences', organizationId],
     queryFn: async () => {
+        const xsrfToken = getXsrfToken();
         const response = await fetch(
             `/api/v1/organizations/${organizationId}/notification-preferences`,
             {
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
+                    ...(xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {}),
                 },
                 credentials: 'same-origin',
             }
@@ -63,6 +70,7 @@ watch(
 
 const updateMutation = useMutation({
     mutationFn: async (payload: { notification_type: string; email_enabled: boolean }) => {
+        const xsrfToken = getXsrfToken();
         const response = await fetch(
             `/api/v1/organizations/${organizationId}/notification-preferences`,
             {
@@ -71,6 +79,7 @@ const updateMutation = useMutation({
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
+                    ...(xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {}),
                 },
                 credentials: 'same-origin',
                 body: JSON.stringify(payload),
