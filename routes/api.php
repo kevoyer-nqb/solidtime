@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\CurrencyController;
 use App\Http\Controllers\Api\V1\ExportController;
 use App\Http\Controllers\Api\V1\ImportController;
+use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\NotificationPreferenceController;
 use App\Http\Controllers\Api\V1\InvitationController;
 use App\Http\Controllers\Api\V1\MemberController;
 use App\Http\Controllers\Api\V1\OrganizationController;
@@ -172,6 +174,20 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
         // Export routes
         Route::name('export.')->prefix('/organizations/{organization}')->group(static function (): void {
             Route::post('/export', [ExportController::class, 'export'])->name('export');
+        });
+
+        // Notification routes
+        Route::name('notifications.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/notifications', [NotificationController::class, 'index'])->name('index');
+            Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
+            Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+            Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+        });
+
+        // Notification preference routes
+        Route::name('notification-preferences.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/notification-preferences', [NotificationPreferenceController::class, 'index'])->name('index');
+            Route::put('/notification-preferences', [NotificationPreferenceController::class, 'update'])->name('update');
         });
     });
 
