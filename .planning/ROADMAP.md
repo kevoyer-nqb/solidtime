@@ -32,11 +32,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The modular permissions infrastructure allows a new feature to register its permissions in its own file without modifying JetstreamServiceProvider directly
   4. The DateBoundaryService correctly calculates week boundaries and day boundaries across DST transitions in any IANA timezone
   5. The daily_time_summaries table is populated and queryable for pre-aggregated reporting data
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Notification infrastructure (migrations, base classes, API endpoints, bell UI)
-- [ ] 01-02: Approval pattern, permissions, date service, weekly_capacity, CI migration test, daily summaries
+- [ ] 01-01-PLAN.md — Notification system: migrations, base classes, API endpoints, bell UI, preferences UI
+- [ ] 01-02-PLAN.md — Modular permissions, DateBoundaryService, weekly_capacity schema, CI migration test, daily summaries
 
 ### Phase 2: Weekly Timesheet Grid
 **Goal**: Users can view and manage their weekly time in a grid interface that replaces the need to create individual time entries one by one
@@ -153,7 +153,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Shared Foundations | 0/2 | Not started | - |
+| 1. Shared Foundations | 0/2 | Planned | - |
 | 2. Weekly Timesheet Grid | 0/2 | Not started | - |
 | 3. Governance & Teams | 0/4 | Not started | - |
 | 4. Revenue Generation | 0/3 | Not started | - |
