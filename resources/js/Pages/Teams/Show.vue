@@ -9,6 +9,7 @@ import { canUpdateOrganization } from '@/utils/permissions';
 import OrganizationBillableRate from '@/Pages/Teams/Partials/OrganizationBillableRate.vue';
 import OrganizationFormatSettings from '@/Pages/Teams/Partials/OrganizationFormatSettings.vue';
 import OrganizationTimeEntrySettings from '@/Pages/Teams/Partials/OrganizationTimeEntrySettings.vue';
+import NotificationPreferences from '@/Pages/Teams/Partials/NotificationPreferences.vue';
 import { onMounted, ref } from 'vue';
 import { useOrganizationStore } from '@/utils/useOrganization';
 import { storeToRefs } from 'pinia';
@@ -53,6 +54,9 @@ onMounted(async () => {
                     <SectionBorder />
 
                     <OrganizationTimeEntrySettings v-if="canUpdateOrganization()" />
+                    <SectionBorder />
+
+                    <NotificationPreferences />
                     <SectionBorder />
 
                     <template v-if="permissions.canDeleteTeam && !team.personal_team">
