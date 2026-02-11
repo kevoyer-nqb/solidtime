@@ -5,32 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-02-10)
 
 **Core value:** Agencies and small businesses can track time, approve timesheets, invoice clients, and monitor project budgets in one place
-**Current focus:** Phase 1 - Shared Foundations
+**Current focus:** Phase 2 - Weekly Timesheet Grid
 
 ## Current Position
 
-Phase: 1 of 7 (Shared Foundations) -- COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase Complete
-Last activity: 2026-02-10 — Completed 01-02 Shared Foundations Utilities
+Phase: 2 of 7 (Weekly Timesheet Grid)
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-02-11 — Completed 02-01 Grid Data Layer
 
-Progress: [▓▓░░░░░░░░] ~14%
+Progress: [▓▓▓░░░░░░░] ~21%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 1h 24min
-- Total execution time: 2.8 hours
+- Total plans completed: 3
+- Average duration: 57min
+- Total execution time: 2.87 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-shared-foundations | 2/2 | 2h 47min | 1h 24min |
+| 02-weekly-timesheet-grid | 1/2 | 5min | 5min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (2h 41min), 01-02 (6min)
+- Last 5 plans: 01-01 (2h 41min), 01-02 (6min), 02-01 (5min)
 - Trend: improving
 
 *Updated after each plan completion*
@@ -54,6 +55,10 @@ Recent decisions affecting current work:
 - [01-02]: DailyTimeSummary registered in enforced morph map for consistency
 - [01-02]: PostgreSQL unique constraint on (org, member, project, task, date) with application-level dedup for nullable columns
 - [01-02]: LEAST/GREATEST SQL pattern clips time entries to day boundaries for midnight-spanning aggregation
+- [02-01]: Direct TimeEntry query (not DailyTimeSummary) for grid data -- avoids staleness for single-member weekly view
+- [02-01]: Organization timezone used for date assignment -- entries near midnight placed in correct local day
+- [02-01]: Grid API uses existing time-entries:view:own permission -- no new permissions needed
+- [02-01]: fetchJson with X-XSRF-TOKEN for grid endpoint, Zodios api client for time entry CRUD
 
 ### Pending Todos
 
@@ -66,6 +71,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-10
-Stopped at: Completed 01-02-PLAN.md (Shared Foundations Utilities) -- Phase 01 complete
+Last session: 2026-02-11
+Stopped at: Completed 02-01-PLAN.md (Grid Data Layer)
 Resume file: None
