@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\TagController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\V1\TimeEntryController;
+use App\Http\Controllers\Api\V1\TimesheetGridController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\UserMembershipController;
 use App\Http\Controllers\Api\V1\UserTimeEntryController;
@@ -112,6 +113,11 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
             Route::patch('/time-entries', [TimeEntryController::class, 'updateMultiple'])->name('update-multiple')->middleware('check-organization-blocked');
             Route::delete('/time-entries/{timeEntry}', [TimeEntryController::class, 'destroy'])->name('destroy');
             Route::delete('/time-entries', [TimeEntryController::class, 'destroyMultiple'])->name('destroy-multiple');
+        });
+
+        // Timesheet grid routes
+        Route::name('timesheet-grid.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/timesheet-grid', [TimesheetGridController::class, 'index'])->name('index');
         });
 
         Route::name('users.time-entries.')->group(static function (): void {
