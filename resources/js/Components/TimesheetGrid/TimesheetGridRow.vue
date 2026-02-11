@@ -3,6 +3,7 @@ import { computed, inject, type ComputedRef } from 'vue';
 import type { TimesheetGridRow, TimesheetGridCell } from '@/utils/useTimesheetGrid';
 import { formatHumanReadableDuration } from '@/packages/ui/src/utils/time';
 import type { Organization } from '@/packages/api/src';
+import TimesheetGridCellComponent from './TimesheetGridCell.vue';
 
 const props = defineProps<{
     row: TimesheetGridRow;
@@ -63,16 +64,11 @@ const formattedRowTotal = computed(() => {
             v-for="day in days"
             :key="day"
             class="text-center py-2.5 px-1">
-            <!-- Cell placeholder: will be replaced with TimesheetGridCell in Task 2 -->
-            <div class="text-sm text-text-secondary min-h-[28px] flex items-center justify-center">
-                <span v-if="getCellForDay(day).total_seconds > 0">
-                    {{ formatHumanReadableDuration(
-                        getCellForDay(day).total_seconds,
-                        intervalFormat,
-                        numberFormat
-                    ) }}
-                </span>
-            </div>
+            <TimesheetGridCellComponent
+                :cell="getCellForDay(day)"
+                :project-id="row.project_id"
+                :task-id="row.task_id"
+                :date="day" />
         </td>
         <td class="text-center py-2.5 px-3">
             <span class="text-sm font-semibold text-text-primary">
