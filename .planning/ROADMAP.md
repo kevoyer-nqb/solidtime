@@ -47,11 +47,11 @@ Plans:
   2. User can click an empty cell and create a time entry for that day and project/task without leaving the grid
   3. User can edit a duration directly in a grid cell and the time entry updates
   4. User can navigate to any week and see daily column totals and a weekly total
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: Grid data layer (API endpoint, Pinia store, week navigation)
-- [ ] 02-02: Grid UI (component, inline editing, cell creation, totals)
+- [ ] 02-01-PLAN.md — Grid data layer: backend API endpoint, Pinia store with TanStack Query, web route, sidebar navigation
+- [ ] 02-02-PLAN.md — Grid UI: page layout, grid components, inline cell editing, entry creation, add-row, totals, human verification
 
 ### Phase 3: Governance & Teams
 **Goal**: Organizations can enforce accountability -- timesheets go through approval, expenses are tracked and approved, project budgets are monitored with alerts, and teams provide organizational structure with optional visibility scoping
