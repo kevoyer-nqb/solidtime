@@ -712,6 +712,268 @@
                     }
                 }
             }
+        },
+        "\/v1\/organization\/{organization}\/timesheet\/weeks": {
+            "get": {
+                "operationId": "getTimesheetWeeks",
+                "summary": "Get timesheet weeks",
+                "description": "Returns a list of weeks (most recent first) with total tracked seconds per week, used for the timesheet accordion layout.",
+                "tags": [
+                    "Timesheet"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of weeks to return (1-52)",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 52
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Number of weeks to skip",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of week summaries",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/TimesheetWeekCollection"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/organization\/{organization}\/timesheet": {
+            "get": {
+                "operationId": "getTimesheetGrid",
+                "summary": "Get timesheet grid",
+                "description": "Returns rows grouped by project+task with 7 day columns. Each cell contains total hours and related time entry IDs.",
+                "tags": [
+                    "Timesheet"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "week_start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date of the week (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "week_end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date of the week (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Week grid data",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/TimesheetGridData"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/organization\/{organization}\/timesheet\/cell": {
+            "put": {
+                "operationId": "updateTimesheetCell",
+                "summary": "Update timesheet cell",
+                "description": "Creates, updates, or deletes time entries for a given project+task+date cell. When hours > 0, creates or updates. When hours = 0, deletes all entries for that cell.",
+                "tags": [
+                    "Timesheet"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/TimesheetCellUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated cell data",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/TimesheetCellResource"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/organization\/{organization}\/timesheet\/recent-tasks": {
+            "get": {
+                "operationId": "getTimesheetRecentTasks",
+                "summary": "Get recent tasks",
+                "description": "Returns recently used project+task combinations for the current user, ordered by most recently used.",
+                "tags": [
+                    "Timesheet"
+                ],
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "required": true,
+                        "description": "The organization ID",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of recent tasks to return (1-50)",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 50
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of recent project+task combinations",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/TimesheetRecentTaskCollection"
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -838,6 +1100,275 @@
                     "tags"
                 ],
                 "title": "TimeEntryResource"
+            },
+            "TimesheetWeekSummary": {
+                "type": "object",
+                "properties": {
+                    "week_start": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Start date of the week (YYYY-MM-DD)"
+                    },
+                    "week_end": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "End date of the week (YYYY-MM-DD)"
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "Human-readable week label (e.g., 'This Week', 'Last Week', 'Jan 06 - Jan 12, 2026')"
+                    },
+                    "total_seconds": {
+                        "type": "integer",
+                        "description": "Total tracked seconds in this week"
+                    }
+                },
+                "required": [
+                    "week_start",
+                    "week_end",
+                    "label",
+                    "total_seconds"
+                ],
+                "title": "TimesheetWeekSummary"
+            },
+            "TimesheetWeekCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#\/components\/schemas\/TimesheetWeekSummary"
+                },
+                "title": "TimesheetWeekCollection"
+            },
+            "TimesheetProjectInfo": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "color"
+                ],
+                "title": "TimesheetProjectInfo"
+            },
+            "TimesheetTaskInfo": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "TimesheetTaskInfo"
+            },
+            "TimesheetCellResource": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the cell (YYYY-MM-DD)"
+                    },
+                    "hours": {
+                        "type": "number",
+                        "description": "Total hours for this cell"
+                    },
+                    "time_entry_ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "description": "IDs of time entries in this cell"
+                    }
+                },
+                "required": [
+                    "date",
+                    "hours",
+                    "time_entry_ids"
+                ],
+                "title": "TimesheetCellResource"
+            },
+            "TimesheetRowResource": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the row (project_id:task_id)"
+                    },
+                    "project": {
+                        "oneOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/TimesheetProjectInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "task": {
+                        "oneOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/TimesheetTaskInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "cells": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/TimesheetCellResource"
+                        },
+                        "description": "7 cells, one per day of the week"
+                    },
+                    "total_hours": {
+                        "type": "number",
+                        "description": "Sum of hours across all cells in this row"
+                    }
+                },
+                "required": [
+                    "id",
+                    "project",
+                    "task",
+                    "cells",
+                    "total_hours"
+                ],
+                "title": "TimesheetRowResource"
+            },
+            "TimesheetGridData": {
+                "type": "object",
+                "properties": {
+                    "week_start": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "week_end": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "rows": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/TimesheetRowResource"
+                        }
+                    },
+                    "day_totals": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        },
+                        "description": "7 daily totals"
+                    },
+                    "week_total": {
+                        "type": "number",
+                        "description": "Sum of all hours in the week"
+                    }
+                },
+                "required": [
+                    "week_start",
+                    "week_end",
+                    "rows",
+                    "day_totals",
+                    "week_total"
+                ],
+                "title": "TimesheetGridData"
+            },
+            "TimesheetCellUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "member_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "ID of the member"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Date of the cell (YYYY-MM-DD)"
+                    },
+                    "project_id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uuid",
+                        "description": "ID of the project (null for no project)"
+                    },
+                    "task_id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uuid",
+                        "description": "ID of the task (null for no task)"
+                    },
+                    "hours": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 24,
+                        "description": "Number of hours (0 deletes entries)"
+                    }
+                },
+                "required": [
+                    "member_id",
+                    "date",
+                    "hours"
+                ],
+                "title": "TimesheetCellUpdateRequest"
+            },
+            "TimesheetRecentTaskResource": {
+                "type": "object",
+                "properties": {
+                    "project": {
+                        "oneOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/TimesheetProjectInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "task": {
+                        "oneOf": [
+                            {
+                                "$ref": "#\/components\/schemas\/TimesheetTaskInfo"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "project",
+                    "task"
+                ],
+                "title": "TimesheetRecentTaskResource"
+            },
+            "TimesheetRecentTaskCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#\/components\/schemas\/TimesheetRecentTaskResource"
+                },
+                "title": "TimesheetRecentTaskCollection"
             }
         },
         "responses": {

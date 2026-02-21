@@ -121,6 +121,23 @@ export type CreateInvoiceBody = ZodiosBodyByAlias<SolidTimeApi, 'createInvoice'>
 
 export type UpdateInvoiceBody = ZodiosBodyByAlias<SolidTimeApi, 'updateInvoice'>;
 
+export type TimesheetWeeksResponse = ZodiosResponseByAlias<SolidTimeApi, 'getTimesheetWeeks'>;
+export type TimesheetWeekSummary = TimesheetWeeksResponse['data'][0];
+
+export type TimesheetGridResponse = ZodiosResponseByAlias<SolidTimeApi, 'getTimesheetGrid'>;
+export type TimesheetGridData = TimesheetGridResponse['data'];
+export type TimesheetRow = TimesheetGridData['rows'][0];
+export type TimesheetCell = TimesheetGridData['rows'][0]['cells'][0];
+
+export type UpdateTimesheetCellBody = ZodiosBodyByAlias<SolidTimeApi, 'updateTimesheetCell'>;
+export type UpdateTimesheetCellResponse = ZodiosResponseByAlias<SolidTimeApi, 'updateTimesheetCell'>;
+
+export type TimesheetRecentTasksResponse = ZodiosResponseByAlias<
+    SolidTimeApi,
+    'getTimesheetRecentTasks'
+>;
+export type TimesheetRecentTask = TimesheetRecentTasksResponse['data'][0];
+
 const api = createApiClient('/api', { validate: 'none' });
 
 export { createApiClient, api };

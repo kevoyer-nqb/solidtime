@@ -17,6 +17,7 @@ import {
     UserGroupIcon,
     XMarkIcon,
     DocumentTextIcon,
+    TableCellsIcon,
 } from '@heroicons/vue/20/solid';
 import NavigationSidebarItem from '@/Components/NavigationSidebarItem.vue';
 import UserSettingsIcon from '@/Components/UserSettingsIcon.vue';
@@ -138,6 +139,11 @@ const page = usePage<{
                                 :icon="ClockIcon"
                                 :current="route().current('time')"
                                 :href="route('time')"></NavigationSidebarItem>
+                            <NavigationSidebarItem
+                                title="Timesheet"
+                                :icon="TableCellsIcon"
+                                :current="route().current('timesheet')"
+                                :href="route('timesheet')"></NavigationSidebarItem>
                             <NavigationSidebarItem
                                 title="Calendar"
                                 :icon="CalendarIcon"
