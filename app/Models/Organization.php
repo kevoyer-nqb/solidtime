@@ -9,6 +9,7 @@ use App\Enums\DateFormat;
 use App\Enums\IntervalFormat;
 use App\Enums\NumberFormat;
 use App\Enums\TimeFormat;
+use App\Enums\Weekday;
 use App\Models\Concerns\CustomAuditable;
 use App\Models\Concerns\HasUuids;
 use Database\Factories\OrganizationFactory;
@@ -36,6 +37,9 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $user_id
  * @property bool $employees_can_see_billable_rates
  * @property bool $employees_can_manage_tasks
+ * @property int $default_weekly_capacity
+ * @property Weekday $week_start_day
+ * @property string $timezone
  * @property User $owner
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -73,6 +77,8 @@ class Organization extends JetstreamTeam implements AuditableContract
         'employees_can_see_billable_rates' => 'boolean',
         'employees_can_manage_tasks' => 'boolean',
         'prevent_overlapping_time_entries' => 'boolean',
+        'default_weekly_capacity' => 'integer',
+        'week_start_day' => Weekday::class,
         'number_format' => NumberFormat::class,
         'currency_format' => CurrencyFormat::class,
         'date_format' => DateFormat::class,
@@ -88,6 +94,8 @@ class Organization extends JetstreamTeam implements AuditableContract
     protected $fillable = [
         'name',
         'personal_team',
+        'default_weekly_capacity',
+        'week_start_day',
     ];
 
     /**
@@ -108,6 +116,14 @@ class Organization extends JetstreamTeam implements AuditableContract
      */
     protected $attributes = [
     ];
+
+    /**
+     * Get the effective timezone for this organization.
+     */
+    public function getEffectiveTimezone(): string
+    {
+        return $this->timezone ?? 'UTC';
+    }
 
     /**
      * Get all the non-placeholder users of the organization including its owner.

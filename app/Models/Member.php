@@ -19,6 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
  * @property string $id
  * @property string $role
  * @property int|null $billable_rate
+ * @property int|null $weekly_capacity
  * @property string $organization_id
  * @property string $user_id
  * @property Carbon|null $created_at
@@ -68,6 +69,15 @@ class Member extends JetstreamMembership implements AuditableContract
     public function timeEntries(): HasMany
     {
         return $this->hasMany(TimeEntry::class, 'member_id');
+    }
+
+    /**
+     * Get the effective weekly capacity for this member.
+     * Falls back to the organization's default if not set.
+     */
+    public function getEffectiveWeeklyCapacity(): int
+    {
+        return $this->weekly_capacity ?? $this->organization->default_weekly_capacity;
     }
 
     /**

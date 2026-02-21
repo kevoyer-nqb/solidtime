@@ -17,6 +17,7 @@ import {
     UserGroupIcon,
     XMarkIcon,
     DocumentTextIcon,
+    TableCellsIcon,
 } from '@heroicons/vue/20/solid';
 import NavigationSidebarItem from '@/Components/NavigationSidebarItem.vue';
 import UserSettingsIcon from '@/Components/UserSettingsIcon.vue';
@@ -38,6 +39,7 @@ import { isBillingActivated, isInvoicingActivated } from '@/utils/billing';
 import type { User } from '@/types/models';
 import { ArrowsRightLeftIcon } from '@heroicons/vue/16/solid';
 import { fetchToken, isTokenValid } from '@/utils/session';
+import NotificationBell from '@/Components/NotificationBell/NotificationBell.vue';
 import UpdateSidebarNotification from '@/Components/UpdateSidebarNotification.vue';
 import BillingBanner from '@/Components/Billing/BillingBanner.vue';
 import UserTimezoneMismatchModal from '@/Components/Common/User/UserTimezoneMismatchModal.vue';
@@ -143,6 +145,11 @@ const page = usePage<{
                                 :current="route().current('calendar')"
                                 :href="route('calendar')"></NavigationSidebarItem>
                             <NavigationSidebarItem
+                                title="Timesheet"
+                                :icon="TableCellsIcon"
+                                :current="route().current('timesheet')"
+                                :href="route('timesheet')"></NavigationSidebarItem>
+                            <NavigationSidebarItem
                                 title="Reporting"
                                 :icon="ChartBarIcon"
                                 :sub-items="[
@@ -246,6 +253,7 @@ const page = usePage<{
                     <ul
                         class="border-t border-default-background-separator pt-3 gap-1 pr-2 flex justify-between items-center">
                         <UserSettingsIcon></UserSettingsIcon>
+                        <NotificationBell />
 
                         <NavigationSidebarItem
                             class="flex-1"
@@ -273,7 +281,10 @@ const page = usePage<{
                     <Bars3Icon
                         class="w-7 text-text-secondary"
                         @click="showSidebarMenu = !showSidebarMenu"></Bars3Icon>
-                    <OrganizationSwitcher></OrganizationSwitcher>
+                    <div class="flex items-center gap-2">
+                        <NotificationBell />
+                        <OrganizationSwitcher></OrganizationSwitcher>
+                    </div>
                 </div>
 
                 <Head :title="title" />

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Models\Client;
+use App\Models\DailyTimeSummary;
 use App\Models\FailedJob;
 use App\Models\Member;
+use App\Models\NotificationPreference;
 use App\Models\Organization;
 use App\Models\OrganizationInvitation;
 use App\Models\Passport\Token;
@@ -58,8 +60,10 @@ class AppServiceProvider extends ServiceProvider
         Model::preventAccessingMissingAttributes(! $this->app->isProduction());
         Relation::enforceMorphMap([
             'client' => Client::class,
+            'daily-time-summary' => DailyTimeSummary::class,
             'failed-job' => FailedJob::class,
             'membership' => Member::class,
+            'notification-preference' => NotificationPreference::class,
             'organization' => Organization::class,
             'organization-invitation' => OrganizationInvitation::class,
             'project' => Project::class,

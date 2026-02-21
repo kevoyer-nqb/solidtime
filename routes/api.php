@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\V1\ClientController;
 use App\Http\Controllers\Api\V1\CurrencyController;
 use App\Http\Controllers\Api\V1\ExportController;
 use App\Http\Controllers\Api\V1\ImportController;
+use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\NotificationPreferenceController;
 use App\Http\Controllers\Api\V1\InvitationController;
 use App\Http\Controllers\Api\V1\MemberController;
 use App\Http\Controllers\Api\V1\OrganizationController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Api\V1\ReportController;
 use App\Http\Controllers\Api\V1\TagController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\V1\TimeEntryController;
+use App\Http\Controllers\Api\V1\TimesheetGridController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\UserMembershipController;
 use App\Http\Controllers\Api\V1\UserTimeEntryController;
@@ -112,6 +115,11 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
             Route::delete('/time-entries', [TimeEntryController::class, 'destroyMultiple'])->name('destroy-multiple');
         });
 
+        // Timesheet grid routes
+        Route::name('timesheet-grid.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/timesheet-grid', [TimesheetGridController::class, 'index'])->name('index');
+        });
+
         Route::name('users.time-entries.')->group(static function (): void {
             Route::get('/users/me/time-entries/active', [UserTimeEntryController::class, 'myActive'])->name('my-active');
             Route::get('/users/me/time-entries', [UserTimeEntryController::class, 'my'])->name('my'); // TODO
@@ -172,6 +180,20 @@ Route::prefix('v1')->name('v1.')->group(static function (): void {
         // Export routes
         Route::name('export.')->prefix('/organizations/{organization}')->group(static function (): void {
             Route::post('/export', [ExportController::class, 'export'])->name('export');
+        });
+
+        // Notification routes
+        Route::name('notifications.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/notifications', [NotificationController::class, 'index'])->name('index');
+            Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
+            Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+            Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+        });
+
+        // Notification preference routes
+        Route::name('notification-preferences.')->prefix('/organizations/{organization}')->group(static function (): void {
+            Route::get('/notification-preferences', [NotificationPreferenceController::class, 'index'])->name('index');
+            Route::put('/notification-preferences', [NotificationPreferenceController::class, 'update'])->name('update');
         });
     });
 
